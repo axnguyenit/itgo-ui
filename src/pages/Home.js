@@ -4,54 +4,51 @@ import { styled } from '@mui/material/styles';
 import Page from '../components/Page';
 // sections
 import {
-  HomeHero,
-  HomeMinimal,
-  HomeDarkMode,
-  HomeLookingFor,
-  HomeColorPresets,
-  HomePricingPlans,
-  HomeAdvertisement,
-  HomeCleanInterfaces,
-  HomeHugePackElements,
+	HomeHero,
+	HomeMinimal,
+	HomeDarkMode,
+	HomeLookingFor,
+	HomePricingPlans,
+	HomeAdvertisement,
+	HomeCleanInterfaces,
+	HomeHugePackElements,
 } from '../sections/home';
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(() => ({
-  height: '100%',
+	height: '100%',
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  overflow: 'hidden',
-  position: 'relative',
-  backgroundColor: theme.palette.background.default,
+	overflow: 'hidden',
+	position: 'relative',
+	backgroundColor: theme.palette.background.default,
 }));
 
 // ----------------------------------------------------------------------
 
 export default function HomePage() {
-  return (
-    <Page title="The starting point for your next project">
-      <RootStyle>
-        <HomeHero />
-        <ContentStyle>
-          <HomeMinimal />
+	return (
+		<Page title="The starting point for your next project">
+			<RootStyle>
+				<HomeHero />
+				<ContentStyle>
+					<HomeMinimal />
 
-          <HomeHugePackElements />
+					<HomeHugePackElements />
 
-          <HomeDarkMode />
+					<HomeDarkMode />
 
-          <HomeColorPresets />
+					<HomeCleanInterfaces />
 
-          <HomeCleanInterfaces />
+					<HomePricingPlans />
 
-          <HomePricingPlans />
+					<HomeLookingFor />
 
-          <HomeLookingFor />
-
-          <HomeAdvertisement />
-        </ContentStyle>
-      </RootStyle>
-    </Page>
-  );
+					<HomeAdvertisement />
+				</ContentStyle>
+			</RootStyle>
+		</Page>
+	);
 }

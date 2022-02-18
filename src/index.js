@@ -36,7 +36,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // redux
 import { store, persistor } from './redux/store';
 // contexts
-import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
 // Check our docs
@@ -55,24 +54,22 @@ import reportWebVitals from './reportWebVitals';
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
-  <AuthProvider>
-    <HelmetProvider>
-      <ReduxProvider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <SettingsProvider>
-              <CollapseDrawerProvider>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </CollapseDrawerProvider>
-            </SettingsProvider>
-          </LocalizationProvider>
-        </PersistGate>
-      </ReduxProvider>
-    </HelmetProvider>
-  </AuthProvider>,
-  document.getElementById('root')
+	<AuthProvider>
+		<HelmetProvider>
+			<ReduxProvider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<LocalizationProvider dateAdapter={AdapterDateFns}>
+						<CollapseDrawerProvider>
+							<BrowserRouter>
+								<App />
+							</BrowserRouter>
+						</CollapseDrawerProvider>
+					</LocalizationProvider>
+				</PersistGate>
+			</ReduxProvider>
+		</HelmetProvider>
+	</AuthProvider>,
+	document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
