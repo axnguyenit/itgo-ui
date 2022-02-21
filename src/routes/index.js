@@ -10,10 +10,10 @@ import AuthGuard from '../guards/AuthGuard';
 import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import HomeLayout from 'src/layouts/home';
-import LogoOnlyLayout from 'src/layouts/LogoOnlyLayout';
-// import MainLayout from 'src/layouts/main';
-import Home from '../pages/home/Home';
+// import HomeLayout from 'src/layouts/home';
+import HomeLayout from '..//layouts/home/';
+import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
+// import MainLayout from '../layouts/main';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) => {
@@ -141,7 +141,7 @@ export default function Router() {
 
 		// Home Routes
 		{
-			path: '/',
+			path: '',
 			element: <HomeLayout />,
 			children: [
 				{ element: <Home />, index: true },
@@ -218,10 +218,10 @@ export default function Router() {
 			path: '*',
 			element: <LogoOnlyLayout />,
 			children: [
-				// { path: 'coming-soon', element: <ComingSoon /> },
-				// { path: 'maintenance', element: <Maintenance /> },
-				// { path: 'pricing', element: <Pricing /> },
-				// { path: 'payment', element: <Payment /> },
+				{ path: 'coming-soon', element: <ComingSoon /> },
+				{ path: 'maintenance', element: <Maintenance /> },
+				{ path: 'pricing', element: <Pricing /> },
+				{ path: 'payment', element: <Payment /> },
 				{ path: '500', element: <Page500 /> },
 				{ path: '404', element: <NotFound /> },
 				{ path: '*', element: <Navigate to="/404" replace /> },
@@ -278,15 +278,15 @@ const Mail = Loadable(lazy(() => import('../pages/dashboard/Mail')));
 const Calendar = Loadable(lazy(() => import('../pages/dashboard/Calendar')));
 const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
 // Main
-// const Home = Loadable(lazy(() => import('../pages/home/Home')));
+const Home = Loadable(lazy(() => import('../pages/home/Home')));
 const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 // const HomePage = Loadable(lazy(() => import('../pages/Home')));
 // const About = Loadable(lazy(() => import('../pages/About')));
 // const Contact = Loadable(lazy(() => import('../pages/Contact')));
 // const Faqs = Loadable(lazy(() => import('../pages/Faqs')));
-// const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
-// const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
-// const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
-// const Payment = Loadable(lazy(() => import('../pages/Payment')));
+const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
+const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
+const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
+const Payment = Loadable(lazy(() => import('../pages/Payment')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));

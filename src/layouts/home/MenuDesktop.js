@@ -1,20 +1,9 @@
 import PropTypes from 'prop-types';
-import { m } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import {
-	Box,
-	Link,
-	Grid,
-	List,
-	Stack,
-	Popover,
-	ListItem,
-	ListSubheader,
-	CardActionArea,
-} from '@mui/material';
+import { Box, Link, List, Stack, Popover, ListItem } from '@mui/material';
 // components
 import Iconify from '../../components/Iconify';
 
@@ -29,6 +18,7 @@ const LinkStyle = styled(Link)(({ theme }) => ({
 	}),
 	'&:hover': {
 		opacity: 0.48,
+		color: theme.palette.primary.main,
 		textDecoration: 'none',
 	},
 }));
@@ -39,8 +29,9 @@ const ListItemStyle = styled(ListItem)(({ theme }) => ({
 	marginTop: theme.spacing(3),
 	color: theme.palette.text.secondary,
 	transition: theme.transitions.create('color'),
+	whiteSpace: 'nowrap',
 	'&:hover': {
-		color: theme.palette.text.primary,
+		color: theme.palette.primary.main,
 	},
 }));
 
@@ -129,19 +120,22 @@ MenuDesktopItem.propTypes = {
 
 function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
 	const { title, path, children } = item;
+	const menuRef = useRef(null);
 
 	if (children) {
 		return (
 			<>
 				<LinkStyle
 					onClick={onOpen}
+					ref={menuRef}
 					sx={{
 						display: 'flex',
 						cursor: 'pointer',
 						alignItems: 'center',
+						textTransform: 'uppercase',
 						...(isHome && { color: 'common.white' }),
 						...(isOffset && { color: 'text.primary' }),
-						...(isOpen && { opacity: 0.48 }),
+						...(isOpen && { opacity: 0.48, color: 'primary.main' }),
 					}}
 				>
 					{title}
@@ -153,110 +147,40 @@ function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
 
 				<Popover
 					open={isOpen}
-					anchorReference="anchorPosition"
-					anchorPosition={{ top: 80, left: 0 }}
-					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-					transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+					anchorEl={menuRef.current}
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+					transformOrigin={{ vertical: 'top', horizontal: 'left' }}
 					onClose={onClose}
 					PaperProps={{
 						sx: {
-							px: 3,
-							pt: 5,
+							px: 4,
 							pb: 3,
-							right: 16,
-							m: 'auto',
-							borderRadius: 2,
-							maxWidth: (theme) => theme.breakpoints.values.lg,
+							borderRadius: 1,
+							textTransform: 'uppercase',
 							boxShadow: (theme) => theme.customShadows.z24,
 						},
 					}}
 				>
-					<Grid container spacing={3}>
-						{children.map((list) => {
-							const { subheader, items } = list;
-
-							return (
-								<Grid key={subheader} item xs={12} md={subheader === 'Dashboard' ? 6 : 2}>
-									<List disablePadding>
-										<ListSubheader
-											disableSticky
-											disableGutters
-											sx={{
-												display: 'flex',
-												lineHeight: 'unset',
-												alignItems: 'center',
-												color: 'text.primary',
-												typography: 'overline',
-											}}
-										>
-											<IconBullet type="subheader" /> {subheader}
-										</ListSubheader>
-
-										{items.map((item) => (
-											<ListItemStyle
-												key={item.title}
-												to={item.path}
-												component={RouterLink}
-												underline="none"
-												sx={{
-													'&.active': {
-														color: 'text.primary',
-														typography: 'subtitle2',
-													},
-												}}
-											>
-												{item.title === 'Dashboard' ? (
-													<CardActionArea
-														sx={{
-															py: 5,
-															px: 10,
-															borderRadius: 2,
-															color: 'primary.main',
-															bgcolor: 'background.neutral',
-														}}
-													>
-														<Box
-															component={m.img}
-															whileTap="tap"
-															whileHover="hover"
-															variants={{
-																hover: { scale: 1.02 },
-																tap: { scale: 0.98 },
-															}}
-															src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_dashboard.png"
-														/>
-													</CardActionArea>
-												) : (
-													<>
-														<IconBullet />
-														{item.title}
-													</>
-												)}
-											</ListItemStyle>
-										))}
-									</List>
-								</Grid>
-							);
-						})}
-					</Grid>
+					<List>
+						{children[0].items.map((item) => (
+							<ListItemStyle
+								key={item.title}
+								to={item.path}
+								component={RouterLink}
+								underline="none"
+								sx={{
+									'&.active': {
+										color: 'text.primary',
+										typography: 'subtitle2',
+									},
+								}}
+							>
+								{item.title}
+							</ListItemStyle>
+						))}
+					</List>
 				</Popover>
 			</>
-		);
-	}
-
-	if (title === 'Documentation') {
-		return (
-			<LinkStyle
-				href={path}
-				target="_blank"
-				rel="noopener"
-				sx={{
-					...(isHome && { color: 'common.white' }),
-					...(isOffset && { color: 'text.primary' }),
-				}}
-			>
-				{title}
-			</LinkStyle>
 		);
 	}
 
@@ -266,6 +190,7 @@ function MenuDesktopItem({ item, isHome, isOpen, isOffset, onOpen, onClose }) {
 			component={RouterLink}
 			end={path === '/'}
 			sx={{
+				textTransform: 'uppercase',
 				...(isHome && { color: 'common.white' }),
 				...(isOffset && { color: 'text.primary' }),
 				'&.active': {

@@ -91,7 +91,7 @@ export default function Checkout() {
 
 	return (
 		<Page title="Checkout">
-			<Container maxWidth={'lg'}>
+			<Container maxWidth={'lg'} sx={{ mt: 11 }}>
 				<Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
 					<Grid item xs={12} md={8} sx={{ mb: 5 }}>
 						<Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>

@@ -42,18 +42,11 @@ export const PATH_HOME = {
 	},
 	roadmap: {
 		root: path(ROOTS_HOME, '/roadmap'),
-		specialization: path(ROOTS_HOME, '/roadmap/:conversationKey'),
+		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),
 	},
 	instructors: {
 		root: path(ROOTS_HOME, '/instructors'),
 		invoice: path(ROOTS_HOME, '/e-commerce/invoice'),
-	},
-	blog: {
-		root: path(ROOTS_HOME, '/blog'),
-		posts: path(ROOTS_HOME, '/blog/posts'),
-		post: path(ROOTS_HOME, '/blog/post/:title'),
-		postById: path(ROOTS_HOME, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
-		newPost: path(ROOTS_HOME, '/blog/new-post'),
 	},
 	checkout: path(ROOTS_HOME, '/checkout'),
 };
