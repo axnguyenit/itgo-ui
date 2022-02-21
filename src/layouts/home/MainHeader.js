@@ -11,11 +11,12 @@ import cssStyles from '../../utils/cssStyles';
 import { HEADER } from '../../config';
 // components
 import Logo from '../../components/Logo';
-import Label from '../../components/Label';
 //
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
+// import Searchbar from './Searchbar';
+// import AccountPopover from './AccountPopover';
 
 // ----------------------------------------------------------------------
 
@@ -65,6 +66,9 @@ export default function MainHeader() {
 						...cssStyles(theme).bgBlur(),
 						height: { md: HEADER.MAIN_DESKTOP_HEIGHT - 16 },
 					}),
+					...(!isHome && {
+						...cssStyles(theme).bgBlur(),
+					}),
 				}}
 			>
 				<Container
@@ -75,22 +79,13 @@ export default function MainHeader() {
 					}}
 				>
 					<Logo />
-
-					<Label color="info" sx={{ ml: 1 }}>
-						v3.0.0
-					</Label>
+					{/* <Searchbar /> */}
 					<Box sx={{ flexGrow: 1 }} />
 
 					{isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
+					{/* <AccountPopover /> */}
 
-					<Button
-						variant="contained"
-						target="_blank"
-						rel="noopener"
-						href="https://material-ui.com/store/items/minimal-dashboard/"
-					>
-						Purchase Now
-					</Button>
+					<Button variant="contained">Login</Button>
 
 					{!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
 				</Container>

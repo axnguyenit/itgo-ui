@@ -10,40 +10,40 @@ import MainHeader from './MainHeader';
 // ----------------------------------------------------------------------
 
 export default function MainLayout() {
-  const { pathname } = useLocation();
+	const { pathname } = useLocation();
 
-  const isHome = pathname === '/';
+	const isHome = pathname === '/';
 
-  return (
-    <Stack sx={{ minHeight: 1 }}>
-      <MainHeader />
+	return (
+		<Stack sx={{ minHeight: 1 }}>
+			<MainHeader />
 
-      <Outlet />
+			<Outlet />
 
-      <Box sx={{ flexGrow: 1 }} />
+			<Box sx={{ flexGrow: 1 }} />
 
-      {!isHome ? (
-        <MainFooter />
-      ) : (
-        <Box
-          sx={{
-            py: 5,
-            textAlign: 'center',
-            position: 'relative',
-            bgcolor: 'background.default',
-          }}
-        >
-          <Container>
-            <Logo sx={{ mb: 1, mx: 'auto' }} />
+			{!isHome ? (
+				<MainFooter />
+			) : (
+				<Box
+					sx={{
+						py: 5,
+						textAlign: 'center',
+						position: 'relative',
+						bgcolor: 'background.default',
+					}}
+				>
+					<Container>
+						<Logo sx={{ mb: 1, mx: 'auto' }} />
 
-            <Typography variant="caption" component="p">
-              © All rights reserved
-              <br /> made by &nbsp;
-              <Link href="https://minimals.cc/">minimals.cc</Link>
-            </Typography>
-          </Container>
-        </Box>
-      )}
-    </Stack>
-  );
+						<Typography variant="caption" component="p">
+							© All rights reserved
+							<br /> made by &nbsp;
+							<Link href="https://minimals.cc/">minimals.cc</Link>
+						</Typography>
+					</Container>
+				</Box>
+			)}
+		</Stack>
+	);
 }

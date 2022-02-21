@@ -83,7 +83,7 @@ export default function CheckoutCart() {
 						<EmptyContent
 							title="Cart is empty"
 							description="Look like you have no items in your shopping cart."
-							img="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_empty_cart.svg"
+							img="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Fillustration_empty_cart.svg?alt=media&token=f9d44c6a-8659-499f-a6a7-708b596d5dfc"
 						/>
 					)}
 				</Card>
