@@ -26,7 +26,7 @@ const RootStyle = styled(AppBar, {
 		prop !== 'isCollapse' && prop !== 'isOffset' && prop !== 'verticalLayout',
 })(({ isCollapse, isOffset, verticalLayout, theme }) => ({
 	...cssStyles(theme).bgBlur(),
-	boxShadow: 'none',
+	boxShadow: 1,
 	height: HEADER.MOBILE_HEIGHT,
 	zIndex: theme.zIndex.appBar + 1,
 	transition: theme.transitions.create(['width', 'height'], {

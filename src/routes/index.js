@@ -11,7 +11,8 @@ import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import HomeLayout from 'src/layouts/home';
-
+import LogoOnlyLayout from 'src/layouts/LogoOnlyLayout';
+// import MainLayout from 'src/layouts/main';
 import Home from '../pages/home/Home';
 // ----------------------------------------------------------------------
 
@@ -144,105 +145,99 @@ export default function Router() {
 			element: <HomeLayout />,
 			children: [
 				{ element: <Home />, index: true },
-				{ path: '/checkout', element: <Checkout /> },
-				{ path: 'ecommerce', element: <GeneralEcommerce /> },
-				{ path: 'analytics', element: <GeneralAnalytics /> },
-				{ path: 'banking', element: <GeneralBanking /> },
-				{ path: 'booking', element: <GeneralBooking /> },
+				{ path: 'checkout', element: <Checkout /> },
 
-				{
-					path: 'e-commerce',
-					children: [
-						{
-							element: <Navigate to="/dashboard/e-commerce/shop" replace />,
-							index: true,
-						},
-						{ path: 'shop', element: <EcommerceShop /> },
-						{ path: 'product/:name', element: <EcommerceProductDetails /> },
-						{ path: 'list', element: <EcommerceProductList /> },
-						{ path: 'product/new', element: <EcommerceProductCreate /> },
-						{ path: 'product/:name/edit', element: <EcommerceProductCreate /> },
-						{ path: 'invoice', element: <EcommerceInvoice /> },
-					],
-				},
-				{
-					path: 'user',
-					children: [
-						{
-							element: <Navigate to="/dashboard/user/profile" replace />,
-							index: true,
-						},
-						{ path: 'profile', element: <UserProfile /> },
-						{ path: 'cards', element: <UserCards /> },
-						{ path: 'list', element: <UserList /> },
-						{ path: 'new', element: <UserCreate /> },
-						{ path: ':name/edit', element: <UserCreate /> },
-						{ path: 'account', element: <UserAccount /> },
-					],
-				},
-				{
-					path: 'blog',
-					children: [
-						{
-							element: <Navigate to="/dashboard/blog/posts" replace />,
-							index: true,
-						},
-						{ path: 'posts', element: <BlogPosts /> },
-						{ path: 'post/:title', element: <BlogPost /> },
-						{ path: 'new-post', element: <BlogNewPost /> },
-					],
-				},
-				{
-					path: 'mail',
-					children: [
-						{
-							element: <Navigate to="/dashboard/mail/all" replace />,
-							index: true,
-						},
-						{ path: 'label/:customLabel', element: <Mail /> },
-						{ path: 'label/:customLabel/:mailId', element: <Mail /> },
-						{ path: ':systemLabel', element: <Mail /> },
-						{ path: ':systemLabel/:mailId', element: <Mail /> },
-					],
-				},
-				{
-					path: 'chat',
-					children: [
-						{ element: <Chat />, index: true },
-						{ path: 'new', element: <Chat /> },
-						{ path: ':conversationKey', element: <Chat /> },
-					],
-				},
-				{ path: 'calendar', element: <Calendar /> },
-				{ path: 'kanban', element: <Kanban /> },
+				// {
+				// 	path: 'e-commerce',
+				// 	children: [
+				// 		{
+				// 			element: <Navigate to="/dashboard/e-commerce/shop" replace />,
+				// 			index: true,
+				// 		},
+				// 		{ path: 'shop', element: <EcommerceShop /> },
+				// 		{ path: 'product/:name', element: <EcommerceProductDetails /> },
+				// 		{ path: 'list', element: <EcommerceProductList /> },
+				// 		{ path: 'product/new', element: <EcommerceProductCreate /> },
+				// 		{ path: 'product/:name/edit', element: <EcommerceProductCreate /> },
+				// 		{ path: 'invoice', element: <EcommerceInvoice /> },
+				// 	],
+				// },
+				// {
+				// 	path: 'user',
+				// 	children: [
+				// 		{
+				// 			element: <Navigate to="/dashboard/user/profile" replace />,
+				// 			index: true,
+				// 		},
+				// 		{ path: 'profile', element: <UserProfile /> },
+				// 		{ path: 'cards', element: <UserCards /> },
+				// 		{ path: 'list', element: <UserList /> },
+				// 		{ path: 'new', element: <UserCreate /> },
+				// 		{ path: ':name/edit', element: <UserCreate /> },
+				// 		{ path: 'account', element: <UserAccount /> },
+				// 	],
+				// },
+				// {
+				// 	path: 'blog',
+				// 	children: [
+				// 		{
+				// 			element: <Navigate to="/dashboard/blog/posts" replace />,
+				// 			index: true,
+				// 		},
+				// 		{ path: 'posts', element: <BlogPosts /> },
+				// 		{ path: 'post/:title', element: <BlogPost /> },
+				// 		{ path: 'new-post', element: <BlogNewPost /> },
+				// 	],
+				// },
+				// {
+				// 	path: 'mail',
+				// 	children: [
+				// 		{
+				// 			element: <Navigate to="/dashboard/mail/all" replace />,
+				// 			index: true,
+				// 		},
+				// 		{ path: 'label/:customLabel', element: <Mail /> },
+				// 		{ path: 'label/:customLabel/:mailId', element: <Mail /> },
+				// 		{ path: ':systemLabel', element: <Mail /> },
+				// 		{ path: ':systemLabel/:mailId', element: <Mail /> },
+				// 	],
+				// },
+				// {
+				// 	path: 'chat',
+				// 	children: [
+				// 		{ element: <Chat />, index: true },
+				// 		{ path: 'new', element: <Chat /> },
+				// 		{ path: ':conversationKey', element: <Chat /> },
+				// 	],
+				// },
 			],
 		},
 
 		// Main Routes
+		{
+			path: '*',
+			element: <LogoOnlyLayout />,
+			children: [
+				// { path: 'coming-soon', element: <ComingSoon /> },
+				// { path: 'maintenance', element: <Maintenance /> },
+				// { path: 'pricing', element: <Pricing /> },
+				// { path: 'payment', element: <Payment /> },
+				{ path: '500', element: <Page500 /> },
+				{ path: '404', element: <NotFound /> },
+				{ path: '*', element: <Navigate to="/404" replace /> },
+			],
+		},
 		// {
-		//   path: '*',
-		//   element: <LogoOnlyLayout />,
-		//   children: [
-		//     { path: 'coming-soon', element: <ComingSoon /> },
-		//     { path: 'maintenance', element: <Maintenance /> },
-		//     { path: 'pricing', element: <Pricing /> },
-		//     { path: 'payment', element: <Payment /> },
-		//     { path: '500', element: <Page500 /> },
-		//     { path: '404', element: <NotFound /> },
-		//     { path: '*', element: <Navigate to='/404' replace /> },
-		//   ],
+		// 	path: '/',
+		// 	element: <MainLayout />,
+		// 	children: [
+		// 		{ element: <HomePage />, index: true },
+		// 		{ path: 'about-us', element: <About /> },
+		// 		{ path: 'contact-us', element: <Contact /> },
+		// 		{ path: 'faqs', element: <Faqs /> },
+		// 	],
 		// },
-		// {
-		//   path: '/',
-		//   element: <MainLayout />,
-		//   children: [
-		//     { element: <HomePage />, index: true },
-		//     { path: 'about-us', element: <About /> },
-		//     { path: 'contact-us', element: <Contact /> },
-		//     { path: 'faqs', element: <Faqs /> },
-		//   ],
-		// },
-		// { path: '*', element: <Navigate to='/404' replace /> },
+		{ path: '*', element: <Navigate to="/404" replace /> },
 	]);
 }
 
@@ -293,5 +288,5 @@ const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 // const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 // const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
 // const Payment = Loadable(lazy(() => import('../pages/Payment')));
-// const Page500 = Loadable(lazy(() => import('../pages/Page500')));
-// const NotFound = Loadable(lazy(() => import('../pages/Page404')));
+const Page500 = Loadable(lazy(() => import('../pages/Page500')));
+const NotFound = Loadable(lazy(() => import('../pages/Page404')));
