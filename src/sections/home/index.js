@@ -6,7 +6,7 @@ export { default as HomePricingPlans } from './HomePricingPlans';
 export { default as HomeAdvertisement } from './HomeAdvertisement';
 export { default as HomeCleanInterfaces } from './HomeCleanInterfaces';
 export { default as HomeHugePackElements } from './HomeHugePackElements';
-export { default as HomeLCourseList } from './HomeLCourseList';
 export { default as HomeWidgetSummary } from './HomeWidgetSummary';
 export { default as HomeInstructorList } from './HomeInstructorList';
 export { default as HomePopularTech } from './HomePopularTech';
+export { default as CartWidget } from './CartWidget';
