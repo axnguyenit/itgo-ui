@@ -81,7 +81,7 @@ function CarouselItem({ item }) {
 				</Button>
 			</CardContent>
 			<OverlayStyle />
-			<Image alt={name} src={image} sx={{ height: { xs: 280, sm: 300, md: 450, xl: 700 } }} />
+			<Image alt={name} src={image} sx={{ height: { xs: 280, xl: 320 } }} />
 		</Box>
 	);
 }

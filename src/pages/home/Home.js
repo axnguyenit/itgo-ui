@@ -4,10 +4,14 @@ import { styled } from '@mui/material/styles';
 // components
 import Page from '../../components/Page';
 // sections
-import { HomeWidgetSummary, HomeInstructorList, HomePopularTech } from 'src/sections/home';
+import {
+	HomeHero,
+	HomeWidgetSummary,
+	HomeInstructorList,
+	HomePopularTech,
+	CartWidget,
+} from 'src/sections/home';
 import { BookingIllustration, CheckInIllustration, CheckOutIllustration } from '../../assets';
-import CartWidget from 'src/sections/home/CartWidget';
-import HomeHero from '../../sections/home/HomeHero';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +26,7 @@ export default function Home() {
 		<Page title="Home">
 			<HomeHero />
 			<ContentStyle>
-				<Container sx={{ pt: 5 }}>
+				<Container sx={{ mt: 15 }}>
 					<Grid container spacing={3}>
 						<Grid item xs={12} md={4}>
 							<HomeWidgetSummary

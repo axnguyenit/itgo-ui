@@ -1,27 +1,24 @@
 // @mui
-import { Accordion, Typography, AccordionSummary, AccordionDetails } from '@mui/material';
-// _mock_
-import { _faqs } from '../../_mock';
-// components
-import Iconify from '../../components/Iconify';
+import { Stack, Typography } from '@mui/material';
+//
+// import ProfileAbout from './ProfileAbout';
+import FaqsCard from './FaqsCard';
+import FaqsPostInput from './FaqsPostInput';
+// import ProfileFollowInfo from './ProfileFollowInfo';
+// import ProfileSocialInfo from './ProfileSocialInfo';
+
+import { _userFeeds } from '../../_mock';
 
 // ----------------------------------------------------------------------
 
 export default function FaqsList() {
-  return (
-    <>
-      {_faqs.map((accordion) => (
-        <Accordion key={accordion.id}>
-          <AccordionSummary
-            expandIcon={<Iconify icon={'eva:arrow-ios-downward-fill'} width={20} height={20} />}
-          >
-            <Typography variant="subtitle1">{accordion.heading}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{accordion.detail}</Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))}
-    </>
-  );
+	return (
+		<Stack spacing={4}>
+			<FaqsPostInput />
+			<Typography variant="h3">Frequently asked questions</Typography>
+			{_userFeeds.map((post) => (
+				<FaqsCard key={post.id} post={post} />
+			))}
+		</Stack>
+	);
 }
