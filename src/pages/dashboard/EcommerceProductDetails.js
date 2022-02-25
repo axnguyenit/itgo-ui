@@ -64,6 +64,8 @@ export default function EcommerceProductDetails() {
 	const { name = '' } = useParams();
 	const { product, error, checkout } = useSelector((state) => state.product);
 
+	console.log(product);
+
 	useEffect(() => {
 		dispatch(getProduct(name));
 	}, [dispatch, name]);
