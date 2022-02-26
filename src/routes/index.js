@@ -147,6 +147,7 @@ export default function Router() {
 				{ element: <Home />, index: true },
 				{ path: 'checkout', element: <Checkout /> },
 				{ path: 'faqs', element: <Faqs /> },
+				{ path: 'courses', element: <Courses /> },
 				{ path: 'courses/:id', element: <CourseDetails /> },
 
 				// {
@@ -283,6 +284,7 @@ const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
 const Home = Loadable(lazy(() => import('../pages/home/Home')));
 const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 const Faqs = Loadable(lazy(() => import('../pages/home/Faqs')));
+const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 // const HomePage = Loadable(lazy(() => import('../pages/Home')));
 // const About = Loadable(lazy(() => import('../pages/About')));
