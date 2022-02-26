@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 // @mui
 import { Box } from '@mui/material';
 // components
-import { SkeletonProductItem } from '../../../../components/skeleton';
+import { SkeletonProductItem } from '../../components/skeleton';
 //
-import ShopProductCard from './ShopProductCard';
+import ShopProductCard from './CoursesCard';
 
 // ----------------------------------------------------------------------
 
-ShopProductList.propTypes = {
+CourseList.propTypes = {
 	products: PropTypes.array.isRequired,
 	loading: PropTypes.bool,
 };
 
-export default function ShopProductList({ products, loading }) {
+export default function CourseList({ products, loading }) {
 	return (
 		<Box
 			sx={{

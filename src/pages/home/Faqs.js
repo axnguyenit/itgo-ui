@@ -21,7 +21,6 @@ export default function Faqs() {
 		<Page title="Faqs">
 			<RootStyle>
 				<FaqsHero />
-
 				<Container sx={{ mt: 15, mb: 10 }}>
 					<FaqsList />
 				</Container>
