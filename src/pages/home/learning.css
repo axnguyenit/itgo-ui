@@ -1,0 +1,87 @@
+/* main {
+	width: 70%;
+	margin: auto;
+	text-align: center;
+}
+
+main button {
+	margin-top: 20px;
+	background-color: #2d8cff;
+	color: #ffffff;
+	text-decoration: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 40px;
+	padding-right: 40px;
+	display: inline-block;
+	border-radius: 10px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+
+main button:hover {
+	background-color: #2681f2;
+} */
+
+#zmmtg-root {
+	display: none;
+}
+
+#zmmtg-root .joinWindowBtn,
+#zmmtg-root .zmu-btn--danger,
+#zmmtg-root .join-audio-by-voip button {
+	border-radius: 8px !important;
+	font-size: 14px !important;
+	padding: 6px 16px !important;
+	outline: 0 !important;
+	border: 0 !important;
+	margin: 0 !important;
+	box-shadow: 0 8px 16px 0 rgb(252 165 36 / 24%) !important;
+	font-family: 'Public Sans', sans-serif !important;
+	font-weight: 700 !important;
+}
+
+#zmmtg-root .zmu-btn--danger {
+	background-color: #b78103 !important;
+}
+
+#zmmtg-root .joinWindowBtn,
+#zmmtg-root .join-audio-by-voip button {
+	background-color: #fca524 !important;
+}
+
+#zmmtg-root .joinWindowBtn:hover,
+#zmmtg-root .zmu-btn--danger:hover,
+#zmmtg-root .join-audio-by-voip button:hover {
+	box-shadow: none !important;
+	background-color: #d29c4b !important;
+}
+#zmmtg-root .join-meeting,
+#zmmtg-root .meeting-title {
+	font-size: 30px !important;
+	font-weight: 700 !important;
+	font-family: 'Public Sans', sans-serif !important;
+}
+
+#zmmtg-root .chat-receiver-list__receiver {
+	border-radius: 8px !important;
+	padding: 3px 8px !important;
+	outline: 0 !important;
+	border: 0 !important;
+	margin: 0 !important;
+	box-shadow: 0 8px 16px 0 rgb(252 165 36 / 24%) !important;
+	font-family: 'Public Sans', sans-serif !important;
+	font-weight: 600 !important;
+	background-color: #fca524 !important;
+}
+
+#zmmtg-root .participants-item__button button {
+	font-family: 'Public Sans', sans-serif !important;
+	background-color: #fca524 !important;
+	font-weight: 600 !important;
+}
+
+#zmmtg-root .loading-img {
+	margin: 0 auto !important;
+}

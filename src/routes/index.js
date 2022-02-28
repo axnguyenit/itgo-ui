@@ -221,6 +221,7 @@ export default function Router() {
 			path: '*',
 			element: <LogoOnlyLayout />,
 			children: [
+				{ path: 'learning/:id', element: <Learning /> },
 				{ path: 'coming-soon', element: <ComingSoon /> },
 				{ path: 'maintenance', element: <Maintenance /> },
 				{ path: 'pricing', element: <Pricing /> },
@@ -286,6 +287,8 @@ const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 const Faqs = Loadable(lazy(() => import('../pages/home/Faqs')));
 const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
+const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
+
 // const HomePage = Loadable(lazy(() => import('../pages/Home')));
 // const About = Loadable(lazy(() => import('../pages/About')));
 // const Contact = Loadable(lazy(() => import('../pages/Contact')));
