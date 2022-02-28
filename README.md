@@ -1,4 +1,4 @@
-# ITGO - UI
+# ITGO UI
 
 # How to start Client
 
