@@ -1,31 +1,88 @@
-import React, { useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import { ZoomMtg } from '@zoomus/websdk';
-import { Typography, Button, Stack } from '@mui/material';
 import './learning.css';
-// declare var ZoomMtg;
+// @mui
+import { styled } from '@mui/material/styles';
+import { Box, Container, Typography, Button, Grid } from '@mui/material';
+// hooks
+import useResponsive from '../../hooks/useResponsive';
+// components
+import Page from '../../components/Page';
+import Logo from '../../components/Logo';
+import Image from '../../components/Image';
+
+// ----------------------------------------------------------------------
+
 ZoomMtg.setZoomJSLib('https://source.zoom.us/2.2.0/lib', '/av');
 ZoomMtg.preLoadWasm();
 ZoomMtg.prepareJssdk();
-// loads language files, also passes any error messages to the ui
 ZoomMtg.i18n.load('en-US');
 ZoomMtg.i18n.reload('en-US');
 
-console.log('ZoomMtg', ZoomMtg);
+const RootStyle = styled(Box)(({ theme }) => ({
+	position: 'absolute',
+	top: 0,
+	left: 0,
+	width: '100%',
+	height: '100%',
+	padding: theme.spacing(0),
+	margin: theme.spacing(0),
+	backgroundColor: theme.palette.background.default,
+}));
+
+const HeaderStyle = styled('header')(({ theme }) => ({
+	top: 0,
+	position: 'absolute',
+	padding: theme.spacing(3),
+	[theme.breakpoints.up('md')]: {
+		padding: theme.spacing(7, 5, 0, 7),
+	},
+}));
+
+const SectionStyle = styled('div')(({ theme }) => ({
+	width: '100%',
+	display: 'flex',
+	minHeight: '100vh',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	alignItems: 'center',
+	margin: theme.spacing(0),
+}));
+
+const ContentStyle = styled('div')(({ theme }) => ({
+	width: '100%',
+	display: 'flex',
+	minHeight: '100vh',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	alignItems: 'center',
+	margin: theme.spacing(0),
+	padding: theme.spacing(20, 5),
+	[theme.breakpoints.down('md')]: {
+		padding: theme.spacing(0),
+	},
+}));
+
+const ContainerContent = styled(Container)(({ theme }) => ({
+	margin: theme.spacing(0, 'auto'),
+	[theme.breakpoints.down('md')]: {
+		margin: theme.spacing(10),
+	},
+	// backgroundColor: theme.palette.background.primary,
+}));
 
 function Learning() {
-	// setup your signature endpoint here: https://github.com/zoom/meetingsdk-sample-signature-node.js
-	var signatureEndpoint = 'http://localhost:8000/api/zoom';
-	var apiKey = 'UgFubNlTQq2mML_q_0G33g';
-	var meetingNumber = '91511194597';
-	var role = 0;
-	var leaveUrl = 'http://localhost:3030/learning/courseId';
-	var userName = 'Kha';
-	var userEmail = '';
-	var passWord = 181201;
-	// pass in the registrant's token if your meeting or webinar requires registration. More info here:
-	// Meetings: https://marketplace.zoom.us/docs/sdk/native-sdks/web/client-view/meetings#join-registered
-	// Webinars: https://marketplace.zoom.us/docs/sdk/native-sdks/web/client-view/webinars#join-registered
-	var registrantToken = '';
+	const signatureEndpoint = `${process.env.REACT_APP_API_URL}/api/zoom`;
+	const apiKey = 'UgFubNlTQq2mML_q_0G33g';
+	const meetingNumber = '91511194597';
+	const role = 0;
+	const leaveUrl = `${window.location.origin}/learning/courseId`;
+	const userName = 'Kha';
+	const userEmail = '';
+	const passWord = 181201;
+	const registrantToken = '';
+
+	const mdUp = useResponsive('up', 'md');
 
 	const startMeeting = (signature) => {
 		console.log('signature', signature);
@@ -80,19 +137,46 @@ function Learning() {
 			});
 	};
 
-	useEffect(() => {
-		const zoomRoot = document.getElementById('zmmtg-root');
-		zoomRoot.style.display = 'none';
-	}, []);
-
 	return (
-		<Stack direction="column" justifyContent="center" alignItems="center" sx={{ mt: 15 }}>
-			<Typography variant="h3">Zoom Meeting SDK Sample React</Typography>
+		<Page title="Learning">
+			<RootStyle>
+				<HeaderStyle>
+					<Logo />
+				</HeaderStyle>
+				<ContainerContent>
+					<Grid container>
+						{mdUp && (
+							<Grid item xs={12} md={5}>
+								<SectionStyle>
+									<Image
+										alt="join meeting"
+										src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/images%2Feducation-online.png?alt=media&token=2958e3e6-f69e-4d38-8e64-32093aa4aca8"
+									/>
+								</SectionStyle>
+							</Grid>
+						)}
 
-			<Button variant="contained" onClick={getSignature}>
-				Join Meeting
-			</Button>
-		</Stack>
+						<Grid xs={12} md={7}>
+							<ContentStyle>
+								<Image
+									alt="js"
+									ratio="21/9"
+									sx={{ borderRadius: 1 }}
+									src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/courses%2Ftypescript.png?alt=media&token=bfcc7ba7-04ff-4cf0-b0d7-1def58e9310f"
+								/>
+								<Typography variant="h3" sx={{ my: 5 }}>
+									Join Meeting
+								</Typography>
+
+								<Button variant="contained" fullWidth size="large" onClick={getSignature}>
+									Join Meeting
+								</Button>
+							</ContentStyle>
+						</Grid>
+					</Grid>
+				</ContainerContent>
+			</RootStyle>
+		</Page>
 	);
 }
 
