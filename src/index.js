@@ -48,6 +48,7 @@ import { AuthProvider } from './contexts/JWTContext';
 
 //
 import App from './App';
+import './app.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
