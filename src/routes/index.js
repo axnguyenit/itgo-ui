@@ -70,7 +70,19 @@ export default function Router() {
 				{ path: 'analytics', element: <GeneralAnalytics /> },
 				{ path: 'banking', element: <GeneralBanking /> },
 				{ path: 'booking', element: <GeneralBooking /> },
-
+				{
+					path: 'courses',
+					children: [
+						{
+							element: <Navigate to="/dashboard/courses/list" replace />,
+							index: true,
+						},
+						{ path: 'list', element: <CourseList /> },
+						{ path: 'new', element: <CourseCreate /> },
+						{ path: 'courses/:name', element: <EcommerceProductDetails /> },
+						{ path: ':id/edit', element: <EcommerceProductCreate /> },
+					],
+				},
 				{
 					path: 'e-commerce',
 					children: [
@@ -149,70 +161,6 @@ export default function Router() {
 				{ path: 'faqs', element: <Faqs /> },
 				{ path: 'courses', element: <Courses /> },
 				{ path: 'courses/:id', element: <CourseDetails /> },
-
-				// {
-				// 	path: 'e-commerce',
-				// 	children: [
-				// 		{
-				// 			element: <Navigate to="/dashboard/e-commerce/shop" replace />,
-				// 			index: true,
-				// 		},
-				// 		{ path: 'shop', element: <EcommerceShop /> },
-				// 		{ path: 'product/:name', element: <EcommerceProductDetails /> },
-				// 		{ path: 'list', element: <EcommerceProductList /> },
-				// 		{ path: 'product/new', element: <EcommerceProductCreate /> },
-				// 		{ path: 'product/:name/edit', element: <EcommerceProductCreate /> },
-				// 		{ path: 'invoice', element: <EcommerceInvoice /> },
-				// 	],
-				// },
-				// {
-				// 	path: 'user',
-				// 	children: [
-				// 		{
-				// 			element: <Navigate to="/dashboard/user/profile" replace />,
-				// 			index: true,
-				// 		},
-				// 		{ path: 'profile', element: <UserProfile /> },
-				// 		{ path: 'cards', element: <UserCards /> },
-				// 		{ path: 'list', element: <UserList /> },
-				// 		{ path: 'new', element: <UserCreate /> },
-				// 		{ path: ':name/edit', element: <UserCreate /> },
-				// 		{ path: 'account', element: <UserAccount /> },
-				// 	],
-				// },
-				// {
-				// 	path: 'blog',
-				// 	children: [
-				// 		{
-				// 			element: <Navigate to="/dashboard/blog/posts" replace />,
-				// 			index: true,
-				// 		},
-				// 		{ path: 'posts', element: <BlogPosts /> },
-				// 		{ path: 'post/:title', element: <BlogPost /> },
-				// 		{ path: 'new-post', element: <BlogNewPost /> },
-				// 	],
-				// },
-				// {
-				// 	path: 'mail',
-				// 	children: [
-				// 		{
-				// 			element: <Navigate to="/dashboard/mail/all" replace />,
-				// 			index: true,
-				// 		},
-				// 		{ path: 'label/:customLabel', element: <Mail /> },
-				// 		{ path: 'label/:customLabel/:mailId', element: <Mail /> },
-				// 		{ path: ':systemLabel', element: <Mail /> },
-				// 		{ path: ':systemLabel/:mailId', element: <Mail /> },
-				// 	],
-				// },
-				// {
-				// 	path: 'chat',
-				// 	children: [
-				// 		{ element: <Chat />, index: true },
-				// 		{ path: 'new', element: <Chat /> },
-				// 		{ path: ':conversationKey', element: <Chat /> },
-				// 	],
-				// },
 			],
 		},
 
@@ -281,6 +229,9 @@ const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));
 const Mail = Loadable(lazy(() => import('../pages/dashboard/Mail')));
 const Calendar = Loadable(lazy(() => import('../pages/dashboard/Calendar')));
 const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
+
+const CourseList = Loadable(lazy(() => import('../pages/dashboard/CourseList')));
+const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 // Main
 const Home = Loadable(lazy(() => import('../pages/home/Home')));
 const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));

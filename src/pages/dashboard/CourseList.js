@@ -1,14 +1,12 @@
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 // @mui
 import {
+	Box,
 	Card,
 	Table,
-	Avatar,
-	Button,
-	Checkbox,
 	TableRow,
+	Checkbox,
 	TableBody,
 	TableCell,
 	Container,
@@ -16,41 +14,62 @@ import {
 	TableContainer,
 	TablePagination,
 } from '@mui/material';
+// redux
+import { useDispatch, useSelector } from '../../redux/store';
+import { getProducts } from '../../redux/slices/product';
+// utils
+import { fDate } from '../../utils/formatTime';
+import { fCurrency } from '../../utils/formatNumber';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
-// _mock_
-import { _userList } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import Label from '../../components/Label';
-import Iconify from '../../components/Iconify';
+import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user/list';
+import {
+	CourseMoreMenu,
+	CourseListHead,
+	CourseListToolbar,
+} from '../../sections/@dashboard/courses/course-list';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-	{ id: 'name', label: 'Name', alignRight: false },
-	{ id: 'company', label: 'Company', alignRight: false },
-	{ id: 'role', label: 'Role', alignRight: false },
-	{ id: 'isVerified', label: 'Verified', alignRight: false },
-	{ id: 'status', label: 'Status', alignRight: false },
+	{ id: 'name', label: 'Product', alignRight: false },
+	{ id: 'createdAt', label: 'Create at', alignRight: false },
+	{ id: 'inventoryType', label: 'Status', alignRight: false },
+	{ id: 'price', label: 'Price', alignRight: true },
 	{ id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function UserList() {
-	const [userList, setUserList] = useState(_userList);
+export default function EcommerceProductList() {
+	const dispatch = useDispatch();
+
+	const { products } = useSelector((state) => state.product);
+
+	const [productList, setProductList] = useState([]);
 	const [page, setPage] = useState(0);
 	const [order, setOrder] = useState('asc');
 	const [selected, setSelected] = useState([]);
-	const [orderBy, setOrderBy] = useState('name');
 	const [filterName, setFilterName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [orderBy, setOrderBy] = useState('createdAt');
+
+	useEffect(() => {
+		dispatch(getProducts());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (products.length) {
+			setProductList(products);
+		}
+	}, [products]);
 
 	const handleRequestSort = (property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -60,8 +79,8 @@ export default function UserList() {
 
 	const handleSelectAllClick = (checked) => {
 		if (checked) {
-			const newSelecteds = userList.map((n) => n.name);
-			setSelected(newSelecteds);
+			const selected = productList.map((n) => n.name);
+			setSelected(selected);
 			return;
 		}
 		setSelected([]);
@@ -92,74 +111,66 @@ export default function UserList() {
 
 	const handleFilterByName = (filterName) => {
 		setFilterName(filterName);
-		setPage(0);
 	};
 
-	const handleDeleteUser = (userId) => {
-		const deleteUser = userList.filter((user) => user.id !== userId);
+	const handleDeleteProduct = (productId) => {
+		const deleteProduct = productList.filter((product) => product.id !== productId);
 		setSelected([]);
-		setUserList(deleteUser);
+		setProductList(deleteProduct);
 	};
 
-	const handleDeleteMultiUser = (selected) => {
-		const deleteUsers = userList.filter((user) => !selected.includes(user.name));
+	const handleDeleteProducts = (selected) => {
+		const deleteProducts = productList.filter((product) => !selected.includes(product.name));
 		setSelected([]);
-		setUserList(deleteUsers);
+		setProductList(deleteProducts);
 	};
 
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productList.length) : 0;
 
-	const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName);
+	const filteredProducts = applySortFilter(productList, getComparator(order, orderBy), filterName);
 
-	const isNotFound = !filteredUsers.length && Boolean(filterName);
+	const isNotFound = !filteredProducts.length && Boolean(filterName);
 
 	return (
-		<Page title="User: List">
+		<Page title="Ecommerce: Product List">
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading="User List"
+					heading="Course List"
 					links={[
 						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
-						{ name: 'User', href: PATH_DASHBOARD.user.root },
-						{ name: 'List' },
+						{
+							name: 'Courses List',
+						},
 					]}
-					action={
-						<Button
-							variant="contained"
-							component={RouterLink}
-							to={PATH_DASHBOARD.user.newUser}
-							startIcon={<Iconify icon={'eva:plus-fill'} />}
-						>
-							New User
-						</Button>
-					}
 				/>
 
 				<Card>
-					<UserListToolbar
+					<CourseListToolbar
 						numSelected={selected.length}
 						filterName={filterName}
 						onFilterName={handleFilterByName}
-						onDeleteUsers={() => handleDeleteMultiUser(selected)}
+						onDeleteProducts={() => handleDeleteProducts(selected)}
 					/>
 
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<UserListHead
+								<CourseListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
-									rowCount={userList.length}
+									rowCount={productList.length}
 									numSelected={selected.length}
 									onRequestSort={handleRequestSort}
 									onSelectAllClick={handleSelectAllClick}
 								/>
+
 								<TableBody>
-									{filteredUsers
+									{filteredProducts
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((row) => {
-											const { id, name, role, status, company, avatarUrl, isVerified } = row;
+											const { id, name, cover, price, createdAt, inventoryType } = row;
+
 											const isItemSelected = selected.indexOf(name) !== -1;
 
 											return (
@@ -175,25 +186,35 @@ export default function UserList() {
 														<Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
 													</TableCell>
 													<TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-														<Avatar alt={name} src={avatarUrl} sx={{ mr: 2 }} />
+														<Image
+															disabledEffect
+															alt={name}
+															src={cover}
+															sx={{ borderRadius: 1.5, width: 64, height: 64, mr: 2 }}
+														/>
 														<Typography variant="subtitle2" noWrap>
 															{name}
 														</Typography>
 													</TableCell>
-													<TableCell align="left">{company}</TableCell>
-													<TableCell align="left">{role}</TableCell>
-													<TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-													<TableCell align="left">
+													<TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
+													<TableCell style={{ minWidth: 160 }}>
 														<Label
 															variant={'ghost'}
-															color={(status === 'banned' && 'error') || 'success'}
+															color={
+																(inventoryType === 'out_of_stock' && 'error') ||
+																(inventoryType === 'low_stock' && 'warning') ||
+																'success'
+															}
 														>
-															{sentenceCase(status)}
+															{inventoryType ? sentenceCase(inventoryType) : ''}
 														</Label>
 													</TableCell>
-
+													<TableCell align="right">{fCurrency(price)}</TableCell>
 													<TableCell align="right">
-														<UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
+														<CourseMoreMenu
+															productName={name}
+															onDelete={() => handleDeleteProduct(id)}
+														/>
 													</TableCell>
 												</TableRow>
 											);
@@ -204,11 +225,14 @@ export default function UserList() {
 										</TableRow>
 									)}
 								</TableBody>
+
 								{isNotFound && (
 									<TableBody>
 										<TableRow>
-											<TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-												<SearchNotFound searchQuery={filterName} />
+											<TableCell align="center" colSpan={6}>
+												<Box sx={{ py: 3 }}>
+													<SearchNotFound searchQuery={filterName} />
+												</Box>
 											</TableCell>
 										</TableRow>
 									</TableBody>
@@ -220,10 +244,10 @@ export default function UserList() {
 					<TablePagination
 						rowsPerPageOptions={[5, 10, 25]}
 						component="div"
-						count={userList.length}
+						count={productList.length}
 						rowsPerPage={rowsPerPage}
 						page={page}
-						onPageChange={(e, page) => setPage(page)}
+						onPageChange={(event, value) => setPage(value)}
 						onRowsPerPageChange={handleChangeRowsPerPage}
 					/>
 				</Card>
@@ -257,8 +281,12 @@ function applySortFilter(array, comparator, query) {
 		if (order !== 0) return order;
 		return a[1] - b[1];
 	});
+
 	if (query) {
-		return array.filter((_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+		return array.filter(
+			(_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+		);
 	}
+
 	return stabilizedThis.map((el) => el[0]);
 }

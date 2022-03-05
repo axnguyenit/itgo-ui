@@ -24,12 +24,12 @@ ThemeProvider.propTypes = {
 export default function ThemeProvider({ children }) {
 	const themeOptions = useMemo(
 		() => ({
-			palette: palette.light,
+			palette,
 			typography,
 			breakpoints,
 			shape: { borderRadius: 8 },
-			shadows: shadows.light,
-			customShadows: customShadows.light,
+			shadows,
+			customShadows,
 		}),
 		[]
 	);

@@ -80,6 +80,13 @@ export const PATH_DASHBOARD = {
 		editById: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
 		account: path(ROOTS_DASHBOARD, '/user/account'),
 	},
+	courses: {
+		root: path(ROOTS_DASHBOARD, '/courses'),
+		list: path(ROOTS_DASHBOARD, '/courses/list'),
+		newCourse: path(ROOTS_DASHBOARD, '/courses/new'),
+		course: path(ROOTS_DASHBOARD, '/courses/:name'),
+		editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
+	},
 	eCommerce: {
 		root: path(ROOTS_DASHBOARD, '/e-commerce'),
 		shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),

@@ -47,6 +47,7 @@ export default function CheckoutProductList({
 	onIncreaseQuantity,
 	onDecreaseQuantity,
 }) {
+	console.log('products', products);
 	return (
 		<TableContainer sx={{ minWidth: 720 }}>
 			<Table>

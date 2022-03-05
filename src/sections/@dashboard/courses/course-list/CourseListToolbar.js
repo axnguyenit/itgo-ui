@@ -17,14 +17,14 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-ProductListToolbar.propTypes = {
+CourseListToolbar.propTypes = {
 	numSelected: PropTypes.number,
 	filterName: PropTypes.string,
 	onFilterName: PropTypes.func,
 	onDeleteProducts: PropTypes.func,
 };
 
-export default function ProductListToolbar({
+export default function CourseListToolbar({
 	numSelected,
 	filterName,
 	onFilterName,
@@ -48,7 +48,7 @@ export default function ProductListToolbar({
 					stretchStart={240}
 					value={filterName}
 					onChange={(event) => onFilterName(event.target.value)}
-					placeholder="Search product..."
+					placeholder="Search course..."
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">

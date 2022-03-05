@@ -1,7 +1,6 @@
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 // @mui
-import { useTheme } from '@mui/material/styles';
 import {
 	Box,
 	Card,
@@ -50,7 +49,6 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 export default function EcommerceProductList() {
-	const theme = useTheme();
 	const dispatch = useDispatch();
 
 	const { products } = useSelector((state) => state.product);
@@ -203,7 +201,7 @@ export default function EcommerceProductList() {
 													<TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
 													<TableCell style={{ minWidth: 160 }}>
 														<Label
-															variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+															variant={'ghost'}
 															color={
 																(inventoryType === 'out_of_stock' && 'error') ||
 																(inventoryType === 'low_stock' && 'warning') ||

@@ -11,6 +11,7 @@ const getIcon = (name) => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 
 const ICONS = {
 	blog: getIcon('ic_blog'),
 	cart: getIcon('ic_cart'),
+	book: getIcon('ic_book'),
 	chat: getIcon('ic_chat'),
 	mail: getIcon('ic_mail'),
 	user: getIcon('ic_user'),
@@ -54,6 +55,18 @@ const navConfig = [
 					{ title: 'create', path: PATH_DASHBOARD.user.newUser },
 					{ title: 'edit', path: PATH_DASHBOARD.user.editById },
 					{ title: 'account', path: PATH_DASHBOARD.user.account },
+				],
+			},
+
+			// MANAGEMENT : COURSES
+			// list, new, edit,
+			{
+				title: 'courses',
+				path: PATH_DASHBOARD.courses.root,
+				icon: ICONS.book,
+				children: [
+					{ title: 'list', path: PATH_DASHBOARD.courses.list },
+					{ title: 'create', path: PATH_DASHBOARD.courses.newCourse },
 				],
 			},
 

@@ -23,6 +23,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 export default function Courses() {
 	const dispatch = useDispatch();
 	const { products } = useSelector((state) => state.product);
+	console.log('products', products);
 
 	useEffect(() => {
 		dispatch(getProducts());

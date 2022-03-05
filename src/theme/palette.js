@@ -112,23 +112,20 @@ const COMMON = {
 };
 
 const palette = {
-	light: {
-		...COMMON,
-		mode: 'light',
-		text: {
-			primary: GREY[800],
-			secondary: GREY[600],
-			disabled: GREY[500],
-			uppercase: 'uppercase',
-		},
-		background: {
-			paper: '#fff',
-			default: '#fff',
-			neutral: GREY[200],
-			primary: '#FCA524',
-		},
-		action: { active: GREY[600], ...COMMON.action },
+	...COMMON,
+	text: {
+		primary: GREY[800],
+		secondary: GREY[600],
+		disabled: GREY[500],
+		uppercase: 'uppercase',
 	},
+	background: {
+		paper: '#fff',
+		default: '#fff',
+		neutral: GREY[200],
+		primary: '#FCA524',
+	},
+	action: { active: GREY[600], ...COMMON.action },
 };
 
 export default palette;

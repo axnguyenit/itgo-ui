@@ -10,8 +10,6 @@ import Image from './Image';
 // ----------------------------------------------------------------------
 
 const MarkdownStyle = styled('div')(({ theme }) => {
-	const isLight = theme.palette.mode === 'light';
-
 	return {
 		// List
 		'& ul, & ol': {
@@ -61,15 +59,15 @@ const MarkdownStyle = styled('div')(({ theme }) => {
 			padding: theme.spacing(2),
 			color: theme.palette.common.white,
 			borderRadius: theme.shape.borderRadius,
-			backgroundColor: isLight ? theme.palette.grey[900] : theme.palette.grey[500_16],
+			backgroundColor: theme.palette.grey[900],
 		},
 		'& code': {
 			fontSize: 14,
 			borderRadius: 4,
 			whiteSpace: 'pre',
 			padding: theme.spacing(0.2, 0.5),
-			color: theme.palette.warning[isLight ? 'darker' : 'lighter'],
-			backgroundColor: theme.palette.warning[isLight ? 'lighter' : 'darker'],
+			color: theme.palette.warning['darker'],
+			backgroundColor: theme.palette.warning['lighter'],
 			'&.hljs': { padding: 0, backgroundColor: 'transparent' },
 		},
 	};

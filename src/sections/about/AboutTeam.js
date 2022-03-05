@@ -65,7 +65,7 @@ export default function AboutTeam() {
 					sx={{
 						mx: 'auto',
 						maxWidth: 630,
-						color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'common.white'),
+						color: (theme) => 'text.secondary',
 					}}
 				>
 					Minimal will provide you support if you have any problems, our support team will reply
