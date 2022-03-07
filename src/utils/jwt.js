@@ -14,22 +14,21 @@ const isValidToken = (accessToken) => {
 
 	const decoded = jwtDecode(accessToken);
 	const currentTime = Date.now() / 1000;
-	console.log('decoded', decoded);
 
 	return decoded.exp > currentTime;
 };
 
-//  const handleTokenExpired = (exp) => {
-//   let expiredTimer;
+// const handleTokenExpired = (exp) => {
+// 	let expiredTimer;
 
-//   window.clearTimeout(expiredTimer);
-//   const currentTime = Date.now();
-//   const timeLeft = exp * 1000 - currentTime;
-//   console.log(timeLeft);
-//   expiredTimer = window.setTimeout(() => {
-//     console.log('expired');
-//     // You can do what ever you want here, like show a notification
-//   }, timeLeft);
+// 	window.clearTimeout(expiredTimer);
+// 	const currentTime = Date.now();
+// 	const timeLeft = exp * 1000 - currentTime;
+// 	console.log(timeLeft);
+// 	expiredTimer = window.setTimeout(() => {
+// 		console.log('expired');
+// 		// You can do what ever you want here, like show a notification
+// 	}, timeLeft);
 // };
 
 // ----------------------------------------------------------------------

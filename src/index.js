@@ -35,10 +35,7 @@ import { store, persistor } from './redux/store';
 // contexts
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
-// Check our docs
-// https://docs-minimals.vercel.app/authentication/ts-version
-
-import { AuthProvider } from './contexts/JWTContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 //
 import App from './App';

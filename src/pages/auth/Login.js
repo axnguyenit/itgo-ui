@@ -1,12 +1,10 @@
-import { capitalCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Stack, Link, Tooltip, Container, Typography } from '@mui/material';
+import { Box, Stack, Link, Container, Typography, Card } from '@mui/material';
 // routes
 import { PATH_AUTH } from '../../routes/paths';
 // hooks
-import useAuth from '../../hooks/useAuth';
 import useResponsive from '../../hooks/useResponsive';
 // components
 import Page from '../../components/Page';
@@ -39,6 +37,15 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 	},
 }));
 
+const SectionStyle = styled(Card)(({ theme }) => ({
+	width: '100%',
+	maxWidth: 464,
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	margin: theme.spacing(2, 0, 2, 2),
+}));
+
 const ContentStyle = styled('div')(({ theme }) => ({
 	maxWidth: 480,
 	margin: 'auto',
@@ -52,9 +59,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-	const { method } = useAuth();
-
 	const smUp = useResponsive('up', 'sm');
+	const mdUp = useResponsive('up', 'md');
 
 	return (
 		<Page title="Login">
@@ -71,6 +77,15 @@ export default function Login() {
 					)}
 				</HeaderStyle>
 
+				{mdUp && (
+					<SectionStyle>
+						<Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+							Hi, Welcome Back
+						</Typography>
+						<Image alt="login" src={`${window.location.origin}/assets/images/login.png`} />
+					</SectionStyle>
+				)}
+
 				<Container maxWidth="sm">
 					<ContentStyle>
 						<Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
@@ -78,23 +93,14 @@ export default function Login() {
 								<Typography variant="h4" gutterBottom>
 									Login to ITGO
 								</Typography>
-								<Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
 							</Box>
 
-							<Tooltip title={capitalCase(method)} placement="right">
-								<>
-									<Image
-										disabledEffect
-										src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Fic_jwt.png?alt=media&token=86a979e1-f491-48d1-8e39-a9129d0b5d22"
-										sx={{ width: 32, height: 32 }}
-									/>
-								</>
-							</Tooltip>
+							<Image
+								disabledEffect
+								src={`${window.location.origin}/assets/images/ic_jwt.png`}
+								sx={{ width: 32, height: 32 }}
+							/>
 						</Stack>
-
-						{/* <Alert severity="info" sx={{ mb: 3 }}>
-							Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-						</Alert> */}
 
 						<LoginForm />
 

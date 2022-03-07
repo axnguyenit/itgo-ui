@@ -40,6 +40,10 @@ export const PATH_HOME = {
 		root: path(ROOTS_HOME, '/my-learning'),
 		all: path(ROOTS_HOME, '/'),
 	},
+	courses: {
+		root: path(ROOTS_HOME, '/courses'),
+		course: path(ROOTS_HOME, '/courses/:name'),
+	},
 	roadmap: {
 		root: path(ROOTS_HOME, '/roadmap'),
 		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),

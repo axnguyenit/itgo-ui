@@ -22,6 +22,11 @@ const menuConfig = [
 		path: PATH_HOME.myLearning.root,
 	},
 	{
+		title: 'Courses',
+		icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+		path: PATH_HOME.courses.root,
+	},
+	{
 		title: 'Roadmap',
 		path: '/roadmap',
 		icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
@@ -34,11 +39,6 @@ const menuConfig = [
 				],
 			},
 		],
-	},
-	{
-		title: 'Instructors',
-		icon: <Iconify icon={'eva:book-open-fill'} {...ICON_SIZE} />,
-		path: PATH_HOME.instructors.root,
 	},
 ];
 

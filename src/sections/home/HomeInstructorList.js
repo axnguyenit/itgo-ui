@@ -86,7 +86,7 @@ export default function HomeInstructorList() {
 				>
 					<Slider ref={carouselRef} {...settings}>
 						{_userCards.map((teacher) => (
-							<TeacherCard teacher={teacher} />
+							<TeacherCard key={teacher} teacher={teacher} />
 						))}
 					</Slider>
 				</CarouselArrows>
@@ -118,7 +118,7 @@ function TeacherCard({ teacher }) {
 		<Card sx={{ textAlign: 'center', my: 3, mx: 1.5 }}>
 			<Box sx={{ position: 'relative' }}>
 				<SvgIconStyle
-					src="https://minimal-assets-api.vercel.app/assets/icons/shape-avatar.svg"
+					src="/assets/icons/shape-avatar.svg"
 					sx={{
 						width: 144,
 						height: 62,

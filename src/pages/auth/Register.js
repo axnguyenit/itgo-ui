@@ -1,10 +1,8 @@
-import { capitalCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Link, Container, Typography, Tooltip } from '@mui/material';
+import { Box, Link, Container, Typography, Card } from '@mui/material';
 // hooks
-import useAuth from '../../hooks/useAuth';
 import useResponsive from '../../hooks/useResponsive';
 // routes
 import { PATH_AUTH } from '../../routes/paths';
@@ -39,6 +37,15 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 	},
 }));
 
+const SectionStyle = styled(Card)(({ theme }) => ({
+	width: '100%',
+	maxWidth: 464,
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	margin: theme.spacing(2, 0, 2, 2),
+}));
+
 const ContentStyle = styled('div')(({ theme }) => ({
 	maxWidth: 480,
 	margin: 'auto',
@@ -52,9 +59,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
-	const { method } = useAuth();
-
 	const smUp = useResponsive('up', 'sm');
+	const mdUp = useResponsive('up', 'md');
 
 	return (
 		<Page title="Register">
@@ -71,6 +77,15 @@ export default function Register() {
 					)}
 				</HeaderStyle>
 
+				{mdUp && (
+					<SectionStyle>
+						<Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+							Start learning programing with ITGO
+						</Typography>
+						<Image alt="register" src={`${window.location.origin}/assets/images/register.png`} />
+					</SectionStyle>
+				)}
+
 				<Container>
 					<ContentStyle>
 						<Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
@@ -79,15 +94,11 @@ export default function Register() {
 									Register to ITGO
 								</Typography>
 							</Box>
-							<Tooltip title={capitalCase(method)}>
-								<>
-									<Image
-										disabledEffect
-										src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Fic_jwt.png?alt=media&token=86a979e1-f491-48d1-8e39-a9129d0b5d22"
-										sx={{ width: 32, height: 32 }}
-									/>
-								</>
-							</Tooltip>
+							<Image
+								disabledEffect
+								src={`${window.location.origin}/assets/images/ic_jwt.png`}
+								sx={{ width: 32, height: 32 }}
+							/>
 						</Box>
 						<RegisterForm />
 

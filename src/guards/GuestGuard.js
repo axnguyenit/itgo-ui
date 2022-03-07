@@ -8,15 +8,15 @@ import { PATH_DASHBOARD } from '../routes/paths';
 // ----------------------------------------------------------------------
 
 GuestGuard.propTypes = {
-  children: PropTypes.node
+	children: PropTypes.node,
 };
 
 export default function GuestGuard({ children }) {
-  const { isAuthenticated } = useAuth();
+	const { isAuthenticated } = useAuth();
 
-  if (isAuthenticated) {
-    return <Navigate to={PATH_DASHBOARD.root} />;
-  }
+	if (isAuthenticated) {
+		return <Navigate to={PATH_DASHBOARD.root} />;
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 }

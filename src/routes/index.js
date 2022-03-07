@@ -6,8 +6,7 @@ import DashboardLayout from '../layouts/dashboard';
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
-// config
-import { PATH_AFTER_LOGIN } from '../config';
+import { PATH_DASHBOARD } from './paths';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 // import HomeLayout from 'src/layouts/home';
@@ -64,7 +63,7 @@ export default function Router() {
 				</AuthGuard>
 			),
 			children: [
-				{ element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+				{ element: <Navigate to={PATH_DASHBOARD.general.app} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
 				{ path: 'ecommerce', element: <GeneralEcommerce /> },
 				{ path: 'analytics', element: <GeneralAnalytics /> },

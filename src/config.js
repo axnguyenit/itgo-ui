@@ -1,15 +1,15 @@
 // routes
-import { PATH_DASHBOARD } from './routes/paths';
+import { PATH_HOME } from './routes/paths';
 
 // API
 // ----------------------------------------------------------------------
 
-export const HOST_API = process.env.REACT_APP_HOST_API_KEY || '';
+export const HOST_API = process.env.REACT_APP_API_URL || '';
 
 export const MAPBOX_API = process.env.REACT_APP_MAPBOX;
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.general.app; // as '/dashboard/app'
+export const PATH_AFTER_LOGIN = PATH_HOME.home;
 
 // LAYOUT
 // ----------------------------------------------------------------------

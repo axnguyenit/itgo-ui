@@ -5,7 +5,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_AUTH } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_AUTH, PATH_HOME } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
@@ -23,10 +23,6 @@ const MENU_OPTIONS = [
 	},
 	{
 		label: 'Profile',
-		linkTo: PATH_DASHBOARD.user.profile,
-	},
-	{
-		label: 'Settings',
 		linkTo: PATH_DASHBOARD.user.account,
 	},
 ];
@@ -36,7 +32,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
 	const navigate = useNavigate();
 
-	const { logout } = useAuth();
+	const { user, logout } = useAuth();
 
 	const isMountedRef = useIsMountedRef();
 
@@ -104,10 +100,10 @@ export default function AccountPopover() {
 			>
 				<Box sx={{ my: 1.5, px: 2.5 }}>
 					<Typography variant="subtitle2" noWrap>
-						Kha NGUYEN DINH
+						{user?.displayName}
 					</Typography>
 					<Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-						kha.nguyen01.it@gmail.com
+						{user?.email}
 					</Typography>
 				</Box>
 
@@ -124,6 +120,16 @@ export default function AccountPopover() {
 							{option.label}
 						</MenuItem>
 					))}
+					{(user.isInstructor || user.isAdmin) && (
+						<MenuItem to={PATH_HOME.instructors.root} component={RouterLink} onClick={handleClose}>
+							Instructors
+						</MenuItem>
+					)}
+					{user.isAdmin && (
+						<MenuItem to={PATH_DASHBOARD.root} component={RouterLink} onClick={handleClose}>
+							Dashboard
+						</MenuItem>
+					)}
 				</Stack>
 
 				<Divider sx={{ borderStyle: 'dashed' }} />

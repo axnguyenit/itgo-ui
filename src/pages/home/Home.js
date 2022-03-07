@@ -12,6 +12,7 @@ import {
 	CartWidget,
 } from 'src/sections/home';
 import { BookingIllustration, CheckInIllustration, CheckOutIllustration } from '../../assets';
+// import jwtDecode from 'jwt-decode';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +23,13 @@ const ContentStyle = styled('div')(({ theme }) => ({
 }));
 
 export default function Home() {
+	// const decoded = jwtDecode(
+	// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtoYS5uZ3V5ZW4wMS5pdEBnbWFpbC5jb20iLCJpYXQiOjE2NDU0MzQxMjgsImV4cCI6MTY0NTY5MzMyOH0.eqsGwvZpwiGp8RF3bqanA4PBc8fJGuH1gkk7EI9Bqcs'
+	// );
+	// const currentTime = Date.now() / 1000;
+	// console.log('decoded', decoded);
+
+	// console.log(decoded.exp > currentTime);
 	return (
 		<Page title="Home">
 			<HomeHero />

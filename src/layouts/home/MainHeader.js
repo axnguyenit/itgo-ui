@@ -1,8 +1,11 @@
-import { useLocation } from 'react-router-dom';
+import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+// routes
+import { PATH_AUTH } from 'src/routes/paths';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, AppBar, Toolbar, Container } from '@mui/material';
 // hooks
+import useAuth from '../../hooks/useAuth';
 import useOffSetTop from '../../hooks/useOffSetTop';
 import useResponsive from '../../hooks/useResponsive';
 // utils
@@ -16,7 +19,7 @@ import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
 // import Searchbar from './Searchbar';
-// import AccountPopover from './AccountPopover';
+import AccountPopover from './AccountPopover';
 
 // ----------------------------------------------------------------------
 
@@ -48,6 +51,7 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
 
 export default function MainHeader() {
 	const isOffset = useOffSetTop(HEADER.MAIN_DESKTOP_HEIGHT);
+	const { isAuthenticated } = useAuth();
 
 	const theme = useTheme();
 
@@ -83,9 +87,14 @@ export default function MainHeader() {
 					<Box sx={{ flexGrow: 1 }} />
 
 					{isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
-					{/* <AccountPopover /> */}
 
-					<Button variant="contained">Login</Button>
+					{isAuthenticated ? (
+						<AccountPopover />
+					) : (
+						<Button variant="contained" to={PATH_AUTH.login} component={RouterLink}>
+							Login
+						</Button>
+					)}
 
 					{!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
 				</Container>
