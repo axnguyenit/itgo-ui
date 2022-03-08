@@ -19,6 +19,7 @@ import {
 	Autocomplete,
 	InputAdornment,
 } from '@mui/material';
+// routes
 // components
 import {
 	FormProvider,
@@ -27,8 +28,10 @@ import {
 	RHFTextField,
 	RHFUploadSingleFile,
 } from '../../../components/hook-form';
-import axios from 'axios';
-import courseApi from 'src/api/courseApi';
+import courseApi from '../../../api/courseApi';
+import uploadApi from '../../../api/uploadApi';
+import { useNavigate } from 'react-router-dom';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -36,19 +39,19 @@ const STATUS_OPTION = ['Default', 'Sale', 'New'];
 
 const INSTRUCTOR_OPTION = [
 	{
-		_id: '621ef50a265a5b324c1dec77',
+		_id: '621ef50a265a5b324c1dec72',
 		email: 'hothihuongsen21042001@gmail.com',
 	},
 	{
-		_id: '621ef50a265a5b324c1dec77',
+		_id: '621ef50a265a5b324c1dec73',
 		email: 'jojomi1234@gmail.com',
 	},
 	{
-		_id: '621ef50a265a5b324c1dec77',
+		_id: '621ef50a265a5b324c1dec74',
 		email: 'thuy.nguyen22@student.passerellesnumeriques.org',
 	},
 	{
-		_id: '621ef50a265a5b324c1dec77',
+		_id: '621ef50a265a5b324c1dec75',
 		email: 'manh.nguyen22@student.passerellesnumeriques.org',
 	},
 	{
@@ -79,10 +82,11 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 CourseNewForm.propTypes = {
 	isEdit: PropTypes.bool,
-	currentProduct: PropTypes.object,
+	currentCourse: PropTypes.object,
 };
 
-export default function CourseNewForm({ isEdit, currentProduct }) {
+export default function CourseNewForm({ isEdit, currentCourse }) {
+	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
 
 	const NewCourseSchema = Yup.object().shape({
@@ -97,19 +101,18 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 
 	const defaultValues = useMemo(
 		() => ({
-			instructor: currentProduct?.name || INSTRUCTOR_OPTION[0]._id,
-			name: currentProduct?.name || '',
-			cover: currentProduct?.cover || null,
-			price: currentProduct?.price || 0,
-			priceSale: currentProduct?.priceSale || 0,
-			status: currentProduct?.status || camelCase(STATUS_OPTION[0]),
-			tags: currentProduct?.tags || [TAGS_OPTION[0]],
-			overview: currentProduct?.overview || '',
-			requirements: currentProduct?.requirements || '',
-			targetAudiences: currentProduct?.targetAudiences || '',
+			instructor: currentCourse?.instructor?._id || INSTRUCTOR_OPTION[0]._id,
+			name: currentCourse?.name || '',
+			cover: currentCourse?.cover || null,
+			price: currentCourse?.price || 0,
+			priceSale: currentCourse?.priceSale || 0,
+			status: currentCourse?.status || camelCase(STATUS_OPTION[0]),
+			tags: currentCourse?.tags || [TAGS_OPTION[0]],
+			overview: currentCourse?.details.overview || '',
+			requirements: currentCourse?.details.requirements || '',
+			targetAudiences: currentCourse?.details.targetAudiences || '',
 		}),
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[currentProduct]
+		[currentCourse]
 	);
 
 	const methods = useForm({
@@ -127,50 +130,61 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 	} = methods;
 
 	useEffect(() => {
-		if (isEdit && currentProduct) {
+		if (isEdit && currentCourse) {
 			reset(defaultValues);
+			setValue('cover', { path: currentCourse?.cover, preview: currentCourse?.cover });
 		}
 		if (!isEdit) {
 			reset(defaultValues);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isEdit, currentProduct]);
+	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		try {
-			data.cover = data.cover.path;
-			const res = await courseApi.add(data);
-			if (res.success) {
-				reset();
-				enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+		data.cover = data.cover.path;
+		if (isEdit) {
+			data.id = currentCourse._id;
+			try {
+				const response = await courseApi.update(data);
+				if (response.data.success) {
+					reset();
+					enqueueSnackbar('Update success!');
+					navigate(PATH_DASHBOARD.courses.list);
+				}
+			} catch (error) {
+				console.error(error);
 			}
-		} catch (error) {
-			console.error(error);
+		} else {
+			try {
+				const response = await courseApi.add(data);
+				if (response.data.success) {
+					reset();
+					enqueueSnackbar('Create success!');
+					navigate(PATH_DASHBOARD.courses.list);
+				}
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	};
 
 	const handleDrop = useCallback(
-		(acceptedFiles) => {
+		async (acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				const data = new FormData();
-				data.append('image', file);
+				try {
+					const data = new FormData();
+					data.append('image', file);
+					const response = await uploadApi.addCourseImage(data);
 
-				axios
-					.post('http://127.0.0.1:8000/api/upload', data, {
-						headers: {
-							'x-auth-token':
-								'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjFmMDdjMTNlYmMzM2FjNDE0MDMzOTgiLCJmaXJzdE5hbWUiOiJLaGEiLCJsYXN0TmFtZSI6Ik5ndXllbiIsImVtYWlsIjoia2hhLml0QGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlzSW5zdHJ1Y3RvciI6ZmFsc2UsImlhdCI6MTY0NjQ3NzY1NiwiZXhwIjoxNjQ2NDgxMjU2fQ.OZJr17g75dGIyD1DwtpMxvsX7TVi1jWCdZtrippeop8',
-						},
-					})
-					.then((res) => {
-						console.log(res);
-						const path = res.data.file.path;
-						const cover = { path, preview: URL.createObjectURL(file) };
-						setValue('cover', cover);
-					})
-					.catch((err) => console.log(err));
+					if (!response.data.success) return;
+					const path = response.data.file.path;
+					const cover = { path, preview: URL.createObjectURL(file) };
+					setValue('cover', cover);
+				} catch (error) {
+					console.error(error);
+				}
 			}
 		},
 		[setValue]
@@ -205,15 +219,6 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 									maxSize={3145728}
 									onDrop={handleDrop}
 								/>
-								{/* <RHFUploadMultiFile
-									name="images"
-									showPreview
-									accept="image/*"
-									maxSize={3145728}
-									onDrop={handleDrop}
-									onRemove={handleRemove}
-									onRemoveAll={handleRemoveAll}
-								/> */}
 							</div>
 						</Stack>
 					</Card>
@@ -225,7 +230,7 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 							<Stack spacing={3} mt={2}>
 								<RHFSelect name="instructor" label="Instructor">
 									{INSTRUCTOR_OPTION.map((instructor) => (
-										<option key={instructor._id} value={instructor._id}>
+										<option key={instructor?._id} value={instructor?._id}>
 											{instructor.email}
 										</option>
 									))}
@@ -272,7 +277,7 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 									name="price"
 									label="Regular Price"
 									placeholder="0.00"
-									value={getValues('price') === 0 ? '' : getValues('price')}
+									defaultValue={getValues('price') === 0 ? '' : getValues('price')}
 									onChange={(event) => setValue('price', Number(event.target.value))}
 									InputLabelProps={{ shrink: true }}
 									InputProps={{
@@ -285,8 +290,8 @@ export default function CourseNewForm({ isEdit, currentProduct }) {
 									name="priceSale"
 									label="Sale Price"
 									placeholder="0.00"
-									value={getValues('priceSale') === 0 ? '' : getValues('priceSale')}
-									onChange={(event) => setValue('price', Number(event.target.value))}
+									defaultValue={getValues('priceSale') === 0 ? '' : getValues('priceSale')}
+									onChange={(event) => setValue('priceSale', Number(event.target.value))}
 									InputLabelProps={{ shrink: true }}
 									InputProps={{
 										startAdornment: <InputAdornment position="start">$</InputAdornment>,

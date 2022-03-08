@@ -1,12 +1,7 @@
 import { m } from 'framer-motion';
-import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Button, Box, Container, Typography, Stack } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
-// components
-import Iconify from '../../components/Iconify';
+import { Box, Container, Typography, Stack } from '@mui/material';
 import { MotionContainer, varFade } from '../../components/animate';
 
 // ----------------------------------------------------------------------
@@ -70,13 +65,13 @@ export default function HomeHero() {
 			<RootStyle>
 				<HeroOverlayStyle
 					alt="overlay"
-					src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Foverlay.svg?alt=media&token=a149ddf3-b203-4dad-8997-9e26ff857598"
+					src={`${window.location.origin}/assets/images/overlay.svg`}
 					variants={varFade().in}
 				/>
 
 				<HeroImgStyle
 					alt="hero"
-					src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/hero%2Fhome-hero.png?alt=media&token=eb583251-0b29-4bb4-b7e5-d98a375cc656"
+					src={`${window.location.origin}/assets/images/home-hero.png`}
 					variants={varFade().inUp}
 				/>
 
@@ -96,18 +91,6 @@ export default function HomeHero() {
 							<Typography sx={{ color: 'common.white' }}>
 								Vietnam's leading programming learning platform taught by IT engineers.
 							</Typography>
-						</m.div>
-
-						<m.div variants={varFade().inRight}>
-							<Button
-								size="large"
-								variant="contained"
-								component={RouterLink}
-								to={PATH_DASHBOARD.root}
-								startIcon={<Iconify icon={'eva:flash-fill'} width={20} height={20} />}
-							>
-								Learn Now
-							</Button>
 						</m.div>
 					</ContentStyle>
 				</Container>

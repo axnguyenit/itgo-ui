@@ -19,9 +19,7 @@ export default function AuthGuard({ children }) {
 	const { pathname } = useLocation();
 	const [requestedLocation, setRequestedLocation] = useState(null);
 
-	if (!isInitialized) {
-		return <LoadingScreen />;
-	}
+	if (!isInitialized) return <LoadingScreen />;
 
 	if (!isAuthenticated) {
 		if (pathname !== requestedLocation) {
@@ -35,9 +33,7 @@ export default function AuthGuard({ children }) {
 		return <Navigate to={requestedLocation} />;
 	}
 
-	if (!user?.isAdmin) {
-		return <Navigate to="/" />;
-	}
+	if (!user?.isAdmin) return <Navigate to="/" />;
 
 	return <>{children}</>;
 }

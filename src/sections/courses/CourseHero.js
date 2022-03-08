@@ -8,8 +8,8 @@ import { MotionContainer, TextAnimate } from '../../components/animate';
 
 const RootStyle = styled('div')(({ theme }) => ({
 	backgroundSize: 'cover',
-	backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Foverlay.svg?alt=media&token=a149ddf3-b203-4dad-8997-9e26ff857598),
-  url(https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/hero%2Fcourse-details.jpg?alt=media&token=22e3f7d7-11bc-4820-82bf-af4e3a361daa)`,
+	backgroundImage: `url(${window.location.origin}/assets/images/overlay.svg),
+  url(${window.location.origin}/assets/images/courses-hero.jpg)`,
 	padding: theme.spacing(10, 0),
 	[theme.breakpoints.up('md')]: {
 		height: 360,
@@ -29,15 +29,17 @@ const ContentStyle = styled(Stack)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function CourseHero() {
+export default function CourseHero({ label }) {
 	return (
 		<RootStyle>
 			<Container component={MotionContainer} sx={{ position: 'relative', height: '100%' }}>
 				<ContentStyle spacing={5}>
 					<div>
 						<Box sx={{ display: 'inline-flex', color: 'common.white' }}>
-							<TextAnimate text="Course" sx={{ mr: 2 }} />
-							<TextAnimate text="details" sx={{ mr: 2 }} />
+							{label &&
+								label
+									.split(' ')
+									.map((e, index) => <TextAnimate key={index} text={e} sx={{ mr: 2 }} />)}
 						</Box>
 					</div>
 				</ContentStyle>

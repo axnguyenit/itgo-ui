@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-import { paramCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Card, Link, Typography, Stack, Rating } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_HOME } from '../../routes/paths';
 // utils
 import { fCurrency } from '../../utils/formatNumber';
 // components
@@ -19,6 +18,7 @@ CourseCard.propTypes = {
 
 export default function CourseCard({ course }) {
 	const {
+		_id,
 		name,
 		cover,
 		price,
@@ -27,7 +27,7 @@ export default function CourseCard({ course }) {
 		instructor: { firstName, lastName },
 	} = course;
 
-	const linkTo = `${PATH_DASHBOARD.eCommerce.root}/course/${paramCase(name)}`;
+	const linkTo = `${PATH_HOME.courses.root}/${_id}`;
 
 	return (
 		<Card>
@@ -73,10 +73,10 @@ export default function CourseCard({ course }) {
 								variant="body2"
 								sx={{ color: 'text.disabled', textDecoration: 'line-through' }}
 							>
-								{fCurrency(priceSale)}
+								{fCurrency(price)}
 							</Typography>
 						)}
-						<Typography variant="subtitle1">{fCurrency(price)}</Typography>
+						<Typography variant="subtitle1">{fCurrency(priceSale || price)}</Typography>
 					</Stack>
 				</Stack>
 			</Stack>

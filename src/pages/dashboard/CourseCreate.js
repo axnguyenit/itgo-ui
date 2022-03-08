@@ -1,31 +1,36 @@
-import { useEffect } from 'react';
-import { paramCase } from 'change-case';
+import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 // @mui
 import { Container } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import CourseNewForm from '../../sections/@dashboard/courses/CourseNewForm';
+import courseApi from '../../api/courseApi';
 
 // ----------------------------------------------------------------------
 
 export default function CourseCreate() {
-	const dispatch = useDispatch();
+	const [course, setCourse] = useState(null);
 	const { pathname } = useLocation();
-	const { name } = useParams();
-	const { products } = useSelector((state) => state.product);
+	const { id } = useParams();
 	const isEdit = pathname.includes('edit');
-	const currentProduct = products.find((product) => paramCase(product.name) === name);
 
 	useEffect(() => {
-		dispatch(getProducts());
-	}, [dispatch]);
+		const getCourse = async () => {
+			if (!isEdit) return;
+			try {
+				const response = await courseApi.get(id);
+				if (response.data.success) setCourse(response.data.course);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		isEdit ? getCourse() : setCourse(null);
+	}, [isEdit, id]);
 
 	return (
 		<Page title="Create a new course">
@@ -38,11 +43,10 @@ export default function CourseCreate() {
 							name: 'Courses',
 							href: PATH_DASHBOARD.courses.root,
 						},
-						{ name: !isEdit ? 'New course' : name },
+						{ name: !isEdit ? 'New course' : 'Edit course' },
 					]}
 				/>
-
-				<CourseNewForm isEdit={isEdit} currentProduct={currentProduct} />
+				{(course || !isEdit) && <CourseNewForm isEdit={isEdit} currentCourse={course} />}
 			</Container>
 		</Page>
 	);

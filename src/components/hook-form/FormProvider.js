@@ -13,7 +13,7 @@ FormProvider.propTypes = {
 export default function FormProvider({ children, onSubmit, methods }) {
 	return (
 		<Form {...methods}>
-			<form onSubmit={onSubmit} enctype="multipart/form-data">
+			<form onSubmit={onSubmit} encType="multipart/form-data">
 				{children}
 			</form>
 		</Form>

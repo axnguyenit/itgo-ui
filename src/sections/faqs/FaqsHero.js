@@ -11,8 +11,8 @@ import { MotionContainer, TextAnimate, varFade } from '../../components/animate'
 
 const RootStyle = styled('div')(({ theme }) => ({
 	backgroundSize: 'cover',
-	backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/icons%2Foverlay.svg?alt=media&token=a149ddf3-b203-4dad-8997-9e26ff857598),
-  url(https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/hero%2Ffaqs.png?alt=media&token=be61d9d5-77cf-458d-8ff1-d6446b335e9f)`,
+	backgroundImage: `url(${window.location.origin}/assets/images/overlay.svg),
+  url(${window.location.origin}/assets/images/faqs.png)`,
 	padding: theme.spacing(10, 0),
 	[theme.breakpoints.up('md')]: {
 		height: 560,

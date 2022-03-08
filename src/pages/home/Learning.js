@@ -150,7 +150,7 @@ function Learning() {
 								<SectionStyle>
 									<Image
 										alt="join meeting"
-										src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/images%2Feducation-online.png?alt=media&token=2958e3e6-f69e-4d38-8e64-32093aa4aca8"
+										src={`${window.location.origin}/assets/images/education-online.png`}
 									/>
 								</SectionStyle>
 							</Grid>

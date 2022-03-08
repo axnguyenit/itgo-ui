@@ -17,7 +17,7 @@ const courseApi = {
 	},
 
 	async update(data) {
-		const url = `/api/courses/${data._id}`;
+		const url = `/api/courses/${data.id}`;
 		return axios.put(url, data);
 	},
 

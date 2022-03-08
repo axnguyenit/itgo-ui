@@ -22,6 +22,7 @@ const SECONDARY = {
 	dark: '#1939B7',
 	darker: '#091A7A',
 };
+
 const INFO = {
 	lighter: '#D0F2FF',
 	light: '#74CAFF',
@@ -29,6 +30,7 @@ const INFO = {
 	dark: '#0C53B7',
 	darker: '#04297A',
 };
+
 const SUCCESS = {
 	lighter: '#E9FCD4',
 	light: '#AAF27F',
@@ -36,6 +38,7 @@ const SUCCESS = {
 	dark: '#229A16',
 	darker: '#08660D',
 };
+
 const WARNING = {
 	lighter: '#FFF7CD',
 	light: '#FFE16A',
@@ -43,6 +46,7 @@ const WARNING = {
 	dark: '#B78103',
 	darker: '#7A4F01',
 };
+
 const ERROR = {
 	lighter: '#FFE7D9',
 	light: '#FFA48D',

@@ -5,7 +5,7 @@ import DashboardLayout from '../layouts/dashboard';
 // guards
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
-// import RoleBasedGuard from '../guards/RoleBasedGuard';
+import BasedGuard from '../guards/BasedGuard';
 import { PATH_DASHBOARD } from './paths';
 // components
 import LoadingScreen from '../components/LoadingScreen';
@@ -79,7 +79,7 @@ export default function Router() {
 						{ path: 'list', element: <CourseList /> },
 						{ path: 'new', element: <CourseCreate /> },
 						{ path: 'courses/:name', element: <EcommerceProductDetails /> },
-						{ path: ':id/edit', element: <EcommerceProductCreate /> },
+						{ path: ':id/edit', element: <CourseCreate /> },
 					],
 				},
 				{
@@ -92,8 +92,6 @@ export default function Router() {
 						{ path: 'shop', element: <EcommerceShop /> },
 						{ path: 'product/:name', element: <EcommerceProductDetails /> },
 						{ path: 'list', element: <EcommerceProductList /> },
-						{ path: 'product/new', element: <EcommerceProductCreate /> },
-						{ path: 'product/:name/edit', element: <EcommerceProductCreate /> },
 						{ path: 'invoice', element: <EcommerceInvoice /> },
 					],
 				},
@@ -160,6 +158,14 @@ export default function Router() {
 				{ path: 'faqs', element: <Faqs /> },
 				{ path: 'courses', element: <Courses /> },
 				{ path: 'courses/:id', element: <CourseDetails /> },
+				{
+					path: 'account-settings',
+					element: (
+						<BasedGuard>
+							<AccountSettings />
+						</BasedGuard>
+					),
+				},
 			],
 		},
 
@@ -212,9 +218,6 @@ const EcommerceProductDetails = Loadable(
 const EcommerceProductList = Loadable(
 	lazy(() => import('../pages/dashboard/EcommerceProductList'))
 );
-const EcommerceProductCreate = Loadable(
-	lazy(() => import('../pages/dashboard/EcommerceProductCreate'))
-);
 const EcommerceInvoice = Loadable(lazy(() => import('../pages/dashboard/EcommerceInvoice')));
 const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/BlogPosts')));
 const BlogPost = Loadable(lazy(() => import('../pages/dashboard/BlogPost')));
@@ -238,6 +241,7 @@ const Faqs = Loadable(lazy(() => import('../pages/home/Faqs')));
 const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
+const AccountSettings = Loadable(lazy(() => import('../pages/home/AccountSettings')));
 
 // const HomePage = Loadable(lazy(() => import('../pages/Home')));
 // const About = Loadable(lazy(() => import('../pages/About')));

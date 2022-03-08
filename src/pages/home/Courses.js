@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Pagination } from '@mui/material';
 // components
 import Page from '../../components/Page';
 // sections
@@ -19,33 +19,39 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const LIMIT_COURSE = 12;
+
 export default function Courses() {
 	const [courses, setCourses] = useState([]);
 	const [page, setPage] = useState(1);
-
-	const getAllCourses = async () => {
-		const params = {
-			_page: page,
-			_limit: 3,
-		};
-		try {
-			const response = await courseApi.getAll(params);
-			if (response.data.success) setCourses(response.data.courses);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	const [pagination, setPagination] = useState(1);
 
 	useEffect(() => {
+		const getAllCourses = async () => {
+			const params = {
+				_page: page,
+				_limit: LIMIT_COURSE,
+			};
+			try {
+				const response = await courseApi.getAll(params);
+				if (response.data.success) {
+					setCourses(response.data.courses);
+					setPagination(response.data.pagination);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
 		getAllCourses();
 	}, [page]);
 
 	return (
 		<Page title="Courses">
 			<RootStyle>
-				<CourseHero />
+				<CourseHero label="Courses" />
 				<Container maxWidth={'lg'} sx={{ mt: 15, mb: 10 }}>
-					<Stack
+					{/* <Stack
 						spacing={2}
 						direction={{ xs: 'column', sm: 'row' }}
 						alignItems={{ sm: 'center' }}
@@ -53,9 +59,20 @@ export default function Courses() {
 						sx={{ mb: 2 }}
 					>
 						<CoursesSearch />
-					</Stack>
+					</Stack> */}
 
 					<CourseList courses={courses} loading={!courses.length} />
+
+					<Stack direction="row" justifyContent="center" alignItems="center" sx={{ my: 3 }}>
+						<Pagination
+							count={Math.ceil(pagination._totalRows / LIMIT_COURSE)}
+							// page={pageItem}
+							onChange={(event, value) => setPage(value)}
+							color="primary"
+							variant="outlined"
+							shape="rounded"
+						/>
+					</Stack>
 				</Container>
 			</RootStyle>
 		</Page>

@@ -17,13 +17,13 @@ import { IconButtonAnimate } from '../../components/animate';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
+	// {
+	// 	label: 'Home',
+	// 	linkTo: '/',
+	// },
 	{
-		label: 'Home',
-		linkTo: '/',
-	},
-	{
-		label: 'Profile',
-		linkTo: PATH_DASHBOARD.user.account,
+		label: 'Account',
+		linkTo: PATH_HOME.account,
 	},
 ];
 

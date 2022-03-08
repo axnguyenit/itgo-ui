@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Container, Divider, Grid, Stack, Tab } from '@mui/material';
@@ -12,7 +12,9 @@ import {
 	LatestCourses,
 } from '../../sections/courses';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import Markdown from 'src/components/Markdown';
+import Markdown from '../../components/Markdown';
+// api
+import courseApi from '../../api/courseApi';
 
 // ----------------------------------------------------------------------
 
@@ -26,19 +28,32 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CourseDetails() {
+	const { id } = useParams();
 	const [value, setValue] = useState('1');
-	// const { product, error, checkout } = useSelector((state) => state.product);
+	const [course, setCourse] = useState(null);
+
+	useEffect(() => {
+		const getCourse = async () => {
+			try {
+				const response = await courseApi.get(id);
+				if (response.data.success) setCourse(response.data.course);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getCourse();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [id]);
 
 	return (
 		<Page title="Course Details">
 			<RootStyle>
-				<CourseHero />
+				<CourseHero label="Course Details" />
 
 				<Container sx={{ mt: 15, mb: 10 }}>
-					{/* <FaqsList /> */}
 					<Grid container spacing={4}>
 						<Grid item xs={12} md={8} spacing={3}>
-							<CourseDetailsSummary />
+							{course && <CourseDetailsSummary course={course} />}
 
 							<Stack sx={{ mt: 3 }}>
 								<TabContext value={value}>
@@ -53,23 +68,17 @@ export default function CourseDetails() {
 
 									<TabPanel value="1">
 										<Box sx={{ py: 4 }}>
-											<Markdown
-												children={`\n<p><strong><small> SPECIFICATION</small></strong></p>\n<p>Leather panels. Laces. Rounded toe. Rubber sole.\n<br /><br />\n<p><strong><small> MATERIAL AND WASHING INSTRUCTIONS</small></strong></p>\n<p>Shoeupper: 54% bovine leather,46% polyurethane. Lining: 65% polyester,35% cotton. Insole: 100% polyurethane. Sole: 100% thermoplastic. Fixing sole: 100% glued.</p>\n`}
-											/>
+											<Markdown children={course?.details.overview} />
 										</Box>
 									</TabPanel>
 									<TabPanel value="2">
 										<Box sx={{ py: 4 }}>
-											<Markdown
-												children={`\n<p><strong><small> SPECIFICATION</small></strong></p>\n<p>Leather panels. Laces. Rounded toe. Rubber sole.\n<br /><br />\n<p><strong><small> MATERIAL AND WASHING INSTRUCTIONS</small></strong></p>\n<p>Shoeupper: 54% bovine leather,46% polyurethane. Lining: 65% polyester,35% cotton. Insole: 100% polyurethane. Sole: 100% thermoplastic. Fixing sole: 100% glued.</p>\n`}
-											/>
+											<Markdown children={course?.details.requirements} />
 										</Box>
 									</TabPanel>
 									<TabPanel value="3">
 										<Box sx={{ py: 4 }}>
-											<Markdown
-												children={`\n<p><strong><small> SPECIFICATION</small></strong></p>\n<p>Leather panels. Laces. Rounded toe. Rubber sole.\n<br /><br />\n<p><strong><small> MATERIAL AND WASHING INSTRUCTIONS</small></strong></p>\n<p>Shoeupper: 54% bovine leather,46% polyurethane. Lining: 65% polyester,35% cotton. Insole: 100% polyurethane. Sole: 100% thermoplastic. Fixing sole: 100% glued.</p>\n`}
-											/>
+											<Markdown children={course?.details.targetAudiences} />
 										</Box>
 									</TabPanel>
 									<TabPanel value="4">

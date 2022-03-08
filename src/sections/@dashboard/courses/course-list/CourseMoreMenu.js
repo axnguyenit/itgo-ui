@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { paramCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
@@ -14,10 +13,10 @@ import MenuPopover from '../../../../components/MenuPopover';
 
 CourseMoreMenu.propTypes = {
 	onDelete: PropTypes.func,
-	productName: PropTypes.string,
+	courseId: PropTypes.string.isRequired,
 };
 
-export default function CourseMoreMenu({ onDelete, productName }) {
+export default function CourseMoreMenu({ onDelete, courseId }) {
 	const [open, setOpen] = useState(null);
 
 	const handleOpen = (event) => {
@@ -62,10 +61,7 @@ export default function CourseMoreMenu({ onDelete, productName }) {
 					Delete
 				</MenuItem>
 
-				<MenuItem
-					component={RouterLink}
-					to={`${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(productName)}/edit`}
-				>
+				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.courses.root}/${courseId}/edit`}>
 					<Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
 					Edit
 				</MenuItem>
