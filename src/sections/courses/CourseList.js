@@ -4,16 +4,16 @@ import { Box } from '@mui/material';
 // components
 import { SkeletonProductItem } from '../../components/skeleton';
 //
-import ShopProductCard from './CoursesCard';
+import CourseCard from './CourseCard';
 
 // ----------------------------------------------------------------------
 
 CourseList.propTypes = {
-	products: PropTypes.array.isRequired,
+	courses: PropTypes.array.isRequired,
 	loading: PropTypes.bool,
 };
 
-export default function CourseList({ products, loading }) {
+export default function CourseList({ courses, loading }) {
 	return (
 		<Box
 			sx={{
@@ -27,9 +27,9 @@ export default function CourseList({ products, loading }) {
 				},
 			}}
 		>
-			{(loading ? [...Array(12)] : products).map((product, index) =>
-				product ? (
-					<ShopProductCard key={product.id} product={product} />
+			{(loading ? [...Array(12)] : courses).map((course, index) =>
+				course ? (
+					<CourseCard key={course._id} course={course} />
 				) : (
 					<SkeletonProductItem key={index} />
 				)

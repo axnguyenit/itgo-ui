@@ -13,19 +13,26 @@ import Image from '../../components/Image';
 
 // ----------------------------------------------------------------------
 
-CoursesCard.propTypes = {
-	product: PropTypes.object,
+CourseCard.propTypes = {
+	course: PropTypes.object,
 };
 
-export default function CoursesCard({ product }) {
-	const { name, cover, price, status, priceSale } = product;
+export default function CourseCard({ course }) {
+	const {
+		name,
+		cover,
+		price,
+		status,
+		priceSale,
+		instructor: { firstName, lastName },
+	} = course;
 
-	const linkTo = `${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(name)}`;
+	const linkTo = `${PATH_DASHBOARD.eCommerce.root}/course/${paramCase(name)}`;
 
 	return (
 		<Card>
 			<Box sx={{ position: 'relative' }}>
-				{status && (
+				{status !== 'default' && (
 					<Label
 						variant="filled"
 						color={(status === 'sale' && 'error') || 'info'}
@@ -52,7 +59,7 @@ export default function CoursesCard({ product }) {
 					</Link>
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-							Kha NGUYEN DINH
+							{firstName} {lastName}
 						</Typography>
 					</Box>
 				</Box>
@@ -61,7 +68,7 @@ export default function CoursesCard({ product }) {
 					<Rating value={4.5} size="small" precision={0.1} readOnly />
 
 					<Stack direction="row" alignItems="flex-end" spacing={0.5}>
-						{priceSale && (
+						{!!priceSale && (
 							<Typography
 								variant="body2"
 								sx={{ color: 'text.disabled', textDecoration: 'line-through' }}
@@ -69,7 +76,6 @@ export default function CoursesCard({ product }) {
 								{fCurrency(priceSale)}
 							</Typography>
 						)}
-
 						<Typography variant="subtitle1">{fCurrency(price)}</Typography>
 					</Stack>
 				</Stack>

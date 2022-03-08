@@ -1,29 +1,29 @@
-import axiosClient from './axiosClient';
+import axios from '../utils/axios';
 
 const courseApi = {
 	async getAll(params) {
 		const url = '/api/courses';
-		return axiosClient.get(url, { params });
+		return axios.get(url, { params });
 	},
 
 	async get(id) {
 		const url = `/api/courses/${id}`;
-		return axiosClient.get(url);
+		return axios.get(url);
 	},
 
 	async add(data) {
 		const url = '/api/courses';
-		return axiosClient.post(url, data);
+		return axios.post(url, data);
 	},
 
 	async update(data) {
 		const url = `/api/courses/${data._id}`;
-		return axiosClient.put(url, data);
+		return axios.put(url, data);
 	},
 
 	async remove(id) {
 		const url = `/api/courses/${id}`;
-		return axiosClient.delete(url);
+		return axios.delete(url);
 	},
 };
 

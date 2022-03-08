@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Container, Stack } from '@mui/material';
-// redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
 // components
 import Page from '../../components/Page';
 // sections
 import { CourseList, CoursesSearch, CourseHero } from '../../sections/courses';
+// api
+import courseApi from '../../api/courseApi';
 
 // ----------------------------------------------------------------------
 const RootStyle = styled('div')(({ theme }) => ({
@@ -21,13 +20,25 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Courses() {
-	const dispatch = useDispatch();
-	const { products } = useSelector((state) => state.product);
-	console.log('products', products);
+	const [courses, setCourses] = useState([]);
+	const [page, setPage] = useState(1);
+
+	const getAllCourses = async () => {
+		const params = {
+			_page: page,
+			_limit: 3,
+		};
+		try {
+			const response = await courseApi.getAll(params);
+			if (response.data.success) setCourses(response.data.courses);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	useEffect(() => {
-		dispatch(getProducts());
-	}, [dispatch]);
+		getAllCourses();
+	}, [page]);
 
 	return (
 		<Page title="Courses">
@@ -44,7 +55,7 @@ export default function Courses() {
 						<CoursesSearch />
 					</Stack>
 
-					<CourseList products={products} loading={!products.length} />
+					<CourseList courses={courses} loading={!courses.length} />
 				</Container>
 			</RootStyle>
 		</Page>
