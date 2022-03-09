@@ -1,4 +1,3 @@
-import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 // @mui
@@ -44,10 +43,6 @@ export default function CheckoutCart() {
 		dispatch(onNextStep());
 	};
 
-	// const handleApplyDiscount = (value) => {
-	// 	dispatch(applyDiscount(value));
-	// };
-
 	return (
 		<Grid container spacing={3}>
 			<Grid item xs={12} md={8}>
@@ -88,13 +83,7 @@ export default function CheckoutCart() {
 			</Grid>
 
 			<Grid item xs={12} md={4}>
-				<CheckoutSummary
-					enableDiscount
-					total={total}
-					discount={discount}
-					subtotal={subtotal}
-					// onApplyDiscount={handleApplyDiscount}
-				/>
+				<CheckoutSummary enableDiscount total={total} discount={discount} subtotal={subtotal} />
 				<Button
 					fullWidth
 					size="large"

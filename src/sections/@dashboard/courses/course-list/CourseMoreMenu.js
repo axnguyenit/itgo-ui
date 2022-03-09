@@ -2,22 +2,34 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { MenuItem, IconButton } from '@mui/material';
+import {
+	MenuItem,
+	IconButton,
+	DialogTitle,
+	Stack,
+	Typography,
+	Divider,
+	DialogActions,
+	Button,
+} from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
 import Iconify from '../../../../components/Iconify';
 import MenuPopover from '../../../../components/MenuPopover';
+import { DialogAnimate } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
 CourseMoreMenu.propTypes = {
 	onDelete: PropTypes.func,
 	courseId: PropTypes.string.isRequired,
+	courseName: PropTypes.string.isRequired,
 };
 
-export default function CourseMoreMenu({ onDelete, courseId }) {
+export default function CourseMoreMenu({ onDelete, courseId, courseName }) {
 	const [open, setOpen] = useState(null);
+	const [isOpenModal, setIsOpenModal] = useState(false);
 
 	const handleOpen = (event) => {
 		setOpen(event.currentTarget);
@@ -31,6 +43,11 @@ export default function CourseMoreMenu({ onDelete, courseId }) {
 		mr: 2,
 		width: 20,
 		height: 20,
+	};
+
+	const handleDelete = () => {
+		onDelete();
+		setIsOpenModal(false);
 	};
 
 	return (
@@ -52,11 +69,7 @@ export default function CourseMoreMenu({ onDelete, courseId }) {
 					'& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
 				}}
 			>
-				<MenuItem onClick={onDelete} sx={{ color: 'info.main' }}>
-					<Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
-					Details
-				</MenuItem>
-				<MenuItem onClick={onDelete} sx={{ color: 'error.main' }}>
+				<MenuItem onClick={() => setIsOpenModal(true)} sx={{ color: 'error.main' }}>
 					<Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
 					Delete
 				</MenuItem>
@@ -66,6 +79,26 @@ export default function CourseMoreMenu({ onDelete, courseId }) {
 					Edit
 				</MenuItem>
 			</MenuPopover>
+
+			<DialogAnimate open={isOpenModal} onClose={() => setIsOpenModal(false)}>
+				<DialogTitle>Delete course</DialogTitle>
+				<Divider sx={{ borderStyle: 'dashed', mt: 2 }} />
+				<Stack spacing={3} sx={{ px: 3, py: 2 }}>
+					<Typography>
+						Are you sure to want to permanently delete this course ({`${courseName}`})?
+					</Typography>
+				</Stack>
+
+				<DialogActions>
+					<Button variant="outlined" color="inherit" onClick={() => setIsOpenModal(false)}>
+						Cancel
+					</Button>
+
+					<Button onClick={handleDelete} variant="contained" color="error">
+						Delete
+					</Button>
+				</DialogActions>
+			</DialogAnimate>
 		</>
 	);
 }

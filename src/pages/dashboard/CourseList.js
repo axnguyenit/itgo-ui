@@ -56,24 +56,25 @@ export default function CourseList() {
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [orderBy, setOrderBy] = useState('createdAt');
 
-	useEffect(() => {
-		const getAllCourses = async () => {
-			const params = {
-				_page: page,
-				_limit: rowsPerPage,
-			};
-			try {
-				const response = await courseApi.getAll(params);
-				if (response.data.success) {
-					setCourses(response.data.courses);
-					setPagination(response.data.pagination);
-				}
-			} catch (error) {
-				console.error(error);
-			}
+	const getAllCourses = async () => {
+		const params = {
+			_page: page,
+			_limit: rowsPerPage,
 		};
+		try {
+			const response = await courseApi.getAll(params);
+			if (response.data.success) {
+				setCourses(response.data.courses);
+				setPagination(response.data.pagination);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
+	useEffect(() => {
 		getAllCourses();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page, rowsPerPage]);
 
 	const handleRequestSort = (property) => {
@@ -118,13 +119,16 @@ export default function CourseList() {
 		setFilterName(filterName);
 	};
 
-	const handleDeleteProduct = (productId) => {
-		const deleteProduct = courses.filter((product) => product.id !== productId);
-		setSelected([]);
-		setCourses(deleteProduct);
+	const handleDeleteCourse = async (courseId) => {
+		try {
+			const response = await courseApi.remove(courseId);
+			if (response.data.success) getAllCourses();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
-	const handleDeleteProducts = (selected) => {
+	const handleDeleteCourses = (selected) => {
 		const deleteProducts = courses.filter((product) => !selected.includes(product.name));
 		setSelected([]);
 		setCourses(deleteProducts);
@@ -156,7 +160,7 @@ export default function CourseList() {
 						numSelected={selected.length}
 						filterName={filterName}
 						onFilterName={handleFilterByName}
-						onDeleteProducts={() => handleDeleteProducts(selected)}
+						onDeleteProducts={() => handleDeleteCourses(selected)}
 					/>
 
 					<Scrollbar>
@@ -210,7 +214,8 @@ export default function CourseList() {
 													<TableCell align="right">
 														<CourseMoreMenu
 															courseId={_id}
-															onDelete={() => handleDeleteProduct(_id)}
+															courseName={name}
+															onDelete={() => handleDeleteCourse(_id)}
 														/>
 													</TableCell>
 												</TableRow>

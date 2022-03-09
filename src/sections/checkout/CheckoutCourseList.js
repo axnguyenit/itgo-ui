@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import {
 	Box,
 	Table,
-	Divider,
 	TableRow,
 	TableBody,
 	TableCell,
@@ -14,7 +13,6 @@ import {
 	TableContainer,
 } from '@mui/material';
 // utils
-import getColorName from '../../utils/getColorName';
 import { fCurrency } from '../../utils/formatNumber';
 // components
 import Image from '../../components/Image';
@@ -54,7 +52,7 @@ export default function CheckoutCourseList({ courses, onDelete }) {
 				<TableBody>
 					{courses.length > 0 &&
 						courses.map((item) => {
-							const { _id, name, price, priceSale, cover } = item.course;
+							const { _id, name, price, priceSale, cover } = item?.course;
 							return (
 								<TableRow key={_id}>
 									<TableCell>
@@ -77,7 +75,7 @@ export default function CheckoutCourseList({ courses, onDelete }) {
 									</TableCell>
 
 									<TableCell align="right">
-										<IconButton onClick={() => onDelete(item._id)}>
+										<IconButton onClick={() => onDelete(item?._id)}>
 											<Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
 										</IconButton>
 									</TableCell>
