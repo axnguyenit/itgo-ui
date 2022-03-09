@@ -103,7 +103,7 @@ export const {
 export async function getCartApi() {
 	try {
 		const response = await cartApi.get();
-		dispatch(slice.actions.setCart(response.data.cartItems));
+		if (response.data.success) dispatch(slice.actions.setCart(response.data.cartItems));
 	} catch (error) {
 		console.error(error);
 	}

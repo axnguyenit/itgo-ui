@@ -9,7 +9,7 @@ import {
 	CourseHero,
 	// CourseDetailsReview,
 	CourseDetailsSummary,
-	LatestCourses,
+	RelatedCourses,
 } from '../../sections/courses';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Markdown from '../../components/Markdown';
@@ -31,6 +31,7 @@ export default function CourseDetails() {
 	const { id } = useParams();
 	const [value, setValue] = useState('1');
 	const [course, setCourse] = useState(null);
+	const [courses, setCourses] = useState(null);
 
 	useEffect(() => {
 		const getCourse = async () => {
@@ -41,6 +42,21 @@ export default function CourseDetails() {
 				console.error(error);
 			}
 		};
+
+		const getCourses = async () => {
+			const params = {
+				_page: 1,
+				_limit: 7,
+			};
+			try {
+				const response = await courseApi.getAll(params);
+				if (response.data.success) setCourses(response.data.courses);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		getCourses();
 		getCourse();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
@@ -89,7 +105,7 @@ export default function CourseDetails() {
 						</Grid>
 
 						<Grid item xs={12} md={4}>
-							<LatestCourses />
+							{courses && <RelatedCourses courses={courses} />}
 						</Grid>
 					</Grid>
 				</Container>

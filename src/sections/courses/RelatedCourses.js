@@ -4,23 +4,24 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Link, Card, CardHeader, Typography, Stack } from '@mui/material';
 // utils
 import { fCurrency } from '../../utils/formatNumber';
-// _mock_
-import { _ecommerceLatestProducts } from '../../_mock';
 //
 import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
 
 // ----------------------------------------------------------------------
 
-export default function LatestCourses() {
+RelatedCourses.propTypes = {
+	courses: PropTypes.array.isRequired,
+};
+
+export default function RelatedCourses({ courses }) {
 	return (
 		<Card>
-			<CardHeader title="Latest Courses" />
+			<CardHeader title="Related Courses" />
 			<Scrollbar>
 				<Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-					{_ecommerceLatestProducts.map((product) => (
-						<ProductItem key={product.id} product={product} />
-					))}
+					{courses.length > 0 &&
+						courses.map((course) => <CourseItem key={course._id} course={course} />)}
 				</Stack>
 			</Scrollbar>
 		</Card>
@@ -29,31 +30,32 @@ export default function LatestCourses() {
 
 // ----------------------------------------------------------------------
 
-ProductItem.propTypes = {
-	product: PropTypes.shape({
-		colors: PropTypes.arrayOf(PropTypes.string),
-		image: PropTypes.string,
+CourseItem.propTypes = {
+	course: PropTypes.shape({
+		cover: PropTypes.string,
 		name: PropTypes.string,
 		price: PropTypes.number,
 		priceSale: PropTypes.number,
 	}),
 };
 
-function ProductItem({ product }) {
-	const { name, image, price, priceSale } = product;
+function CourseItem({ course }) {
+	const { name, cover, price, priceSale } = course;
 	const hasSale = priceSale > 0;
 
 	return (
 		<Stack direction="row" spacing={2}>
 			<Image
 				alt={name}
-				src={image}
+				src={cover}
 				sx={{ width: 45, height: 45, borderRadius: 1.5, flexShrink: 0 }}
 			/>
 
 			<Box sx={{ flexGrow: 1, minWidth: 200 }}>
 				<Link component={RouterLink} to="#" sx={{ color: 'text.primary', typography: 'subtitle2' }}>
-					{name}
+					<Typography variant="subtitle2" noWrap>
+						{name}
+					</Typography>
 				</Link>
 
 				<Stack direction="row">
