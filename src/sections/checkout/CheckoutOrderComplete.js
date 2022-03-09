@@ -6,7 +6,7 @@ import { Box, Button, Divider, Typography, Stack } from '@mui/material';
 import { useDispatch } from '../../redux/store';
 import { resetCart } from '../../redux/slices/product';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_HOME } from '../../routes/paths';
 // components
 import Iconify from '../../components/Iconify';
 import { DialogAnimate } from '../../components/animate';
@@ -31,7 +31,7 @@ export default function CheckoutOrderComplete({ ...other }) {
 
 	const handleResetStep = () => {
 		dispatch(resetCart());
-		navigate(PATH_DASHBOARD.eCommerce.shop);
+		navigate(PATH_HOME.courses.root);
 	};
 
 	return (

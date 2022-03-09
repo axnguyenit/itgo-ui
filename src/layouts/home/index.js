@@ -4,6 +4,7 @@ import { Box, Stack } from '@mui/material';
 // components
 import MainFooter from './MainFooter';
 import MainHeader from './MainHeader';
+import { CartWidget } from '../../sections/home';
 
 // ----------------------------------------------------------------------
 
@@ -13,6 +14,7 @@ export default function HomeLayout() {
 			<MainHeader />
 			<Outlet />
 			<Box sx={{ flexGrow: 1 }} />
+			<CartWidget />
 			<MainFooter />
 		</Stack>
 	);

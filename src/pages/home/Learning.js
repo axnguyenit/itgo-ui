@@ -85,14 +85,11 @@ function Learning() {
 	const mdUp = useResponsive('up', 'md');
 
 	const startMeeting = (signature) => {
-		console.log('signature', signature);
 		document.getElementById('zmmtg-root').style.display = 'block';
 
 		ZoomMtg.init({
 			leaveUrl: leaveUrl,
 			success: (success) => {
-				console.log(success);
-
 				ZoomMtg.join({
 					signature: signature,
 					meetingNumber: meetingNumber,
@@ -105,13 +102,13 @@ function Learning() {
 						console.log('success', success);
 					},
 					error: (error) => {
-						console.log(error);
+						console.error(error);
 						document.getElementById('zmmtg-root').style.display = 'none';
 					},
 				});
 			},
 			error: (error) => {
-				console.log(error);
+				console.error(error);
 			},
 		});
 	};

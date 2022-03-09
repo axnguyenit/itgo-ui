@@ -1,4 +1,4 @@
-import sum from 'lodash/sum';
+import { memo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -35,15 +35,16 @@ const RootStyle = styled(RouterLink)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function CartWidget() {
-	const { checkout } = useSelector((state) => state.product);
-	const totalItems = sum(checkout.cart.map((item) => item.quantity));
+function CartWidget() {
+	const { cart } = useSelector((state) => state.cart);
 
 	return (
 		<RootStyle to={PATH_HOME.checkout}>
-			<Badge showZero badgeContent={totalItems} color="error" max={99}>
+			<Badge showZero badgeContent={cart?.length} color="error" max={99}>
 				<Iconify icon={'eva:shopping-cart-fill'} width={24} height={24} />
 			</Badge>
 		</RootStyle>
 	);
 }
+
+export default memo(CartWidget);

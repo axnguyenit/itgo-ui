@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
+import { getCartApi } from '../redux/slices/cart';
 
 // ----------------------------------------------------------------------
 
@@ -84,6 +85,7 @@ function AuthProvider({ children }) {
 							user,
 						},
 					});
+					getCartApi();
 				} else {
 					dispatch({
 						type: 'INITIALIZE',
@@ -117,6 +119,7 @@ function AuthProvider({ children }) {
 		const { accessToken, user } = response.data;
 
 		setSession(accessToken);
+		getCartApi();
 		dispatch({
 			type: 'LOGIN',
 			payload: {

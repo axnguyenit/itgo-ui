@@ -13,6 +13,9 @@ import useIsMountedRef from '../../hooks/useIsMountedRef';
 import MyAvatar from '../../components/MyAvatar';
 import MenuPopover from '../../components/MenuPopover';
 import { IconButtonAnimate } from '../../components/animate';
+// redux
+import { useDispatch } from '../../redux/store';
+import { resetCart } from '../../redux/slices/cart';
 
 // ----------------------------------------------------------------------
 
@@ -31,13 +34,10 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const { user, logout } = useAuth();
-
 	const isMountedRef = useIsMountedRef();
-
 	const { enqueueSnackbar } = useSnackbar();
-
 	const [open, setOpen] = useState(null);
 
 	const handleOpen = (event) => {
@@ -51,6 +51,7 @@ export default function AccountPopover() {
 	const handleLogout = async () => {
 		try {
 			await logout();
+			dispatch(resetCart());
 			navigate(PATH_AUTH.login, { replace: true });
 
 			if (isMountedRef.current) {

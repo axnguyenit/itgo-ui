@@ -7,7 +7,7 @@ import { Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { onGotoStep, onBackStep, onNextStep } from '../../redux/slices/product';
+import { onGotoStep, onBackStep, onNextStep } from '../../redux/slices/cart';
 // components
 import Iconify from '../../components/Iconify';
 import { FormProvider } from '../../components/hook-form';
@@ -22,31 +22,29 @@ const PAYMENT_OPTIONS = [
 		value: 'paypal',
 		title: 'Pay with Paypal',
 		description: 'You will be redirected to PayPal website to complete your purchase securely.',
-		icons: ['https://minimal-assets-api.vercel.app/assets/icons/ic_paypal.svg'],
+		icons: [`${window.location.origin}/assets/icons/ic_paypal.svg`],
 	},
 	{
 		value: 'credit_card',
 		title: 'Credit / Debit Card',
 		description: 'We support Mastercard, Visa, Discover and Stripe.',
 		icons: [
-			'https://minimal-assets-api.vercel.app/assets/icons/ic_mastercard.svg',
-			'https://minimal-assets-api.vercel.app/assets/icons/ic_visa.svg',
+			`${window.location.origin}/assets/icons/ic_mastercard.svg`,
+			`${window.location.origin}/assets/icons/ic_visa.svg`,
 		],
 	},
 ];
 
 const CARDS_OPTIONS = [
-	{ value: 'ViSa1', label: '**** **** **** 1212 - Jimmy Holland' },
-	{ value: 'ViSa2', label: '**** **** **** 2424 - Shawn Stokes' },
-	{ value: 'MasterCard', label: '**** **** **** 4545 - Cole Armstrong' },
+	{ value: 'ViSa1', label: '**** **** **** 1212 - NGUYEN DINH KHA' },
+	{ value: 'ViSa2', label: '**** **** **** 2424 - VUONG THAI' },
+	{ value: 'MasterCard', label: '**** **** **** HUONG SEN' },
 ];
 
 export default function CheckoutPayment() {
 	const dispatch = useDispatch();
 
-	const { checkout } = useSelector((state) => state.product);
-
-	const { total, discount, subtotal, shipping } = checkout;
+	const { total, discount, subtotal } = useSelector((state) => state.cart);
 
 	const handleNextStep = () => {
 		dispatch(onNextStep());
@@ -65,7 +63,7 @@ export default function CheckoutPayment() {
 	});
 
 	const defaultValues = {
-		delivery: shipping,
+		delivery: '',
 		payment: '',
 	};
 
@@ -108,7 +106,6 @@ export default function CheckoutPayment() {
 						total={total}
 						subtotal={subtotal}
 						discount={discount}
-						shipping={shipping}
 						onEdit={() => handleGotoStep(0)}
 					/>
 					<LoadingButton

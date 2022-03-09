@@ -110,8 +110,6 @@ export default function CourseList() {
 	};
 
 	const handleChangeRowsPerPage = (event) => {
-		console.log(event.target.value);
-		console.log(parseInt(event.target.value, 10));
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(1);
 	};

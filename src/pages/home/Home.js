@@ -9,7 +9,6 @@ import {
 	HomeWidgetSummary,
 	HomeInstructorList,
 	HomePopularTech,
-	CartWidget,
 } from 'src/sections/home';
 import { BookingIllustration, CheckInIllustration, CheckOutIllustration } from '../../assets';
 // import jwtDecode from 'jwt-decode';
@@ -64,7 +63,6 @@ export default function Home() {
 							<HomePopularTech />
 						</Grid>
 					</Grid>
-					<CartWidget />
 				</Container>
 			</ContentStyle>
 		</Page>

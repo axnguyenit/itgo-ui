@@ -34,20 +34,12 @@ const IncrementerStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-CheckoutProductList.propTypes = {
-	products: PropTypes.array.isRequired,
+CheckoutCourseList.propTypes = {
+	courses: PropTypes.array.isRequired,
 	onDelete: PropTypes.func,
-	onDecreaseQuantity: PropTypes.func,
-	onIncreaseQuantity: PropTypes.func,
 };
 
-export default function CheckoutProductList({
-	products,
-	onDelete,
-	onIncreaseQuantity,
-	onDecreaseQuantity,
-}) {
-	console.log('products', products);
+export default function CheckoutCourseList({ courses, onDelete }) {
 	return (
 		<TableContainer sx={{ minWidth: 720 }}>
 			<Table>
@@ -60,64 +52,38 @@ export default function CheckoutProductList({
 				</TableHead>
 
 				<TableBody>
-					{products.map((product) => {
-						const { id, name, size, price, color, cover, quantity } = product;
-						return (
-							<TableRow key={id}>
-								<TableCell>
-									<Box sx={{ display: 'flex', alignItems: 'center' }}>
-										<Image
-											alt="product image"
-											src={cover}
-											sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
-										/>
-										<Box>
-											<Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
-												{name}
-											</Typography>
-
-											<Box
-												sx={{
-													display: 'flex',
-													alignItems: 'center',
-												}}
-											>
-												<Typography variant="body2">
-													<Typography
-														component="span"
-														variant="body2"
-														sx={{ color: 'text.secondary' }}
-													>
-														size:&nbsp;
-													</Typography>
-													{size}
-												</Typography>
-												<Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
-												<Typography variant="body2">
-													<Typography
-														component="span"
-														variant="body2"
-														sx={{ color: 'text.secondary' }}
-													>
-														color:&nbsp;
-													</Typography>
-													{getColorName(color)}
+					{courses.length > 0 &&
+						courses.map((item) => {
+							const { _id, name, price, priceSale, cover } = item.course;
+							return (
+								<TableRow key={_id}>
+									<TableCell>
+										<Box sx={{ display: 'flex', alignItems: 'center' }}>
+											<Image
+												alt="course image"
+												src={cover}
+												sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
+											/>
+											<Box>
+												<Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
+													{name}
 												</Typography>
 											</Box>
 										</Box>
-									</Box>
-								</TableCell>
+									</TableCell>
 
-								<TableCell align="right">{fCurrency(price * quantity)}</TableCell>
+									<TableCell align="right">
+										{priceSale ? fCurrency(priceSale) : fCurrency(price)}
+									</TableCell>
 
-								<TableCell align="right">
-									<IconButton onClick={() => onDelete(id)}>
-										<Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						);
-					})}
+									<TableCell align="right">
+										<IconButton onClick={() => onDelete(item._id)}>
+											<Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
+										</IconButton>
+									</TableCell>
+								</TableRow>
+							);
+						})}
 				</TableBody>
 			</Table>
 		</TableContainer>

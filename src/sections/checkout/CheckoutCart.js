@@ -1,16 +1,11 @@
 import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 // @mui
 import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import {
-	deleteCart,
-	onNextStep,
-	applyDiscount,
-	increaseQuantity,
-	decreaseQuantity,
-} from '../../redux/slices/product';
+import { deleteCart, onNextStep } from '../../redux/slices/cart';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
@@ -19,40 +14,39 @@ import Scrollbar from '../../components/Scrollbar';
 import EmptyContent from '../../components/EmptyContent';
 //
 import CheckoutSummary from './CheckoutSummary';
-import CheckoutProductList from './CheckoutProductList';
+import CheckoutCourseList from './CheckoutCourseList';
+import cartApi from 'src/api/cartApi';
 
 // ----------------------------------------------------------------------
 
 export default function CheckoutCart() {
 	const dispatch = useDispatch();
+	const { enqueueSnackbar } = useSnackbar();
 
-	const { checkout } = useSelector((state) => state.product);
+	const { cart, total, discount, subtotal } = useSelector((state) => state.cart);
 
-	const { cart, total, discount, subtotal } = checkout;
-
-	const totalItems = sum(cart.map((item) => item.quantity));
+	const totalItems = cart.length;
 
 	const isEmptyCart = cart.length === 0;
 
-	const handleDeleteCart = (productId) => {
-		dispatch(deleteCart(productId));
+	const handleDeleteCart = async (cartItemId) => {
+		try {
+			const response = await cartApi.removeItem(cartItemId);
+			if (response.data.success) {
+				dispatch(deleteCart(cartItemId));
+			}
+		} catch (error) {
+			enqueueSnackbar(error.errors[0].msg, { variant: 'warning' });
+		}
 	};
 
 	const handleNextStep = () => {
 		dispatch(onNextStep());
 	};
 
-	const handleIncreaseQuantity = (productId) => {
-		dispatch(increaseQuantity(productId));
-	};
-
-	const handleDecreaseQuantity = (productId) => {
-		dispatch(decreaseQuantity(productId));
-	};
-
-	const handleApplyDiscount = (value) => {
-		dispatch(applyDiscount(value));
-	};
+	// const handleApplyDiscount = (value) => {
+	// 	dispatch(applyDiscount(value));
+	// };
 
 	return (
 		<Grid container spacing={3}>
@@ -72,12 +66,7 @@ export default function CheckoutCart() {
 
 					{!isEmptyCart ? (
 						<Scrollbar>
-							<CheckoutProductList
-								products={cart}
-								onDelete={handleDeleteCart}
-								onIncreaseQuantity={handleIncreaseQuantity}
-								onDecreaseQuantity={handleDecreaseQuantity}
-							/>
+							<CheckoutCourseList courses={cart} onDelete={handleDeleteCart} />
 						</Scrollbar>
 					) : (
 						<EmptyContent
@@ -104,7 +93,7 @@ export default function CheckoutCart() {
 					total={total}
 					discount={discount}
 					subtotal={subtotal}
-					onApplyDiscount={handleApplyDiscount}
+					// onApplyDiscount={handleApplyDiscount}
 				/>
 				<Button
 					fullWidth

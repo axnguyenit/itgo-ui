@@ -8,12 +8,51 @@ import Image from '../../components/Image';
 import MyAvatar from '../../components/MyAvatar';
 import Iconify from '../../components/Iconify';
 import { fDate } from '../../utils/formatTime';
+import { useSnackbar } from 'notistack';
+// redux
+import { useDispatch, useSelector } from '../../redux/store';
+import { addCart } from '../../redux/slices/cart';
+// api
+import cartApi from 'src/api/cartApi';
 
 CourseDetailsSummary.propTypes = {
 	course: PropTypes.object.isRequired,
 };
 
 export default function CourseDetailsSummary({ course }) {
+	const { enqueueSnackbar } = useSnackbar();
+	const dispatch = useDispatch();
+	const { cart } = useSelector((state) => state.cart);
+
+	const handleAddCart = async (course) => {
+		const isExisted = cart.find((cartItem) => cartItem.course._id === course._id);
+
+		if (!isExisted) {
+			try {
+				const data = {
+					total: cart.length + 1,
+					courseId: course._id,
+				};
+				const response = await cartApi.add(data);
+
+				if (response.data.success) {
+					const cartItem = {
+						_id: response.data.cartItem._id,
+						cartId: response.data.cartItem.cartId,
+						course,
+					};
+					enqueueSnackbar('Add to cart successfully');
+					dispatch(addCart(cartItem));
+				}
+			} catch (error) {
+				console.error(error);
+				enqueueSnackbar(error.errors[0].msg, { variant: 'warning' });
+			}
+		} else {
+			enqueueSnackbar('This course already exists in your cart', { variant: 'info' });
+		}
+	};
+
 	return (
 		<Stack spacing={4}>
 			<Typography variant="h3">{course?.name}</Typography>
@@ -39,7 +78,11 @@ export default function CourseDetailsSummary({ course }) {
 							&nbsp; {fCurrency(course?.priceSale || course?.price)}
 						</Typography>
 
-						<Button startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />} variant="contained">
+						<Button
+							startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />}
+							variant="contained"
+							onClick={() => handleAddCart(course)}
+						>
 							Add to cart
 						</Button>
 					</Stack>

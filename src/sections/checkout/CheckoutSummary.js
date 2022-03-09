@@ -23,7 +23,6 @@ CheckoutSummary.propTypes = {
 	total: PropTypes.number,
 	discount: PropTypes.number,
 	subtotal: PropTypes.number,
-	shipping: PropTypes.number,
 	onEdit: PropTypes.func,
 	enableEdit: PropTypes.bool,
 	onApplyDiscount: PropTypes.func,
@@ -35,8 +34,7 @@ export default function CheckoutSummary({
 	onEdit,
 	discount,
 	subtotal,
-	shipping,
-	onApplyDiscount,
+	// onApplyDiscount,
 	enableEdit = false,
 	enableDiscount = false,
 }) {
@@ -66,7 +64,9 @@ export default function CheckoutSummary({
 						<Typography variant="body2" sx={{ color: 'text.secondary' }}>
 							Discount
 						</Typography>
-						<Typography variant="subtitle2">{discount ? fCurrency(-discount) : '-'}</Typography>
+						<Typography variant="subtitle2">
+							{discount ? fCurrency(-discount) : fCurrency(0)}
+						</Typography>
 					</Stack>
 
 					<Divider />
@@ -80,17 +80,15 @@ export default function CheckoutSummary({
 						</Box>
 					</Stack>
 
-					{enableDiscount && onApplyDiscount && (
+					{enableDiscount && (
 						<TextField
 							fullWidth
 							placeholder="Discount codes / Gifts"
-							defaultValue="DISCOUNT5"
+							defaultValue=""
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end">
-										<Button onClick={() => onApplyDiscount(5)} sx={{ mr: -0.5 }}>
-											Apply
-										</Button>
+										<Button sx={{ mr: -0.5 }}>Apply</Button>
 									</InputAdornment>
 								),
 							}}

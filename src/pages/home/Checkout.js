@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Grid, Step, Stepper, Container, StepLabel, StepConnector } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getCart, createBilling } from '../../redux/slices/product';
+import { getCart, createBilling } from '../../redux/slices/cart';
 // hooks
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
@@ -73,8 +73,7 @@ function QontoStepIcon({ active, completed }) {
 export default function Checkout() {
 	const dispatch = useDispatch();
 	const isMountedRef = useIsMountedRef();
-	const { checkout } = useSelector((state) => state.product);
-	const { cart, activeStep } = checkout;
+	const { cart, activeStep } = useSelector((state) => state.cart);
 	const isComplete = activeStep === STEPS.length;
 
 	useEffect(() => {
