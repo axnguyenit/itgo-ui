@@ -1,6 +1,4 @@
 export { default as AppWidget } from './AppWidget';
-export { default as AppWelcome } from './AppWelcome';
-export { default as AppFeatured } from './AppFeatured';
 export { default as AppNewInvoice } from './AppNewInvoice';
 export { default as AppTopAuthors } from './AppTopAuthors';
 export { default as AppTopRelated } from './AppTopRelated';

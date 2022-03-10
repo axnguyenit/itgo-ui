@@ -117,7 +117,6 @@ export default function Checkout() {
 					<>
 						{activeStep === 0 && <CheckoutCart />}
 						{activeStep === 1 && <CheckoutPayment />}
-						{/* {activeStep === 1 && <CheckoutBillingAddress />} */}
 					</>
 				) : (
 					<CheckoutOrderComplete open={isComplete} />

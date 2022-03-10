@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import { fCurrency } from '../../utils/formatNumber';
 import { Box, Button, CardHeader, Link, Stack, Typography } from '@mui/material';
@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from '../../redux/store';
 import { addCart } from '../../redux/slices/cart';
 // api
 import cartApi from 'src/api/cartApi';
+import useAuth from 'src/hooks/useAuth';
+import { PATH_AUTH } from 'src/routes/paths';
 
 CourseDetailsSummary.propTypes = {
 	course: PropTypes.object.isRequired,
@@ -23,6 +25,8 @@ export default function CourseDetailsSummary({ course }) {
 	const { enqueueSnackbar } = useSnackbar();
 	const dispatch = useDispatch();
 	const { cart } = useSelector((state) => state.cart);
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth();
 
 	const handleAddCart = async (course) => {
 		const isExisted = cart.find((cartItem) => cartItem.course._id === course._id);
@@ -46,7 +50,9 @@ export default function CourseDetailsSummary({ course }) {
 				}
 			} catch (error) {
 				console.error(error);
-				enqueueSnackbar(error.errors[0].msg, { variant: 'warning' });
+				isAuthenticated
+					? enqueueSnackbar('Somethings went wrong, try again', { variant: 'warning' })
+					: navigate(PATH_AUTH.login);
 			}
 		} else {
 			enqueueSnackbar('This course already exists in your cart', { variant: 'info' });

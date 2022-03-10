@@ -13,23 +13,23 @@ const ICON_SIZE = {
 const menuConfig = [
 	{
 		title: 'Home',
-		icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+		icon: <Iconify icon={'ant-design:home-filled'} {...ICON_SIZE} />,
 		path: '/',
 	},
 	{
 		title: 'My Learning',
-		icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+		icon: <Iconify icon={'fluent:learning-app-24-filled'} {...ICON_SIZE} />,
 		path: PATH_HOME.myLearning.root,
 	},
 	{
 		title: 'Courses',
-		icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+		icon: <Iconify icon={'el:book'} {...ICON_SIZE} />,
 		path: PATH_HOME.courses.root,
 	},
 	{
 		title: 'Roadmap',
 		path: '/roadmap',
-		icon: <Iconify icon={'eva:file-fill'} {...ICON_SIZE} />,
+		icon: <Iconify icon={'raphael:roadmap'} {...ICON_SIZE} />,
 		children: [
 			{
 				subheader: 'Roadmap',

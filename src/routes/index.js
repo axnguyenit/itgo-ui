@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // layouts
 import DashboardLayout from '../layouts/dashboard';
+import HomeLayout from '..//layouts/home/';
+import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
@@ -10,8 +12,6 @@ import { PATH_DASHBOARD } from './paths';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 // import HomeLayout from 'src/layouts/home';
-import HomeLayout from '..//layouts/home/';
-import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // import MainLayout from '../layouts/main';
 // ----------------------------------------------------------------------
 
@@ -65,10 +65,6 @@ export default function Router() {
 			children: [
 				{ element: <Navigate to={PATH_DASHBOARD.general.app} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
-				{ path: 'ecommerce', element: <GeneralEcommerce /> },
-				{ path: 'analytics', element: <GeneralAnalytics /> },
-				{ path: 'banking', element: <GeneralBanking /> },
-				{ path: 'booking', element: <GeneralBooking /> },
 				{
 					path: 'courses',
 					children: [
@@ -78,21 +74,7 @@ export default function Router() {
 						},
 						{ path: 'list', element: <CourseList /> },
 						{ path: 'new', element: <CourseCreate /> },
-						{ path: 'courses/:name', element: <EcommerceProductDetails /> },
 						{ path: ':id/edit', element: <CourseCreate /> },
-					],
-				},
-				{
-					path: 'e-commerce',
-					children: [
-						{
-							element: <Navigate to="/dashboard/e-commerce/shop" replace />,
-							index: true,
-						},
-						{ path: 'shop', element: <EcommerceShop /> },
-						{ path: 'product/:name', element: <EcommerceProductDetails /> },
-						{ path: 'list', element: <EcommerceProductList /> },
-						{ path: 'invoice', element: <EcommerceInvoice /> },
 					],
 				},
 				{
@@ -139,10 +121,6 @@ export default function Router() {
 			element: <LogoOnlyLayout />,
 			children: [
 				{ path: 'learning/:id', element: <Learning /> },
-				{ path: 'coming-soon', element: <ComingSoon /> },
-				{ path: 'maintenance', element: <Maintenance /> },
-				{ path: 'pricing', element: <Pricing /> },
-				{ path: 'payment', element: <Payment /> },
 				{ path: '500', element: <Page500 /> },
 				{ path: '404', element: <NotFound /> },
 				{ path: '*', element: <Navigate to="/404" replace /> },
@@ -171,18 +149,6 @@ const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword'))
 const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 // Dashboard
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
-const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
-const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));
-const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
-const EcommerceShop = Loadable(lazy(() => import('../pages/dashboard/EcommerceShop')));
-const EcommerceProductDetails = Loadable(
-	lazy(() => import('../pages/dashboard/EcommerceProductDetails'))
-);
-const EcommerceProductList = Loadable(
-	lazy(() => import('../pages/dashboard/EcommerceProductList'))
-);
-const EcommerceInvoice = Loadable(lazy(() => import('../pages/dashboard/EcommerceInvoice')));
 const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
@@ -198,14 +164,5 @@ const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
 const AccountSettings = Loadable(lazy(() => import('../pages/home/AccountSettings')));
-
-// const HomePage = Loadable(lazy(() => import('../pages/Home')));
-// const About = Loadable(lazy(() => import('../pages/About')));
-// const Contact = Loadable(lazy(() => import('../pages/Contact')));
-// const Faqs = Loadable(lazy(() => import('../pages/Faqs')));
-const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
-const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
-const Pricing = Loadable(lazy(() => import('../pages/Pricing')));
-const Payment = Loadable(lazy(() => import('../pages/Payment')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));

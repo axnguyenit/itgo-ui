@@ -39,22 +39,6 @@ const STATUS_OPTION = ['Default', 'Sale', 'New'];
 
 const INSTRUCTOR_OPTION = [
 	{
-		_id: '621ef50a265a5b324c1dec72',
-		email: 'hothihuongsen21042001@gmail.com',
-	},
-	{
-		_id: '621ef50a265a5b324c1dec73',
-		email: 'jojomi1234@gmail.com',
-	},
-	{
-		_id: '621ef50a265a5b324c1dec74',
-		email: 'thuy.nguyen22@student.passerellesnumeriques.org',
-	},
-	{
-		_id: '621ef50a265a5b324c1dec75',
-		email: 'manh.nguyen22@student.passerellesnumeriques.org',
-	},
-	{
 		_id: '621ef50a265a5b324c1dec77',
 		email: 'kha.nguyen01.it@gmail.com',
 	},

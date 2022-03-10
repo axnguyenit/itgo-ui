@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Button, Divider, Typography, Stack } from '@mui/material';
 // redux
 import { useDispatch } from '../../redux/store';
-import { resetCart } from '../../redux/slices/product';
+import { resetCart } from '../../redux/slices/cart';
 // routes
 import { PATH_HOME } from '../../routes/paths';
 // components

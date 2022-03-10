@@ -1,15 +1,11 @@
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Container, Grid, Stack } from '@mui/material';
-// hooks
-import useAuth from '../../hooks/useAuth';
 // components
 import Page from '../../components/Page';
 // sections
 import {
 	AppWidget,
-	AppWelcome,
-	AppFeatured,
 	AppNewInvoice,
 	AppTopAuthors,
 	AppTopRelated,
@@ -22,21 +18,12 @@ import {
 // ----------------------------------------------------------------------
 
 export default function GeneralApp() {
-	const { user } = useAuth();
 	const theme = useTheme();
 
 	return (
 		<Page title="General: App">
 			<Container maxWidth={'xl'}>
 				<Grid container spacing={3}>
-					<Grid item xs={12} md={8}>
-						<AppWelcome displayName={user?.displayName} />
-					</Grid>
-
-					<Grid item xs={12} md={4}>
-						<AppFeatured />
-					</Grid>
-
 					<Grid item xs={12} md={4}>
 						<AppWidgetSummary
 							title="Total Active Users"
