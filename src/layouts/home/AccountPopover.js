@@ -5,7 +5,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_AUTH, PATH_HOME } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_AUTH, PATH_HOME, PATH_INSTRUCTOR } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
@@ -121,12 +121,12 @@ export default function AccountPopover() {
 							{option.label}
 						</MenuItem>
 					))}
-					{(user.isInstructor || user.isAdmin) && (
-						<MenuItem to={PATH_HOME.instructors.root} component={RouterLink} onClick={handleClose}>
+					{(user?.isInstructor || user?.isAdmin) && (
+						<MenuItem to={PATH_INSTRUCTOR.root} component={RouterLink} onClick={handleClose}>
 							Instructors
 						</MenuItem>
 					)}
-					{user.isAdmin && (
+					{user?.isAdmin && (
 						<MenuItem to={PATH_DASHBOARD.root} component={RouterLink} onClick={handleClose}>
 							Dashboard
 						</MenuItem>

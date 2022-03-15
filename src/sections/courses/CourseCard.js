@@ -17,25 +17,17 @@ CourseCard.propTypes = {
 };
 
 export default function CourseCard({ course }) {
-	const {
-		_id,
-		name,
-		cover,
-		price,
-		status,
-		priceSale,
-		instructor: { firstName, lastName },
-	} = course;
+	const { _id, name, cover, price, priceSale, instructor } = course;
 
 	const linkTo = `${PATH_HOME.courses.root}/${_id}`;
 
 	return (
 		<Card>
 			<Box sx={{ position: 'relative' }}>
-				{status !== 'default' && (
+				{!!priceSale && (
 					<Label
 						variant="filled"
-						color={(status === 'sale' && 'error') || 'info'}
+						color="error"
 						sx={{
 							top: 16,
 							right: 16,
@@ -44,7 +36,7 @@ export default function CourseCard({ course }) {
 							textTransform: 'uppercase',
 						}}
 					>
-						{status}
+						Sale
 					</Label>
 				)}
 				<Image alt={name} src={cover} ratio="16/9" />
@@ -59,7 +51,7 @@ export default function CourseCard({ course }) {
 					</Link>
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-							{firstName} {lastName}
+							{instructor?.firstName} {instructor?.lastName}
 						</Typography>
 					</Box>
 				</Box>

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { camelCase } from 'change-case';
 import { useSnackbar } from 'notistack';
 import { useCallback, useEffect, useMemo } from 'react';
 // form
@@ -18,29 +17,22 @@ import {
 	Typography,
 	Autocomplete,
 	InputAdornment,
+	Box,
 } from '@mui/material';
 // routes
 // components
 import {
 	FormProvider,
-	RHFSelect,
 	RHFEditor,
 	RHFTextField,
 	RHFUploadSingleFile,
-} from '../../../components/hook-form';
-import courseApi from '../../../api/courseApi';
-import uploadApi from '../../../api/uploadApi';
+} from '../../components/hook-form';
+import courseApi from '../../api/courseApi';
+import uploadApi from '../../api/uploadApi';
 import { useNavigate } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
-
-const INSTRUCTOR_OPTION = [
-	{
-		_id: '621ef50a265a5b324c1dec77',
-		email: 'kha.nguyen01.it@gmail.com',
-	},
-];
 
 const TAGS_OPTION = [
 	'JavaScript',
@@ -72,7 +64,6 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	const { enqueueSnackbar } = useSnackbar();
 
 	const NewCourseSchema = Yup.object().shape({
-		instructor: Yup.string().required('Instructor is required'),
 		name: Yup.string().required('Name is required'),
 		cover: Yup.mixed().required('Cover is required'),
 		price: Yup.number().moreThan(0, 'Price must be more than 0'),
@@ -84,7 +75,6 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 
 	const defaultValues = useMemo(
 		() => ({
-			instructor: currentCourse?.instructor?._id || INSTRUCTOR_OPTION[0]._id,
 			name: currentCourse?.name || '',
 			cover: currentCourse?.cover || null,
 			price: currentCourse?.price || 0,
@@ -180,20 +170,20 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 						<Stack spacing={3}>
 							<RHFTextField name="name" label="Course Name" />
 
-							<div>
+							<Box>
 								<LabelStyle>Overview</LabelStyle>
 								<RHFEditor simple name="overview" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Requirements</LabelStyle>
 								<RHFEditor simple name="requirements" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Target Audiences</LabelStyle>
 								<RHFEditor simple name="targetAudiences" />
-							</div>
+							</Box>
 
-							<div>
+							<Box>
 								<LabelStyle>Cover</LabelStyle>
 								<RHFUploadSingleFile
 									name="cover"
@@ -201,7 +191,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 									maxSize={3145728}
 									onDrop={handleDrop}
 								/>
-							</div>
+							</Box>
 						</Stack>
 					</Card>
 				</Grid>
@@ -210,13 +200,6 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 					<Stack spacing={3}>
 						<Card sx={{ p: 3 }}>
 							<Stack spacing={3} mt={2}>
-								<RHFSelect name="instructor" label="Instructor">
-									{INSTRUCTOR_OPTION.map((instructor) => (
-										<option key={instructor?._id} value={instructor?._id}>
-											{instructor.email}
-										</option>
-									))}
-								</RHFSelect>
 								<Controller
 									name="tags"
 									control={control}

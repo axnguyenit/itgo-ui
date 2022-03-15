@@ -54,16 +54,14 @@ export default function LoginForm() {
 		} catch (error) {
 			console.error(error);
 			reset();
-			if (isMountedRef.current) {
-				setError('afterSubmit', error);
-			}
+			if (isMountedRef.current) setError('afterSubmit', error.errors);
 		}
 	};
 
 	return (
 		<FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 			<Stack spacing={3}>
-				{!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.errors[0].msg}</Alert>}
+				{!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit[0].msg}</Alert>}
 
 				<RHFTextField name="email" label="Email address" />
 

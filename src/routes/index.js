@@ -2,17 +2,17 @@ import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // layouts
 import DashboardLayout from '../layouts/dashboard';
-import HomeLayout from '..//layouts/home/';
+import HomeLayout from '../layouts/home/';
+import InstructorLayout from '../layouts/instructor';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
-import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
+import InstructorGuard from '../guards/InstructorGuard';
 import BasedGuard from '../guards/BasedGuard';
-import { PATH_DASHBOARD } from './paths';
+import GuestGuard from '../guards/GuestGuard';
+import { PATH_DASHBOARD, PATH_INSTRUCTOR } from './paths';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-// import HomeLayout from 'src/layouts/home';
-// import MainLayout from '../layouts/main';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) => {
@@ -69,7 +69,7 @@ export default function Router() {
 					path: 'courses',
 					children: [
 						{
-							element: <Navigate to="/dashboard/courses/list" replace />,
+							element: <Navigate to={PATH_DASHBOARD.courses.list} replace />,
 							index: true,
 						},
 						{ path: 'list', element: <CourseList /> },
@@ -89,6 +89,31 @@ export default function Router() {
 						{ path: 'list', element: <UserList /> },
 						{ path: 'new', element: <UserCreate /> },
 						{ path: ':name/edit', element: <UserCreate /> },
+					],
+				},
+			],
+		},
+
+		// Instructor Routes
+		{
+			path: 'instructor',
+			element: (
+				<InstructorGuard>
+					<InstructorLayout />
+				</InstructorGuard>
+			),
+			children: [
+				{ element: <Navigate to={PATH_INSTRUCTOR.courses.root} replace />, index: true },
+				{
+					path: 'courses',
+					children: [
+						{
+							element: <Navigate to={PATH_INSTRUCTOR.courses.list} replace />,
+							index: true,
+						},
+						{ path: 'list', element: <InstructorCourses /> },
+						{ path: 'new', element: <InstructorCourseCreate /> },
+						{ path: ':id/edit', element: <InstructorCourseCreate /> },
 					],
 				},
 			],
@@ -153,9 +178,12 @@ const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
-
 const CourseList = Loadable(lazy(() => import('../pages/dashboard/CourseList')));
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
+// Instructor
+const InstructorCourses = Loadable(lazy(() => import('../pages/instructor/Courses')));
+const InstructorCourseCreate = Loadable(lazy(() => import('../pages/instructor/CourseCreate')));
+
 // Main
 const Home = Loadable(lazy(() => import('../pages/home/Home')));
 const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));

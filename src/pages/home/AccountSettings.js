@@ -2,8 +2,6 @@ import { capitalCase } from 'change-case';
 import { useState } from 'react';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
-// _mock_
-// import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from '../../_mock';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';

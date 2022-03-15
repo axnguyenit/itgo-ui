@@ -11,6 +11,8 @@ import { LoadingButton } from '@mui/lab';
 import useAuth from '../../hooks/useAuth';
 // components
 import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
+import uploadApi from '../../api/uploadApi';
+import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
 
@@ -29,10 +31,10 @@ export default function AccountGeneral() {
 		firstName: user?.firstName || '',
 		lastName: user?.lastName || '',
 		email: user?.email || '',
-		photoURL: user?.photoURL || '',
+		avatar: user?.avatar || '',
 		phoneNumber: user?.phoneNumber || '',
 		address: user?.address || '',
-		state: user?.state || '',
+		region: user?.region || '',
 	};
 
 	const methods = useForm({
@@ -46,9 +48,11 @@ export default function AccountGeneral() {
 		formState: { isSubmitting },
 	} = methods;
 
-	const onSubmit = async () => {
+	const onSubmit = async (data) => {
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
+			data.id = user._id;
+			data.avatar = data.avatar?.path;
+			await userApi.update(data);
 			enqueueSnackbar('Update success!');
 		} catch (error) {
 			console.error(error);
@@ -56,16 +60,24 @@ export default function AccountGeneral() {
 	};
 
 	const handleDrop = useCallback(
-		(acceptedFiles) => {
+		async (acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				setValue(
-					'photoURL',
-					Object.assign(file, {
-						preview: URL.createObjectURL(file),
-					})
-				);
+				try {
+					const data = new FormData();
+					data.append('avatar', file);
+					const response = await uploadApi.addAvatar(data);
+					console.log(response);
+
+					if (!response.data.success) return;
+					const path = response.data.file.path;
+					const avatar = { path, preview: URL.createObjectURL(file) };
+
+					setValue('avatar', avatar);
+				} catch (error) {
+					console.error(error);
+				}
 			}
 		},
 		[setValue]
@@ -77,7 +89,7 @@ export default function AccountGeneral() {
 				<Grid item xs={12} md={4}>
 					<Card sx={{ py: 9.125, px: 3, textAlign: 'center' }}>
 						<RHFUploadAvatar
-							name="photoURL"
+							name="avatar"
 							accept="image/*"
 							maxSize={3145728}
 							onDrop={handleDrop}
@@ -116,7 +128,7 @@ export default function AccountGeneral() {
 							<RHFTextField name="phoneNumber" label="Phone Number" />
 							<RHFTextField name="address" label="Address" />
 
-							<RHFTextField name="state" label="State/Region" />
+							<RHFTextField name="region" label="Region" />
 						</Box>
 
 						<Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>

@@ -5,7 +5,6 @@ import {
 	Card,
 	Table,
 	TableRow,
-	Checkbox,
 	TableBody,
 	TableCell,
 	Container,
@@ -16,8 +15,6 @@ import {
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import Image from '../../components/Image';
@@ -32,20 +29,25 @@ import {
 } from '../../sections/@dashboard/courses/course-list';
 // api
 import courseApi from '../../api/courseApi';
+// routes
+import { PATH_INSTRUCTOR } from '../../routes/paths';
+// hooks
+import useAuth from '../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
 	{ id: 'name', label: 'Course', alignRight: false },
-	{ id: 'instructor', label: 'Instructor', alignRight: false },
 	{ id: 'createdAt', label: 'Create at', alignRight: false },
 	{ id: 'price', label: 'Price', alignRight: true },
+	{ id: 'priceSale', label: 'Price Sale', alignRight: true },
 	{ id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function CourseList() {
+export default function Courses() {
+	const { user } = useAuth();
 	const [courses, setCourses] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
@@ -59,7 +61,9 @@ export default function CourseList() {
 		const params = {
 			_page: page,
 			_limit: rowsPerPage,
+			_instructor: user._id,
 		};
+
 		try {
 			const response = await courseApi.getAll(params);
 			if (response.data.success) {
@@ -110,13 +114,12 @@ export default function CourseList() {
 				<HeaderBreadcrumbs
 					heading="Course List"
 					links={[
-						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
+						{ name: 'Instructor', href: PATH_INSTRUCTOR.root },
 						{
 							name: 'Courses List',
 						},
 					]}
 				/>
-
 				<Card>
 					<CourseListToolbar filterName={filterName} onFilterName={handleFilterByName} />
 
@@ -133,7 +136,7 @@ export default function CourseList() {
 								<TableBody>
 									{filteredCourses.length > 0 &&
 										filteredCourses.map((course) => {
-											const { _id, name, cover, price, createdAt, instructor } = course;
+											const { _id, name, cover, price, priceSale, createdAt } = course;
 
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
@@ -148,11 +151,9 @@ export default function CourseList() {
 															{name}
 														</Typography>
 													</TableCell>
-													<TableCell>
-														{instructor?.firstName} {instructor?.lastName}
-													</TableCell>
 													<TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
 													<TableCell align="right">{fCurrency(price)}</TableCell>
+													<TableCell align="right">{fCurrency(priceSale)}</TableCell>
 													<TableCell align="right">
 														<CourseMoreMenu
 															courseId={_id}

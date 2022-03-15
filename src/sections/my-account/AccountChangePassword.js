@@ -19,7 +19,10 @@ export default function AccountChangePassword() {
 		newPassword: Yup.string()
 			.min(6, 'Password must be at least 6 characters')
 			.required('New Password is required'),
-		confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+		confirmNewPassword: Yup.string().oneOf(
+			[Yup.ref('newPassword'), null],
+			'Confirm password not match'
+		),
 	});
 
 	const defaultValues = {
@@ -39,7 +42,7 @@ export default function AccountChangePassword() {
 		formState: { isSubmitting },
 	} = methods;
 
-	const onSubmit = async () => {
+	const onSubmit = async (data) => {
 		try {
 			await new Promise((resolve) => setTimeout(resolve, 500));
 			reset();

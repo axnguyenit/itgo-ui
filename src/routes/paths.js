@@ -6,6 +6,7 @@ function path(root, sublink) {
 
 const ROOTS_AUTH = '/auth';
 const ROOTS_HOME = '';
+const ROOTS_INSTRUCTOR = '/instructor';
 const ROOTS_DASHBOARD = '/dashboard';
 
 // ----------------------------------------------------------------------
@@ -49,11 +50,17 @@ export const PATH_HOME = {
 		root: path(ROOTS_HOME, '/roadmap'),
 		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),
 	},
-	instructors: {
-		root: path(ROOTS_HOME, '/instructors'),
-		invoice: path(ROOTS_HOME, '/e-commerce/invoice'),
-	},
 	checkout: path(ROOTS_HOME, '/checkout'),
+};
+
+export const PATH_INSTRUCTOR = {
+	root: ROOTS_INSTRUCTOR,
+	courses: {
+		root: path(ROOTS_INSTRUCTOR, '/courses'),
+		list: path(ROOTS_INSTRUCTOR, '/courses/list'),
+		newCourse: path(ROOTS_INSTRUCTOR, '/courses/new'),
+		editById: path(ROOTS_INSTRUCTOR, '/courses/:id/edit'),
+	},
 };
 
 export const PATH_DASHBOARD = {
@@ -65,17 +72,6 @@ export const PATH_DASHBOARD = {
 		banking: path(ROOTS_DASHBOARD, '/banking'),
 		booking: path(ROOTS_DASHBOARD, '/booking'),
 	},
-	mail: {
-		root: path(ROOTS_DASHBOARD, '/mail'),
-		all: path(ROOTS_DASHBOARD, '/mail/all'),
-	},
-	chat: {
-		root: path(ROOTS_DASHBOARD, '/chat'),
-		new: path(ROOTS_DASHBOARD, '/chat/new'),
-		conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey'),
-	},
-	calendar: path(ROOTS_DASHBOARD, '/calendar'),
-	kanban: path(ROOTS_DASHBOARD, '/kanban'),
 	user: {
 		root: path(ROOTS_DASHBOARD, '/user'),
 		profile: path(ROOTS_DASHBOARD, '/user/profile'),
@@ -89,26 +85,6 @@ export const PATH_DASHBOARD = {
 		root: path(ROOTS_DASHBOARD, '/courses'),
 		list: path(ROOTS_DASHBOARD, '/courses/list'),
 		newCourse: path(ROOTS_DASHBOARD, '/courses/new'),
-		course: path(ROOTS_DASHBOARD, '/courses/:name'),
 		editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
 	},
-	eCommerce: {
-		root: path(ROOTS_DASHBOARD, '/e-commerce'),
-		shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),
-		product: path(ROOTS_DASHBOARD, '/e-commerce/product/:name'),
-		productById: path(ROOTS_DASHBOARD, '/e-commerce/product/nike-air-force-1-ndestrukt'),
-		list: path(ROOTS_DASHBOARD, '/e-commerce/list'),
-		newProduct: path(ROOTS_DASHBOARD, '/e-commerce/product/new'),
-		editById: path(ROOTS_DASHBOARD, '/e-commerce/product/nike-blazer-low-77-vintage/edit'),
-		invoice: path(ROOTS_DASHBOARD, '/e-commerce/invoice'),
-	},
-	blog: {
-		root: path(ROOTS_DASHBOARD, '/blog'),
-		posts: path(ROOTS_DASHBOARD, '/blog/posts'),
-		post: path(ROOTS_DASHBOARD, '/blog/post/:title'),
-		postById: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
-		newPost: path(ROOTS_DASHBOARD, '/blog/new-post'),
-	},
 };
-
-export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';

@@ -1,27 +1,27 @@
 import axios from '../utils/axios';
 
 const cartApi = {
-	// async getAll(params) {
+	// getAll(params) {
 	// 	const url = '/api/cart';
 	// 	return axios.get(url, { params });
 	// },
 
-	async get() {
+	get() {
 		const url = '/api/cart';
 		return axios.get(url);
 	},
 
-	async add(data) {
+	add(data) {
 		const url = '/api/cart';
 		return axios.post(url, data);
 	},
 
-	// async update(data) {
+	// update(data) {
 	// 	const url = `/api/cart/${data.id}`;
 	// 	return axios.put(url, data);
 	// },
 
-	async removeItem(id) {
+	removeItem(id) {
 		const url = `/api/cart/${id}`;
 		return axios.delete(url);
 	},

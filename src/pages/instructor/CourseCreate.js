@@ -3,11 +3,11 @@ import { useParams, useLocation } from 'react-router-dom';
 // @mui
 import { Container } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_INSTRUCTOR } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import CourseNewForm from '../../sections/@dashboard/courses/CourseNewForm';
+import CourseNewForm from '../../sections/instructor/CourseNewForm';
 import courseApi from '../../api/courseApi';
 
 // ----------------------------------------------------------------------
@@ -38,10 +38,10 @@ export default function CourseCreate() {
 				<HeaderBreadcrumbs
 					heading={!isEdit ? 'Create a new course' : 'Edit course'}
 					links={[
-						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
+						{ name: 'Instructor', href: PATH_INSTRUCTOR.root },
 						{
 							name: 'Courses',
-							href: PATH_DASHBOARD.courses.root,
+							href: PATH_INSTRUCTOR.courses.list,
 						},
 						{ name: !isEdit ? 'New course' : 'Edit course' },
 					]}

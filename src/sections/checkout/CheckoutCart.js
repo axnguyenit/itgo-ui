@@ -6,7 +6,7 @@ import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
 import { useDispatch, useSelector } from '../../redux/store';
 import { deleteCart, onNextStep } from '../../redux/slices/cart';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_HOME } from '../../routes/paths';
 // components
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
@@ -75,7 +75,7 @@ export default function CheckoutCart() {
 				<Button
 					color="inherit"
 					component={RouterLink}
-					to={PATH_DASHBOARD.eCommerce.root}
+					to={PATH_HOME.courses.root}
 					startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
 				>
 					Continue Shopping
