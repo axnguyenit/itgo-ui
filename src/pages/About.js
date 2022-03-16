@@ -8,30 +8,30 @@ import { AboutHero, AboutWhat, AboutTeam, AboutVision, AboutTestimonials } from 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  paddingTop: theme.spacing(8),
-  [theme.breakpoints.up('md')]: {
-    paddingTop: theme.spacing(11),
-  },
+	paddingTop: theme.spacing(8),
+	[theme.breakpoints.up('md')]: {
+		paddingTop: theme.spacing(11),
+	},
 }));
 
 // ----------------------------------------------------------------------
 
 export default function About() {
-  return (
-    <Page title="About us">
-      <RootStyle>
-        <AboutHero />
+	return (
+		<Page title="About us">
+			<RootStyle>
+				<AboutHero />
 
-        <AboutWhat />
+				<AboutWhat />
 
-        <AboutVision />
+				<AboutVision />
 
-        <Divider orientation="vertical" sx={{ my: 10, mx: 'auto', width: 2, height: 40 }} />
+				<Divider orientation="vertical" sx={{ my: 10, mx: 'auto', width: 2, height: 40 }} />
 
-        <AboutTeam />
+				<AboutTeam />
 
-        <AboutTestimonials />
-      </RootStyle>
-    </Page>
-  );
+				<AboutTestimonials />
+			</RootStyle>
+		</Page>
+	);
 }

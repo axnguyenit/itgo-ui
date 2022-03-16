@@ -1,6 +1,3 @@
-// i18n
-import './locales/i18n';
-
 // highlight
 import './utils/highlight';
 
@@ -9,9 +6,6 @@ import 'simplebar/src/simplebar.css';
 
 // lightbox
 import 'react-image-lightbox/style.css';
-
-// map
-import 'mapbox-gl/dist/mapbox-gl.css';
 
 // editor
 import 'react-quill/dist/quill.snow.css';
@@ -29,50 +23,39 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/lib/integration/react';
 // @mui
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // redux
-import { store, persistor } from './redux/store';
+import { store } from './redux/store';
 // contexts
-import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
-// Check our docs
-// https://docs-minimals.vercel.app/authentication/ts-version
-
-import { AuthProvider } from './contexts/JWTContext';
-// import { AuthProvider } from './contexts/Auth0Context';
-// import { AuthProvider } from './contexts/FirebaseContext';
-// import { AuthProvider } from './contexts/AwsCognitoContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 //
 import App from './App';
+import './app.css';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
-  <AuthProvider>
-    <HelmetProvider>
-      <ReduxProvider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <SettingsProvider>
-              <CollapseDrawerProvider>
-                <BrowserRouter>
-                  <App />
-                </BrowserRouter>
-              </CollapseDrawerProvider>
-            </SettingsProvider>
-          </LocalizationProvider>
-        </PersistGate>
-      </ReduxProvider>
-    </HelmetProvider>
-  </AuthProvider>,
-  document.getElementById('root')
+	<AuthProvider>
+		<HelmetProvider>
+			<ReduxProvider store={store}>
+				<LocalizationProvider dateAdapter={AdapterDateFns}>
+					<CollapseDrawerProvider>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</CollapseDrawerProvider>
+				</LocalizationProvider>
+			</ReduxProvider>
+		</HelmetProvider>
+	</AuthProvider>,
+	document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
