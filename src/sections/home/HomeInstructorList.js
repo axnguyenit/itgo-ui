@@ -1,33 +1,50 @@
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Card, Stack, Avatar, CardHeader, Typography, Box, Divider, Rating } from '@mui/material';
-import { _userCards } from '../../_mock';
+import { Card, Avatar, CardHeader, Typography, Box, Divider, Rating } from '@mui/material';
 import { CarouselArrows } from '../../components/carousel';
-
 // @mui
 import { styled } from '@mui/material/styles';
 // utils
 import cssStyles from '../../utils/cssStyles';
 // components
 import Image from '../../components/Image';
-import SocialsButton from '../../components/SocialsButton';
 import SvgIconStyle from '../../components/SvgIconStyle';
+import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
 
 export default function HomeInstructorList() {
 	const theme = useTheme();
 	const carouselRef = useRef(null);
+	const [instructorList, setInstructorList] = useState([]);
+
+	const getAllInstructors = async () => {
+		const params = {
+			_page: 1,
+			_limit: 8,
+		};
+		try {
+			const response = await userApi.getAllInstructors(params);
+
+			if (!response.data.success) return;
+			setInstructorList(response.data.instructors);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		getAllInstructors();
+	}, []);
 
 	const settings = {
 		dots: false,
 		arrows: false,
 		slidesToShow: 4,
 		slidesToScroll: 1,
-		rtl: Boolean(theme.direction === 'rtl'),
 		adaptiveHeight: true,
 		initialSlide: 0,
 		responsive: [
@@ -64,7 +81,7 @@ export default function HomeInstructorList() {
 		<Box sx={{ textAlign: 'center' }}>
 			<CardHeader
 				title="Instructors"
-				subheader={`${_userCards.length} Instructors`}
+				subheader={`${instructorList.length} Instructors`}
 				sx={{
 					'& .MuiCardHeader-action': {
 						alignSelf: 'center',
@@ -85,9 +102,10 @@ export default function HomeInstructorList() {
 					sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
 				>
 					<Slider ref={carouselRef} {...settings}>
-						{_userCards.map((teacher) => (
-							<TeacherCard key={teacher} teacher={teacher} />
-						))}
+						{instructorList.length &&
+							instructorList.map((instructor) => (
+								<InstructorCard key={instructor._id} instructor={instructor} />
+							))}
 					</Slider>
 				</CarouselArrows>
 			</Box>
@@ -107,12 +125,12 @@ const OverlayStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-TeacherCard.propTypes = {
-	teacher: PropTypes.object.isRequired,
+InstructorCard.propTypes = {
+	instructor: PropTypes.object.isRequired,
 };
 
-function TeacherCard({ teacher }) {
-	const { name, cover, position, avatarUrl } = teacher;
+function InstructorCard({ instructor }) {
+	const { firstName, lastName, avatar, position } = instructor;
 
 	return (
 		<Card sx={{ textAlign: 'center', my: 3, mx: 1.5 }}>
@@ -132,8 +150,8 @@ function TeacherCard({ teacher }) {
 					}}
 				/>
 				<Avatar
-					alt={name}
-					src={avatarUrl}
+					alt={firstName}
+					src={avatar}
 					sx={{
 						width: 64,
 						height: 64,
@@ -146,20 +164,16 @@ function TeacherCard({ teacher }) {
 					}}
 				/>
 				<OverlayStyle />
-				<Image src={cover} alt={cover} ratio="16/9" />
+				<Image src={avatar} alt={avatar} ratio="16/9" />
 			</Box>
 
 			<Typography variant="subtitle1" sx={{ mt: 6 }}>
-				{name}
+				{firstName} {lastName}
 			</Typography>
 
-			<Typography variant="body2" sx={{ color: 'text.secondary' }}>
+			<Typography variant="body2" sx={{ color: 'text.secondary', my: 2.5 }}>
 				{position}
 			</Typography>
-
-			<Stack alignItems="center">
-				<SocialsButton initialColor sx={{ my: 2.5 }} />
-			</Stack>
 
 			<Divider sx={{ borderStyle: 'dashed', marginBottom: 1 }} />
 			<Rating size="small" value={4.5} precision={0.1} readOnly />

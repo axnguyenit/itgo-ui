@@ -17,7 +17,7 @@ import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
 import Iconify from '../../../../components/Iconify';
 import MenuPopover from '../../../../components/MenuPopover';
-import { DialogAnimate } from 'src/components/animate';
+import { DialogAnimate } from '../../../../components/animate';
 
 // ----------------------------------------------------------------------
 

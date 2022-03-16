@@ -48,7 +48,7 @@ const TABLE_HEAD = [
 
 export default function Courses() {
 	const { user } = useAuth();
-	const [courses, setCourses] = useState([]);
+	const [courseList, setCourseList] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
 
@@ -66,10 +66,9 @@ export default function Courses() {
 
 		try {
 			const response = await courseApi.getAll(params);
-			if (response.data.success) {
-				setCourses(response.data.courses);
-				setPagination(response.data.pagination);
-			}
+			if (!response.data.success) return;
+			setCourseList(response.data.courses);
+			setPagination(response.data.pagination);
 		} catch (error) {
 			console.error(error);
 		}
@@ -104,8 +103,8 @@ export default function Courses() {
 		}
 	};
 
-	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - courses.length) : 0;
-	const filteredCourses = applySortFilter(courses, getComparator(order, orderBy), filterName);
+	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - courseList.length) : 0;
+	const filteredCourses = applySortFilter(courseList, getComparator(order, orderBy), filterName);
 	const isNotFound = !filteredCourses.length && !!filterName;
 
 	return (
@@ -132,9 +131,8 @@ export default function Courses() {
 									headLabel={TABLE_HEAD}
 									onRequestSort={handleRequestSort}
 								/>
-
 								<TableBody>
-									{filteredCourses.length > 0 &&
+									{filteredCourses.length &&
 										filteredCourses.map((course) => {
 											const { _id, name, cover, price, priceSale, createdAt } = course;
 
@@ -227,11 +225,10 @@ function applySortFilter(array, comparator, query) {
 		return a[1] - b[1];
 	});
 
-	if (query) {
+	if (query)
 		return array.filter(
 			(_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
 		);
-	}
 
 	return stabilizedThis.map((el) => el[0]);
 }

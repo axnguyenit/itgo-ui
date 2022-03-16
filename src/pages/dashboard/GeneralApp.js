@@ -6,13 +6,9 @@ import Page from '../../components/Page';
 // sections
 import {
 	AppWidget,
-	AppNewInvoice,
-	AppTopAuthors,
-	AppTopRelated,
 	AppAreaInstalled,
 	AppWidgetSummary,
 	AppCurrentDownload,
-	AppTopInstalledCountries,
 } from '../../sections/@dashboard/general/app';
 
 // ----------------------------------------------------------------------
@@ -60,22 +56,6 @@ export default function GeneralApp() {
 
 					<Grid item xs={12} md={6} lg={8}>
 						<AppAreaInstalled />
-					</Grid>
-
-					<Grid item xs={12} lg={8}>
-						<AppNewInvoice />
-					</Grid>
-
-					<Grid item xs={12} md={6} lg={4}>
-						<AppTopRelated />
-					</Grid>
-
-					<Grid item xs={12} md={6} lg={4}>
-						<AppTopInstalledCountries />
-					</Grid>
-
-					<Grid item xs={12} md={6} lg={4}>
-						<AppTopAuthors />
 					</Grid>
 
 					<Grid item xs={12} md={6} lg={4}>

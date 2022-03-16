@@ -1,10 +1,19 @@
 import axios from '../utils/axios';
 
 const userApi = {
+	getAll(params) {
+		const url = '/api/users';
+		return axios.get(url, { params });
+	},
+
 	update(data) {
-		console.log(data);
-		const url = `/api/my-account/${data.id}`;
+		const url = `/api/users/${data.id}`;
 		return axios.put(url, data);
+	},
+
+	getAllInstructors(params) {
+		const url = '/api/instructors';
+		return axios.get(url, { params });
 	},
 };
 

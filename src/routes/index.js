@@ -84,8 +84,6 @@ export default function Router() {
 							element: <Navigate to="/dashboard/user/profile" replace />,
 							index: true,
 						},
-						{ path: 'profile', element: <UserProfile /> },
-						{ path: 'cards', element: <UserCards /> },
 						{ path: 'list', element: <UserList /> },
 						{ path: 'new', element: <UserCreate /> },
 						{ path: ':name/edit', element: <UserCreate /> },
@@ -174,8 +172,6 @@ const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword'))
 const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 // Dashboard
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
-const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
 const CourseList = Loadable(lazy(() => import('../pages/dashboard/CourseList')));
