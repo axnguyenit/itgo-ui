@@ -109,7 +109,7 @@ export default function Router() {
 							element: <Navigate to={PATH_INSTRUCTOR.courses.list} replace />,
 							index: true,
 						},
-						{ path: 'list', element: <InstructorCourses /> },
+						{ path: 'list', element: <InstructorCourseList /> },
 						{ path: 'new', element: <InstructorCourseCreate /> },
 						{ path: ':id/edit', element: <InstructorCourseCreate /> },
 					],
@@ -177,7 +177,7 @@ const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')))
 const CourseList = Loadable(lazy(() => import('../pages/dashboard/CourseList')));
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 // Instructor
-const InstructorCourses = Loadable(lazy(() => import('../pages/instructor/Courses')));
+const InstructorCourseList = Loadable(lazy(() => import('../pages/instructor/CourseList')));
 const InstructorCourseCreate = Loadable(lazy(() => import('../pages/instructor/CourseCreate')));
 
 // Main

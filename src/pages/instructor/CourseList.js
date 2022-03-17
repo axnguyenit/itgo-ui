@@ -26,7 +26,7 @@ import {
 	CourseMoreMenu,
 	CourseListHead,
 	CourseListToolbar,
-} from '../../sections/@dashboard/courses/course-list';
+} from '../../sections/instructor/course-list';
 // api
 import courseApi from '../../api/courseApi';
 // routes
@@ -46,7 +46,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function Courses() {
+export default function CourseList() {
 	const { user } = useAuth();
 	const [courseList, setCourseList] = useState([]);
 	const [page, setPage] = useState(1);
@@ -143,7 +143,7 @@ export default function Courses() {
 															disabledEffect
 															alt={name}
 															src={cover}
-															sx={{ borderRadius: 1.5, width: 64, height: 64, mr: 2 }}
+															sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
 														/>
 														<Typography variant="subtitle2" noWrap>
 															{name}
@@ -163,8 +163,8 @@ export default function Courses() {
 											);
 										})}
 									{emptyRows > 0 && (
-										<TableRow style={{ height: 96 * emptyRows }}>
-											<TableCell colSpan={6} />
+										<TableRow style={{ height: 80 * emptyRows }}>
+											<TableCell colSpan={5} />
 										</TableRow>
 									)}
 								</TableBody>
@@ -172,7 +172,7 @@ export default function Courses() {
 								{isNotFound && (
 									<TableBody>
 										<TableRow>
-											<TableCell align="center" colSpan={6}>
+											<TableCell align="center" colSpan={5}>
 												<Box sx={{ py: 3 }}>
 													<SearchNotFound searchQuery={filterName} />
 												</Box>

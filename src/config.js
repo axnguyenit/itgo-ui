@@ -6,8 +6,6 @@ import { PATH_HOME } from './routes/paths';
 
 export const HOST_API = process.env.REACT_APP_API_URL || '';
 
-export const MAPBOX_API = process.env.REACT_APP_MAPBOX;
-
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = PATH_HOME.home;
 

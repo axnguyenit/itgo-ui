@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
@@ -66,6 +67,7 @@ AuthProvider.propTypes = {
 
 function AuthProvider({ children }) {
 	const [state, dispatch] = useReducer(reducer, initialState);
+	// const navigate = useNavigate();
 
 	useEffect(() => {
 		const initialize = async () => {
@@ -78,6 +80,8 @@ function AuthProvider({ children }) {
 					const response = await axios.get('/api/users/my-account');
 					const { user } = response.data;
 
+					// if (!user.emailVerified) navigate('/auth/verify');
+					// if (user.emailVerified) {
 					dispatch({
 						type: 'INITIALIZE',
 						payload: {
@@ -86,6 +90,7 @@ function AuthProvider({ children }) {
 						},
 					});
 					getCartApi();
+					// }
 				} else {
 					dispatch({
 						type: 'INITIALIZE',
@@ -118,6 +123,8 @@ function AuthProvider({ children }) {
 		if (!response.data.success) return;
 		const { accessToken, user } = response.data;
 
+		// if (!user.emailVerified) navigate('/auth/verify');
+		// if (user.emailVerified) {
 		setSession(accessToken);
 		getCartApi();
 		dispatch({
@@ -126,6 +133,7 @@ function AuthProvider({ children }) {
 				user,
 			},
 		});
+		// }
 	};
 
 	const register = async (email, password, firstName, lastName) => {

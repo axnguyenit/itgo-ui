@@ -74,8 +74,12 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 		instructor: Yup.string().required('Instructor is required'),
 		name: Yup.string().required('Name is required'),
 		cover: Yup.mixed().required('Cover is required'),
-		price: Yup.number().moreThan(0, 'Price must be more than 0'),
-		priceSale: Yup.number().lessThan(Yup.ref('price'), 'Price sale must be less than price'),
+		price: Yup.number()
+			.integer('Price must be a integer')
+			.moreThan(1000, 'Price must be more than 1000'),
+		priceSale: Yup.number()
+			.integer('Price sale must be a integer')
+			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
 		overview: Yup.string().required('Overview is required'),
 		requirements: Yup.string().required('Requirements is required'),
 		targetAudiences: Yup.string().required('Target Audiences is required'),

@@ -32,7 +32,7 @@ import userApi from '../../api/userApi';
 
 const TABLE_HEAD = [
 	{ id: 'name', label: 'Name', alignRight: false },
-	{ id: 'email', label: 'Company', alignRight: false },
+	{ id: 'email', label: 'Email', alignRight: false },
 	{ id: 'position', label: 'Position', alignRight: false },
 	{ id: 'role', label: 'Role', alignRight: false },
 	{ id: 'isVerified', label: 'Verified', alignRight: false },
@@ -168,15 +168,15 @@ export default function UserList() {
 											);
 										})}
 									{emptyRows > 0 && (
-										<TableRow style={{ height: 53 * emptyRows }}>
-											<TableCell colSpan={6} />
+										<TableRow style={{ height: 72 * emptyRows }}>
+											<TableCell colSpan={7} />
 										</TableRow>
 									)}
 								</TableBody>
 								{isNotFound && (
 									<TableBody>
 										<TableRow>
-											<TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+											<TableCell align="center" colSpan={7} sx={{ py: 3 }}>
 												<SearchNotFound searchQuery={filterEmail} />
 											</TableCell>
 										</TableRow>
