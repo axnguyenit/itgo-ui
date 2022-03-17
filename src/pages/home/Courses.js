@@ -5,7 +5,7 @@ import { Container, Stack, Pagination } from '@mui/material';
 // components
 import Page from '../../components/Page';
 // sections
-import { CourseList, CoursesSearch, CourseHero } from '../../sections/courses';
+import { CourseList, CourseHero } from '../../sections/courses';
 // api
 import courseApi from '../../api/courseApi';
 

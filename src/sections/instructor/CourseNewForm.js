@@ -30,7 +30,7 @@ import {
 import courseApi from '../../api/courseApi';
 import uploadApi from '../../api/uploadApi';
 import { useNavigate } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_INSTRUCTOR } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -66,8 +66,12 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	const NewCourseSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
 		cover: Yup.mixed().required('Cover is required'),
-		price: Yup.number().moreThan(0, 'Price must be more than 0'),
-		priceSale: Yup.number().lessThan(Yup.ref('price'), 'Price sale must be less than price'),
+		price: Yup.number()
+			.integer('Price must be a integer')
+			.moreThan(1000, 'Price must be more than 1000'),
+		priceSale: Yup.number()
+			.integer('Price sale must be a integer')
+			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
 		overview: Yup.string().required('Overview is required'),
 		requirements: Yup.string().required('Requirements is required'),
 		targetAudiences: Yup.string().required('Target Audiences is required'),
@@ -121,7 +125,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 				if (response.data.success) {
 					reset();
 					enqueueSnackbar('Update success!');
-					navigate(PATH_DASHBOARD.courses.list);
+					navigate(PATH_INSTRUCTOR.courses.list);
 				}
 			} catch (error) {
 				console.error(error);
@@ -132,7 +136,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 				if (response.data.success) {
 					reset();
 					enqueueSnackbar('Create success!');
-					navigate(PATH_DASHBOARD.courses.list);
+					navigate(PATH_INSTRUCTOR.courses.list);
 				}
 			} catch (error) {
 				console.error(error);

@@ -67,7 +67,7 @@ export default function CourseDetailsSummary({ course }) {
 				avatar={<MyAvatar />}
 				title={
 					<Link to="#" variant="subtitle2" color="text.primary" component={RouterLink}>
-						{`${course?.instructor.firstName} ${course?.instructor.lastName}`}
+						{`${course?.instructor?.firstName} ${course?.instructor?.lastName}`}
 					</Link>
 				}
 				subheader={

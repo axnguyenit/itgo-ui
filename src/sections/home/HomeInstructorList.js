@@ -172,7 +172,7 @@ function InstructorCard({ instructor }) {
 			</Typography>
 
 			<Typography variant="body2" sx={{ color: 'text.secondary', my: 2.5 }}>
-				{position}
+				{position ? position : '#'}
 			</Typography>
 
 			<Divider sx={{ borderStyle: 'dashed', marginBottom: 1 }} />

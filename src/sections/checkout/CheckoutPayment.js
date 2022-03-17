@@ -14,31 +14,17 @@ import { FormProvider } from '../../components/hook-form';
 //
 import CheckoutSummary from './CheckoutSummary';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
+import paymentApi from '../../api/paymentApi';
 
 // ----------------------------------------------------------------------
 
 const PAYMENT_OPTIONS = [
 	{
-		value: 'paypal',
-		title: 'Pay with Paypal',
-		description: 'You will be redirected to PayPal website to complete your purchase securely.',
-		icons: [`${window.location.origin}/assets/icons/ic_paypal.svg`],
+		value: 'momo',
+		title: 'Pay with MoMo',
+		description: 'You will be redirected to MoMo website to complete your purchase securely.',
+		icons: [`${window.location.origin}/assets/images/logo-momo.png`],
 	},
-	{
-		value: 'credit_card',
-		title: 'Credit / Debit Card',
-		description: 'We support Mastercard, Visa, Discover and Stripe.',
-		icons: [
-			`${window.location.origin}/assets/icons/ic_mastercard.svg`,
-			`${window.location.origin}/assets/icons/ic_visa.svg`,
-		],
-	},
-];
-
-const CARDS_OPTIONS = [
-	{ value: 'ViSa1', label: '**** **** **** 1212 - NGUYEN DINH KHA' },
-	{ value: 'ViSa2', label: '**** **** **** 2424 - VUONG THAI' },
-	{ value: 'MasterCard', label: '**** **** **** HUONG SEN' },
 ];
 
 export default function CheckoutPayment() {
@@ -79,7 +65,9 @@ export default function CheckoutPayment() {
 
 	const onSubmit = async () => {
 		try {
-			handleNextStep();
+			// handleNextStep();
+			const response = await paymentApi.getPayUrl();
+			if (response.data.success) window.location.href = response.data.payUrl;
 		} catch (error) {
 			console.error(error);
 		}
@@ -89,7 +77,7 @@ export default function CheckoutPayment() {
 		<FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={8}>
-					<CheckoutPaymentMethods cardOptions={CARDS_OPTIONS} paymentOptions={PAYMENT_OPTIONS} />
+					<CheckoutPaymentMethods paymentOptions={PAYMENT_OPTIONS} />
 					<Button
 						size="small"
 						color="inherit"

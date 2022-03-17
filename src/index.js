@@ -42,19 +42,19 @@ import reportWebVitals from './reportWebVitals';
 // ----------------------------------------------------------------------
 
 ReactDOM.render(
-	<AuthProvider>
-		<HelmetProvider>
-			<ReduxProvider store={store}>
-				<LocalizationProvider dateAdapter={AdapterDateFns}>
-					<CollapseDrawerProvider>
-						<BrowserRouter>
+	<BrowserRouter>
+		<AuthProvider>
+			<HelmetProvider>
+				<ReduxProvider store={store}>
+					<LocalizationProvider dateAdapter={AdapterDateFns}>
+						<CollapseDrawerProvider>
 							<App />
-						</BrowserRouter>
-					</CollapseDrawerProvider>
-				</LocalizationProvider>
-			</ReduxProvider>
-		</HelmetProvider>
-	</AuthProvider>,
+						</CollapseDrawerProvider>
+					</LocalizationProvider>
+				</ReduxProvider>
+			</HelmetProvider>
+		</AuthProvider>
+	</BrowserRouter>,
 	document.getElementById('root')
 );
 
