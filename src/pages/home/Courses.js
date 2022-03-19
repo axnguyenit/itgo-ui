@@ -49,7 +49,10 @@ export default function Courses() {
 	return (
 		<Page title="Courses">
 			<RootStyle>
-				<CourseHero label="Courses" />
+				<CourseHero
+					label="Courses"
+					src={`${window.location.origin}/assets/images/courses-hero.jpg`}
+				/>
 				<Container maxWidth={'lg'} sx={{ mt: 15, mb: 10 }}>
 					{/* <Stack
 						spacing={2}
@@ -62,17 +65,17 @@ export default function Courses() {
 					</Stack> */}
 
 					<CourseList courses={courses} loading={!courses.length} />
-
-					<Stack direction="row" justifyContent="center" alignItems="center" sx={{ my: 3 }}>
-						<Pagination
-							count={Math.ceil(pagination._totalRows / LIMIT_COURSE)}
-							// page={pageItem}
-							onChange={(event, value) => setPage(value)}
-							color="primary"
-							variant="outlined"
-							shape="rounded"
-						/>
-					</Stack>
+					{pagination._totalRows > LIMIT_COURSE && (
+						<Stack direction="row" justifyContent="center" alignItems="center" sx={{ my: 3 }}>
+							<Pagination
+								count={Math.ceil(pagination._totalRows / LIMIT_COURSE)}
+								onChange={(event, value) => setPage(value)}
+								color="primary"
+								variant="outlined"
+								shape="rounded"
+							/>
+						</Stack>
+					)}
 				</Container>
 			</RootStyle>
 		</Page>

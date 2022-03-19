@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 // @mui
@@ -14,8 +15,9 @@ import EmptyContent from '../../components/EmptyContent';
 //
 import CheckoutSummary from './CheckoutSummary';
 import CheckoutCourseList from './CheckoutCourseList';
-import cartApi from 'src/api/cartApi';
-import { useEffect } from 'react';
+import cartApi from '../../api/cartApi';
+import paymentApi from '../../api/paymentApi';
+import { getCartApi } from '../../redux/slices/cart';
 
 // ----------------------------------------------------------------------
 
@@ -33,8 +35,6 @@ export default function CheckoutCart() {
 
 	const storeTransaction = async () => {
 		if (resultCode && Number(resultCode) >= 0 && cart.length) {
-			console.log(cart);
-			console.log(resultCode);
 			try {
 				const transId = searchParams.get('transId');
 				const message = searchParams.get('message');
@@ -46,7 +46,12 @@ export default function CheckoutCart() {
 					resultCode,
 					cart,
 				};
-				console.log(data);
+
+				const response = await paymentApi.add(data);
+				if (response.data.success) {
+					setSearchParams({});
+					getCartApi();
+				}
 			} catch (error) {
 				console.error(error);
 			}

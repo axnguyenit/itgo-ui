@@ -71,10 +71,21 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 			.moreThan(1000, 'Price must be more than 1000'),
 		priceSale: Yup.number()
 			.integer('Price sale must be a integer')
+			.test('priceSale', 'Price sale must be more than 1000', (priceSale) => {
+				if (priceSale === 0) return true;
+				if (priceSale && priceSale > 1000) return true;
+				return false;
+			})
 			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
-		overview: Yup.string().required('Overview is required'),
-		requirements: Yup.string().required('Requirements is required'),
-		targetAudiences: Yup.string().required('Target Audiences is required'),
+		overview: Yup.string()
+			.required('Overview is required')
+			.min(50, 'Overview must be at least 50 characters'),
+		requirements: Yup.string()
+			.required('Requirements is required')
+			.min(50, 'Requirements must be at least 50 characters'),
+		targetAudiences: Yup.string()
+			.required('Target Audiences is required')
+			.min(50, 'Target Audiences must be at least 50 characters'),
 	});
 
 	const defaultValues = useMemo(

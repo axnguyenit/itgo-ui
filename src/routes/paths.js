@@ -39,7 +39,7 @@ export const PATH_HOME = {
 	home: path(ROOTS_HOME, '/'),
 	account: path(ROOTS_HOME, '/account-settings'),
 	myLearning: {
-		root: path(ROOTS_HOME, '/my-learning'),
+		root: path(ROOTS_HOME, '/my-courses'),
 		all: path(ROOTS_HOME, '/'),
 	},
 	courses: {
