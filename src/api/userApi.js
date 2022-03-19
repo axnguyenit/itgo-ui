@@ -6,6 +6,11 @@ const userApi = {
 		return axios.get(url, { params });
 	},
 
+	register(data) {
+		const url = '/api/auth/register';
+		return axios.post(url, data);
+	},
+
 	update(data) {
 		const url = `/api/users/${data.id}`;
 		return axios.put(url, data);
@@ -14,6 +19,16 @@ const userApi = {
 	getAllInstructors(params) {
 		const url = '/api/instructors';
 		return axios.get(url, { params });
+	},
+
+	requestVerifyEmail(data) {
+		const url = '/api/auth/verify';
+		return axios.post(url, data);
+	},
+
+	verifyEmail(id, token) {
+		const url = `/api/auth/verify/${id}/${token}`;
+		return axios.get(url);
 	},
 
 	forgotPassword(data) {

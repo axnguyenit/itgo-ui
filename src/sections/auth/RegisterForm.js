@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,19 +8,20 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import useAuth from '../../../hooks/useAuth';
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
-import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import Iconify from '../../components/Iconify';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
+import userApi from '../../api/userApi';
+import { PATH_AUTH } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-	const { register } = useAuth();
 	const isMountedRef = useIsMountedRef();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const navigate = useNavigate();
 
 	const RegisterSchema = Yup.object().shape({
 		firstName: Yup.string()
@@ -58,7 +60,11 @@ export default function RegisterForm() {
 
 	const onSubmit = async (data) => {
 		try {
-			await register(data);
+			await userApi.register(data);
+			navigate({
+				pathname: PATH_AUTH.verify,
+				search: createSearchParams({ status: 'sent', email: data.email }).toString(),
+			});
 			reset();
 		} catch (error) {
 			console.error(error);

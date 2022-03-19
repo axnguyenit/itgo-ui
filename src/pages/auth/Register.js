@@ -11,7 +11,7 @@ import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import Image from '../../components/Image';
 // sections
-import { RegisterForm } from '../../sections/auth/register';
+import { RegisterForm } from '../../sections/auth';
 
 // ----------------------------------------------------------------------
 

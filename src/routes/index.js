@@ -48,6 +48,22 @@ export default function Router() {
 					),
 				},
 				{
+					path: 'verify/:id/:token',
+					element: (
+						<GuestGuard>
+							<Verify />
+						</GuestGuard>
+					),
+				},
+				{
+					path: 'verify',
+					element: (
+						<GuestGuard>
+							<RequestVerify />
+						</GuestGuard>
+					),
+				},
+				{
 					path: 'forgot-password',
 					element: (
 						<GuestGuard>
@@ -187,7 +203,9 @@ export default function Router() {
 
 // Authentication
 const Login = Loadable(lazy(() => import('../pages/auth/Login')));
+const RequestVerify = Loadable(lazy(() => import('../pages/auth/RequestVerify')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
+const Verify = Loadable(lazy(() => import('../pages/auth/Verify')));
 const ForgotPassword = Loadable(lazy(() => import('../pages/auth/ForgotPassword')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
 // Dashboard
