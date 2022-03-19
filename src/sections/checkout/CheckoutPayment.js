@@ -7,7 +7,7 @@ import { Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { onGotoStep, onBackStep, onNextStep } from '../../redux/slices/cart';
+import { onGotoStep, onBackStep } from '../../redux/slices/cart';
 // components
 import Iconify from '../../components/Iconify';
 import { FormProvider } from '../../components/hook-form';
@@ -31,10 +31,6 @@ export default function CheckoutPayment() {
 	const dispatch = useDispatch();
 
 	const { total, discount, subtotal } = useSelector((state) => state.cart);
-
-	const handleNextStep = () => {
-		dispatch(onNextStep());
-	};
 
 	const handleBackStep = () => {
 		dispatch(onBackStep());
@@ -65,7 +61,6 @@ export default function CheckoutPayment() {
 
 	const onSubmit = async () => {
 		try {
-			// handleNextStep();
 			const response = await paymentApi.getPayUrl();
 			if (response.data.success) window.location.href = response.data.payUrl;
 		} catch (error) {

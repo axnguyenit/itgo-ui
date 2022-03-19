@@ -51,7 +51,7 @@ export default function CourseDetailsSummary({ course }) {
 			} catch (error) {
 				console.error(error);
 				isAuthenticated
-					? enqueueSnackbar('Somethings went wrong, try again', { variant: 'warning' })
+					? enqueueSnackbar(error?.errors[0]?.msg, { variant: 'warning' })
 					: navigate(PATH_AUTH.login);
 			}
 		} else {

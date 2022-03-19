@@ -135,6 +135,14 @@ export default function Router() {
 						</BasedGuard>
 					),
 				},
+				{
+					path: 'my-courses',
+					element: (
+						<BasedGuard>
+							<MyLearning />
+						</BasedGuard>
+					),
+				},
 			],
 		},
 
@@ -188,5 +196,6 @@ const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
 const AccountSettings = Loadable(lazy(() => import('../pages/home/AccountSettings')));
+const MyLearning = Loadable(lazy(() => import('../pages/home/MyLearning')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));

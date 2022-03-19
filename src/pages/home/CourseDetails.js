@@ -64,7 +64,10 @@ export default function CourseDetails() {
 	return (
 		<Page title="Course Details">
 			<RootStyle>
-				<CourseHero label="Course Details" />
+				<CourseHero
+					label="Course Details"
+					src={`${window.location.origin}/assets/images/courses-hero.jpg`}
+				/>
 
 				<Container sx={{ mt: 15, mb: 10 }}>
 					<Grid container spacing={4}>

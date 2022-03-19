@@ -51,9 +51,9 @@ export default function LoginForm() {
 	const onSubmit = async (data) => {
 		try {
 			await login(data.email, data.password);
+			reset();
 		} catch (error) {
 			console.error(error);
-			reset();
 			if (isMountedRef.current) setError('afterSubmit', error.errors);
 		}
 	};

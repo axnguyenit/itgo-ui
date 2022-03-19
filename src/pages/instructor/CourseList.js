@@ -132,7 +132,7 @@ export default function CourseList() {
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>
-									{filteredCourses.length &&
+									{!!filteredCourses.length &&
 										filteredCourses.map((course) => {
 											const { _id, name, cover, price, priceSale, createdAt } = course;
 

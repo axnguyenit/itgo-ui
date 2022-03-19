@@ -6,10 +6,10 @@ import { MotionContainer, TextAnimate } from '../../components/animate';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
+const RootStyle = styled('div')(({ theme, src }) => ({
 	backgroundSize: 'cover',
 	backgroundImage: `url(${window.location.origin}/assets/images/overlay.svg),
-  url(${window.location.origin}/assets/images/courses-hero.jpg)`,
+  url(${src})`,
 	padding: theme.spacing(10, 0),
 	[theme.breakpoints.up('md')]: {
 		height: 360,
@@ -29,9 +29,9 @@ const ContentStyle = styled(Stack)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function CourseHero({ label }) {
+export default function CourseHero({ label, src }) {
 	return (
-		<RootStyle>
+		<RootStyle src={src}>
 			<Container component={MotionContainer} sx={{ position: 'relative', height: '100%' }}>
 				<ContentStyle spacing={5}>
 					<div>
