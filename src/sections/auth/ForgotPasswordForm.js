@@ -7,10 +7,10 @@ import { useForm } from 'react-hook-form';
 import { Stack, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
-import userApi from '../../../api/userApi';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
+import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,6 @@ export default function ForgotPasswordForm({ onSent, onGetEmail }) {
 	const onSubmit = async (data) => {
 		try {
 			const response = await userApi.forgotPassword(data);
-			console.log(response);
 			if (isMountedRef.current && response.data.success) {
 				onSent();
 				onGetEmail(data.email);

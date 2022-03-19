@@ -126,7 +126,6 @@ function Learning() {
 		})
 			.then((res) => res.json())
 			.then((response) => {
-				console.log('response.signature', response.signature);
 				startMeeting(response.signature);
 			})
 			.catch((error) => {

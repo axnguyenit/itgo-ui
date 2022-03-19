@@ -1,10 +1,11 @@
 import { createContext, useEffect, useReducer } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 import { getCartApi } from '../redux/slices/cart';
+import { PATH_AUTH } from '../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -38,15 +39,6 @@ const handlers = {
 		isAuthenticated: false,
 		user: null,
 	}),
-	REGISTER: (state, action) => {
-		const { user } = action.payload;
-
-		return {
-			...state,
-			isAuthenticated: true,
-			user,
-		};
-	},
 };
 
 const reducer = (state, action) =>
@@ -56,7 +48,6 @@ const AuthContext = createContext({
 	...initialState,
 	login: () => Promise.resolve(),
 	logout: () => Promise.resolve(),
-	register: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -67,7 +58,7 @@ AuthProvider.propTypes = {
 
 function AuthProvider({ children }) {
 	const [state, dispatch] = useReducer(reducer, initialState);
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const initialize = async () => {
@@ -80,17 +71,17 @@ function AuthProvider({ children }) {
 					const response = await axios.get('/api/users/my-account');
 					const { user } = response.data;
 
-					// if (!user.emailVerified) navigate('/auth/verify');
-					// if (user.emailVerified) {
-					dispatch({
-						type: 'INITIALIZE',
-						payload: {
-							isAuthenticated: true,
-							user,
-						},
-					});
-					getCartApi();
-					// }
+					if (!user.emailVerified) navigate(PATH_AUTH.verify, { replace: true });
+					if (user.emailVerified) {
+						dispatch({
+							type: 'INITIALIZE',
+							payload: {
+								isAuthenticated: true,
+								user,
+							},
+						});
+						getCartApi();
+					}
 				} else {
 					dispatch({
 						type: 'INITIALIZE',
@@ -113,6 +104,7 @@ function AuthProvider({ children }) {
 		};
 
 		initialize();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const login = async (email, password) => {
@@ -123,34 +115,17 @@ function AuthProvider({ children }) {
 		if (!response.data.success) return;
 		const { accessToken, user } = response.data;
 
-		// if (!user.emailVerified) navigate('/auth/verify');
-		// if (user.emailVerified) {
-		setSession(accessToken);
-		getCartApi();
-		dispatch({
-			type: 'LOGIN',
-			payload: {
-				user,
-			},
-		});
-		// }
-	};
-
-	const register = async (data) => {
-		const response = await axios.post('/api/auth/register', data);
-
-		console.log(response);
-
-		if (!response.data.success) return;
-		const { accessToken, user } = response.data;
-
-		window.localStorage.setItem('accessToken', accessToken);
-		dispatch({
-			type: 'REGISTER',
-			payload: {
-				user,
-			},
-		});
+		if (!user.emailVerified) navigate(PATH_AUTH.verify, { replace: true });
+		if (user.emailVerified) {
+			setSession(accessToken);
+			getCartApi();
+			dispatch({
+				type: 'LOGIN',
+				payload: {
+					user,
+				},
+			});
+		}
 	};
 
 	const logout = async () => {
@@ -164,7 +139,6 @@ function AuthProvider({ children }) {
 				...state,
 				login,
 				logout,
-				register,
 			}}
 		>
 			{children}

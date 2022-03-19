@@ -8,11 +8,11 @@ import { useForm } from 'react-hook-form';
 import { IconButton, InputAdornment, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import useIsMountedRef from '../../../hooks/useIsMountedRef';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
-import Iconify from '../../../components/Iconify';
-import userApi from '../../../api/userApi';
+import { FormProvider, RHFTextField } from '../../components/hook-form';
+import Iconify from '../../components/Iconify';
+import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
 

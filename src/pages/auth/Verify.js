@@ -9,8 +9,6 @@ import LogoOnlyLayout from '../../layouts/LogoOnlyLayout';
 import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
-// sections
-import { ResetPasswordForm } from '../../sections/auth';
 // assets
 import { SuccessIcon, ErrorIcon } from '../../assets';
 import userApi from '../../api/userApi';
@@ -27,56 +25,36 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ForgotPassword() {
-	const [sent, setSent] = useState(false);
+export default function Verify() {
 	const [isValid, setIsValid] = useState(false);
 	const { id, token } = useParams();
 
 	useEffect(() => {
-		const checkRequestResetPassword = async () => {
+		const verifyEmail = async () => {
 			try {
-				const response = await userApi.checkRequestResetPassword(id, token);
+				const response = await userApi.verifyEmail(id, token);
 				if (response.data.success) setIsValid(true);
 			} catch (error) {
 				console.error(error);
 			}
 		};
 
-		checkRequestResetPassword();
+		verifyEmail();
 	}, [id, token]);
 
 	return (
-		<Page title="Reset Password" sx={{ height: 1 }}>
+		<Page title="Verify Email" sx={{ height: 1 }}>
 			<RootStyle>
 				<LogoOnlyLayout />
 
 				<Container>
 					<Box sx={{ maxWidth: 480, mx: 'auto' }}>
-						{!sent && isValid && (
-							<>
-								<Typography variant="h3" paragraph>
-									Create new password
-								</Typography>
-
-								<ResetPasswordForm onSent={() => setSent(true)} id={id} token={token} />
-
-								<Button
-									fullWidth
-									size="large"
-									component={RouterLink}
-									to={PATH_AUTH.login}
-									sx={{ mt: 1 }}
-								>
-									Back
-								</Button>
-							</>
-						)}
-						{sent && (
+						{isValid && (
 							<Box sx={{ textAlign: 'center' }}>
 								<SuccessIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
 
 								<Typography variant="h3" gutterBottom>
-									Reset password successfully
+									Verify email successfully, go to login
 								</Typography>
 
 								<Button
@@ -86,7 +64,7 @@ export default function ForgotPassword() {
 									to={PATH_AUTH.login}
 									sx={{ mt: 5 }}
 								>
-									Back
+									Login
 								</Button>
 							</Box>
 						)}
@@ -95,14 +73,14 @@ export default function ForgotPassword() {
 							<Box sx={{ textAlign: 'center' }}>
 								<ErrorIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
 								<Typography variant="h3" gutterBottom>
-									Link reset password is invalid
+									Verify email fail
 								</Typography>
 
 								<Button
 									size="large"
 									variant="contained"
 									component={RouterLink}
-									to={PATH_AUTH.login}
+									to={PATH_AUTH.verify}
 									sx={{ mt: 5 }}
 								>
 									Back

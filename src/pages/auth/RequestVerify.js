@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -10,7 +10,7 @@ import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 // sections
-import { ForgotPasswordForm } from '../../sections/auth';
+import { RequestVerifyForm } from '../../sections/auth';
 // assets
 import { SentIcon } from '../../assets';
 
@@ -26,12 +26,22 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ForgotPassword() {
+export default function RequestVerify() {
 	const [email, setEmail] = useState('');
 	const [sent, setSent] = useState(false);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const status = searchParams.get('status');
+	const _email = searchParams.get('email');
+
+	useEffect(() => {
+		if (status === 'sent') {
+			setSent(true);
+			setEmail(_email);
+		}
+	}, [status, _email]);
 
 	return (
-		<Page title="Forgot Password" sx={{ height: 1 }}>
+		<Page title="Verify Email" sx={{ height: 1 }}>
 			<RootStyle>
 				<LogoOnlyLayout />
 
@@ -40,14 +50,14 @@ export default function ForgotPassword() {
 						{!sent ? (
 							<>
 								<Typography variant="h3" paragraph>
-									Forgot your password?
+									Verify your email address
 								</Typography>
 								<Typography sx={{ color: 'text.secondary', mb: 5 }}>
 									Please enter the email address associated with your account and We will email you
-									a link to reset your password.
+									a link to verify your email address.
 								</Typography>
 
-								<ForgotPasswordForm
+								<RequestVerifyForm
 									onSent={() => setSent(true)}
 									onGetEmail={(value) => setEmail(value)}
 								/>
@@ -70,7 +80,7 @@ export default function ForgotPassword() {
 									Request sent successfully
 								</Typography>
 								<Typography>
-									We have sent a reset password link to &nbsp;
+									We have sent a verify email link to &nbsp;
 									<strong>{email}</strong>
 									<br />
 									Please check your email.
