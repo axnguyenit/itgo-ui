@@ -17,9 +17,7 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 
 export default function RegisterForm() {
 	const { register } = useAuth();
-
 	const isMountedRef = useIsMountedRef();
-
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -31,7 +29,9 @@ export default function RegisterForm() {
 			.required('Last name required')
 			.min(2, 'Last name must be at least 2 characters'),
 		email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-		password: Yup.string().required('Password is required').min(6),
+		password: Yup.string()
+			.required('Password is required')
+			.min(6, 'Password must be at least 6 characters'),
 		confirmPassword: Yup.string()
 			.required('Confirm password is required')
 			.oneOf([Yup.ref('password'), null], 'Confirm password not match'),
@@ -58,7 +58,7 @@ export default function RegisterForm() {
 
 	const onSubmit = async (data) => {
 		try {
-			await register(data.email, data.password, data.firstName, data.lastName);
+			await register(data);
 			reset();
 		} catch (error) {
 			console.error(error);

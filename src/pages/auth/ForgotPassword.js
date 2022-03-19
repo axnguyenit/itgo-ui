@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -10,10 +10,9 @@ import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 // sections
-import { ResetPasswordForm } from '../../sections/auth/reset-password';
+import { ForgotPasswordForm } from '../../sections/auth/forgot-password';
 // assets
-import { SuccessIcon } from '../../assets';
-import userApi from '../../api/userApi';
+import { SentIcon } from '../../assets';
 
 // ----------------------------------------------------------------------
 
@@ -28,22 +27,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPassword() {
+	const [email, setEmail] = useState('');
 	const [sent, setSent] = useState(false);
-	const [isValid, setIsValid] = useState(false);
-	const { id, token } = useParams();
-
-	useEffect(() => {
-		const checkRequestResetPassword = async () => {
-			try {
-				const response = await userApi.checkRequestResetPassword(id, token);
-				if (response.data.success) setIsValid(true);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		checkRequestResetPassword();
-	}, [id, token]);
 
 	return (
 		<Page title="Reset Password" sx={{ height: 1 }}>
@@ -52,13 +37,20 @@ export default function ForgotPassword() {
 
 				<Container>
 					<Box sx={{ maxWidth: 480, mx: 'auto' }}>
-						{!sent && isValid && (
+						{!sent ? (
 							<>
 								<Typography variant="h3" paragraph>
-									Create new password
+									Forgot your password?
+								</Typography>
+								<Typography sx={{ color: 'text.secondary', mb: 5 }}>
+									Please enter the email address associated with your account and We will email you
+									a link to reset your password.
 								</Typography>
 
-								<ResetPasswordForm onSent={() => setSent(true)} id={id} token={token} />
+								<ForgotPasswordForm
+									onSent={() => setSent(true)}
+									onGetEmail={(value) => setEmail(value)}
+								/>
 
 								<Button
 									fullWidth
@@ -70,31 +62,18 @@ export default function ForgotPassword() {
 									Back
 								</Button>
 							</>
-						)}
-						{sent && (
+						) : (
 							<Box sx={{ textAlign: 'center' }}>
-								<SuccessIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
+								<SentIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
 
 								<Typography variant="h3" gutterBottom>
-									Reset password successfully
+									Request sent successfully
 								</Typography>
-
-								<Button
-									size="large"
-									variant="contained"
-									component={RouterLink}
-									to={PATH_AUTH.login}
-									sx={{ mt: 5 }}
-								>
-									Back
-								</Button>
-							</Box>
-						)}
-
-						{!isValid && (
-							<Box sx={{ textAlign: 'center' }}>
-								<Typography variant="h3" gutterBottom>
-									Link reset password is invalid
+								<Typography>
+									We have sent a link reset password to &nbsp;
+									<strong>{email}</strong>
+									<br />
+									Please check your email.
 								</Typography>
 
 								<Button
