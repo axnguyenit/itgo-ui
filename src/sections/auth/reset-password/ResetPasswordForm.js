@@ -1,28 +1,39 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 // form
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 // @mui
-import { Stack } from '@mui/material';
+import { IconButton, InputAdornment, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import Iconify from '../../../components/Iconify';
+import userApi from '../../../api/userApi';
 
 // ----------------------------------------------------------------------
 
 ResetPasswordForm.propTypes = {
 	onSent: PropTypes.func,
-	onGetEmail: PropTypes.func,
+	id: PropTypes.string,
+	token: PropTypes.string,
 };
 
-export default function ResetPasswordForm({ onSent, onGetEmail }) {
+export default function ResetPasswordForm({ onSent, id, token }) {
 	const isMountedRef = useIsMountedRef();
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const ResetPasswordSchema = Yup.object().shape({
-		email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+		password: Yup.string()
+			.required('Password is required')
+			.min(6, 'Password must be at least 6 characters'),
+		confirmPassword: Yup.string()
+			.required('Confirm password is required')
+			.oneOf([Yup.ref('password'), null], 'Confirm password not match'),
 	});
 
 	const methods = useForm({
@@ -37,10 +48,9 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
 
 	const onSubmit = async (data) => {
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 500));
 			if (isMountedRef.current) {
-				onSent();
-				onGetEmail(data.email);
+				const response = await userApi.resetPassword(data, id, token);
+				if (response.data.success) onSent();
 			}
 		} catch (error) {
 			console.error(error);
@@ -50,7 +60,35 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
 	return (
 		<FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 			<Stack spacing={3}>
-				<RHFTextField name="email" label="Email address" />
+				<RHFTextField
+					name="password"
+					label="Password"
+					type={showPassword ? 'text' : 'password'}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
+									<Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
+
+				<RHFTextField
+					name="confirmPassword"
+					label="Confirm password"
+					type={showConfirmPassword ? 'text' : 'password'}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton edge="end" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+									<Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
 
 				<LoadingButton
 					fullWidth

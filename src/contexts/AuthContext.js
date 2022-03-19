@@ -136,13 +136,8 @@ function AuthProvider({ children }) {
 		// }
 	};
 
-	const register = async (email, password, firstName, lastName) => {
-		const response = await axios.post('/api/auth/register', {
-			email,
-			password,
-			firstName,
-			lastName,
-		});
+	const register = async (data) => {
+		const response = await axios.post('/api/auth/register', data);
 
 		console.log(response);
 
