@@ -44,6 +44,9 @@ export const PATH_HOME = {
 		root: path(ROOTS_HOME, '/courses'),
 		course: path(ROOTS_HOME, '/courses/:id'),
 	},
+	learning: {
+		root: path(ROOTS_HOME, '/learning'),
+	},
 	roadmap: {
 		root: path(ROOTS_HOME, '/roadmap'),
 		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),

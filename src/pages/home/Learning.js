@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { ZoomMtg } from '@zoomus/websdk';
+import { useParams, useNavigate } from 'react-router-dom';
 import './learning.css';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -10,6 +11,10 @@ import useResponsive from '../../hooks/useResponsive';
 import Page from '../../components/Page';
 import Logo from '../../components/Logo';
 import Image from '../../components/Image';
+import eventApi from '../../api/eventApi';
+import { DialogAnimate } from '../../components/animate';
+import { ErrorIcon } from '../../assets';
+import zoomApi from '../../api/zoomApi';
 
 // ----------------------------------------------------------------------
 
@@ -72,15 +77,25 @@ const ContainerContent = styled(Container)(({ theme }) => ({
 }));
 
 function Learning() {
-	const signatureEndpoint = `${process.env.REACT_APP_API_URL}/api/zoom`;
-	const apiKey = 'UgFubNlTQq2mML_q_0G33g';
-	const meetingNumber = '91511194597';
-	const role = 0;
-	const leaveUrl = `${window.location.origin}/learning/courseId`;
-	const userName = 'Kha';
-	const userEmail = '';
-	const passWord = 181201;
+	const { id } = useParams(); // id --> eventId
+	const apiKey = process.env.REACT_APP_ZOOM_JWT_API_KEY;
+	const leaveUrl = `${window.location.origin}/learning/${id}`;
 	const registrantToken = '';
+	const navigate = useNavigate();
+	const [meetingInfo, setMeetingInfo] = useState(null);
+
+	useEffect(() => {
+		const checkValidUserInClass = async () => {
+			try {
+				const response = await eventApi.checkValidUser(id);
+				setMeetingInfo(response.data);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		checkValidUserInClass();
+	}, [id]);
 
 	const mdUp = useResponsive('up', 'md');
 
@@ -88,18 +103,18 @@ function Learning() {
 		document.getElementById('zmmtg-root').style.display = 'block';
 
 		ZoomMtg.init({
-			leaveUrl: leaveUrl,
+			leaveUrl,
 			success: (success) => {
 				ZoomMtg.join({
-					signature: signature,
-					meetingNumber: meetingNumber,
-					userName: userName,
-					apiKey: apiKey,
-					userEmail: userEmail,
-					passWord: passWord,
+					signature,
+					meetingNumber: meetingInfo.meetingNumber,
+					userName: meetingInfo.name,
+					apiKey,
+					userEmail: meetingInfo.email,
+					passWord: meetingInfo.passwordMeeting,
 					tk: registrantToken,
 					success: (success) => {
-						console.log('success', success);
+						// console.log('success', success);
 					},
 					error: (error) => {
 						console.error(error);
@@ -113,24 +128,15 @@ function Learning() {
 		});
 	};
 
-	const getSignature = (e) => {
+	const getSignature = async (e) => {
 		e.preventDefault();
-
-		fetch(signatureEndpoint, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				meetingNumber: meetingNumber,
-				role: role,
-			}),
-		})
-			.then((res) => res.json())
-			.then((response) => {
-				startMeeting(response.signature);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+		try {
+			const data = { meetingNumber: meetingInfo.meetingNumber, role: meetingInfo.role };
+			const response = await zoomApi.getSignature(data);
+			startMeeting(response.data.signature);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -154,12 +160,7 @@ function Learning() {
 
 						<Grid xs={12} md={7}>
 							<ContentStyle>
-								<Image
-									alt="js"
-									ratio="21/9"
-									sx={{ borderRadius: 1 }}
-									src="https://firebasestorage.googleapis.com/v0/b/graduation-project-itgo.appspot.com/o/courses%2Ftypescript.png?alt=media&token=bfcc7ba7-04ff-4cf0-b0d7-1def58e9310f"
-								/>
+								<Image alt="js" ratio="21/9" sx={{ borderRadius: 1 }} src={meetingInfo?.cover} />
 								<Typography variant="h3" sx={{ my: 5 }}>
 									Join Meeting
 								</Typography>
@@ -171,6 +172,19 @@ function Learning() {
 						</Grid>
 					</Grid>
 				</ContainerContent>
+
+				<DialogAnimate open={!meetingInfo}>
+					<Box sx={{ textAlign: 'center', p: 3 }}>
+						<ErrorIcon sx={{ mb: 5, mx: 'auto', height: 120 }} />
+						<Typography variant="h3" gutterBottom>
+							You do not have permission to join this meeting
+						</Typography>
+
+						<Button size="large" variant="contained" onClick={() => navigate(-1)} sx={{ mt: 5 }}>
+							Back
+						</Button>
+					</Box>
+				</DialogAnimate>
 			</RootStyle>
 		</Page>
 	);

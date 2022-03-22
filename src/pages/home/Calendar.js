@@ -5,8 +5,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import timelinePlugin from '@fullcalendar/timeline';
 import interactionPlugin from '@fullcalendar/interaction';
 //
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { PATH_PAGE } from '../../routes/paths';
 // @mui
 import { Card, Container, DialogTitle } from '@mui/material';
 // hooks
@@ -29,6 +30,7 @@ export default function Calendar() {
 	const [selectedEvent, setSelectedEvent] = useState(null);
 	const [isOpenModal, setIsOpenModal] = useState(false);
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	const getEvents = async () => {
 		try {
@@ -36,6 +38,7 @@ export default function Calendar() {
 			setEvents(response.data.events);
 		} catch (error) {
 			console.error(error);
+			navigate(PATH_PAGE.page500);
 		}
 	};
 

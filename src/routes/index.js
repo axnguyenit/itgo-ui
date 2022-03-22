@@ -186,7 +186,14 @@ export default function Router() {
 			path: '*',
 			element: <LogoOnlyLayout />,
 			children: [
-				{ path: 'learning/:id', element: <Learning /> },
+				{
+					path: 'learning/:id',
+					element: (
+						<BasedGuard>
+							<Learning />
+						</BasedGuard>
+					),
+				},
 				{ path: '500', element: <Page500 /> },
 				{ path: '404', element: <NotFound /> },
 				{ path: '*', element: <Navigate to="/404" replace /> },

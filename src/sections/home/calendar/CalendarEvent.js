@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Stack, Button, DialogActions, Typography } from '@mui/material';
 // utils
-
 import { fDateTime } from '../../../utils/formatTime';
-
+import { PATH_HOME } from '../../../routes/paths';
 // ----------------------------------------------------------------------
 
 CalendarEvent.propTypes = {
@@ -51,7 +51,14 @@ export default function CalendarEvent({ event, onCancel }) {
 					Cancel
 				</Button>
 
-				<Button variant="contained">Join meeting</Button>
+				<Button
+					variant="contained"
+					to={`${PATH_HOME.learning.root}/${event.id}`}
+					component={RouterLink}
+					sx={{ ml: 1.5 }}
+				>
+					Join meeting
+				</Button>
 			</DialogActions>
 		</>
 	);
