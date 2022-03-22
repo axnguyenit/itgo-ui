@@ -112,7 +112,6 @@ function AuthProvider({ children }) {
 			email,
 			password,
 		});
-		if (!response.data.success) return;
 		const { accessToken, user } = response.data;
 
 		if (!user.emailVerified) navigate(PATH_AUTH.verify, { replace: true });

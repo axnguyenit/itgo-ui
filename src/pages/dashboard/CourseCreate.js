@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 // @mui
 import { Container } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
@@ -17,19 +17,22 @@ export default function CourseCreate() {
 	const { pathname } = useLocation();
 	const { id } = useParams();
 	const isEdit = pathname.includes('edit');
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getCourse = async () => {
 			if (!isEdit) return;
 			try {
 				const response = await courseApi.get(id);
-				if (response.data.success) setCourse(response.data.course);
+				setCourse(response.data.course);
 			} catch (error) {
 				console.error(error);
+				navigate(PATH_PAGE.page404);
 			}
 		};
 
 		isEdit ? getCourse() : setCourse(null);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, id]);
 
 	return (

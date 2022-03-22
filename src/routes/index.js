@@ -97,23 +97,21 @@ export default function Router() {
 					path: 'courses',
 					children: [
 						{
-							element: <Navigate to={PATH_DASHBOARD.courses.list} replace />,
+							element: <DashboardCourses />,
 							index: true,
 						},
-						{ path: 'list', element: <CourseList /> },
-						{ path: 'new', element: <CourseCreate /> },
+						{ path: 'create', element: <CourseCreate /> },
 						{ path: ':id/edit', element: <CourseCreate /> },
 					],
 				},
 				{
-					path: 'user',
+					path: 'users',
 					children: [
 						{
-							element: <Navigate to="/dashboard/user/profile" replace />,
+							element: <Users />,
 							index: true,
 						},
-						{ path: 'list', element: <UserList /> },
-						{ path: 'new', element: <UserCreate /> },
+						{ path: 'create', element: <UserCreate /> },
 						{ path: ':name/edit', element: <UserCreate /> },
 					],
 				},
@@ -129,16 +127,17 @@ export default function Router() {
 				</InstructorGuard>
 			),
 			children: [
-				{ element: <Navigate to={PATH_INSTRUCTOR.courses.root} replace />, index: true },
+				{ element: <Navigate to={PATH_INSTRUCTOR.calendar} replace />, index: true },
+				{ path: 'calendar', element: <InstructorCalendar /> },
 				{
 					path: 'courses',
 					children: [
 						{
-							element: <Navigate to={PATH_INSTRUCTOR.courses.list} replace />,
+							element: <InstructorCourses />,
 							index: true,
 						},
-						{ path: 'list', element: <InstructorCourseList /> },
-						{ path: 'new', element: <InstructorCourseCreate /> },
+						{ path: 'create', element: <InstructorCourseCreate /> },
+						{ path: ':id/students', element: <InstructorStudents /> },
 						{ path: ':id/edit', element: <InstructorCourseCreate /> },
 					],
 				},
@@ -171,6 +170,14 @@ export default function Router() {
 						</BasedGuard>
 					),
 				},
+				{
+					path: 'my-courses/:id/events',
+					element: (
+						<BasedGuard>
+							<StudentCalendar />
+						</BasedGuard>
+					),
+				},
 			],
 		},
 
@@ -185,16 +192,6 @@ export default function Router() {
 				{ path: '*', element: <Navigate to="/404" replace /> },
 			],
 		},
-		// {
-		// 	path: '/',
-		// 	element: <MainLayout />,
-		// 	children: [
-		// 		{ element: <HomePage />, index: true },
-		// 		{ path: 'about-us', element: <About /> },
-		// 		{ path: 'contact-us', element: <Contact /> },
-		// 		{ path: 'faqs', element: <Faqs /> },
-		// 	],
-		// },
 		{ path: '*', element: <Navigate to="/404" replace /> },
 	]);
 }
@@ -210,13 +207,15 @@ const ForgotPassword = Loadable(lazy(() => import('../pages/auth/ForgotPassword'
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
 // Dashboard
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
+const Users = Loadable(lazy(() => import('../pages/dashboard/Users')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
-const CourseList = Loadable(lazy(() => import('../pages/dashboard/CourseList')));
+const DashboardCourses = Loadable(lazy(() => import('../pages/dashboard/Courses')));
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 // Instructor
-const InstructorCourseList = Loadable(lazy(() => import('../pages/instructor/CourseList')));
+const InstructorCourses = Loadable(lazy(() => import('../pages/instructor/Courses')));
 const InstructorCourseCreate = Loadable(lazy(() => import('../pages/instructor/CourseCreate')));
+const InstructorCalendar = Loadable(lazy(() => import('../pages/instructor/Calendar')));
+const InstructorStudents = Loadable(lazy(() => import('../pages/instructor/Students')));
 
 // Main
 const Home = Loadable(lazy(() => import('../pages/home/Home')));
@@ -227,5 +226,6 @@ const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails'))
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
 const AccountSettings = Loadable(lazy(() => import('../pages/home/AccountSettings')));
 const MyLearning = Loadable(lazy(() => import('../pages/home/MyLearning')));
+const StudentCalendar = Loadable(lazy(() => import('../pages/home/Calendar')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));

@@ -32,8 +32,8 @@ export default function Verify() {
 	useEffect(() => {
 		const verifyEmail = async () => {
 			try {
-				const response = await userApi.verifyEmail(id, token);
-				if (response.data.success) setIsValid(true);
+				await userApi.verifyEmail(id, token);
+				setIsValid(true);
 			} catch (error) {
 				console.error(error);
 			}

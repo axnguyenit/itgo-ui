@@ -29,9 +29,11 @@ const RootStyle = styled('div')(({ theme }) => ({
 export default function RequestVerify() {
 	const [email, setEmail] = useState('');
 	const [sent, setSent] = useState(false);
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const status = searchParams.get('status');
 	const _email = searchParams.get('email');
+
+	console.log(status, _email);
 
 	useEffect(() => {
 		if (status === 'sent') {

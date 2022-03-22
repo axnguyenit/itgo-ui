@@ -13,6 +13,7 @@ const getIcon = (name) => (
 const ICONS = {
 	book: getIcon('ic_book'),
 	user: getIcon('ic_user'),
+	calendar: getIcon('ic_calendar'),
 };
 
 const navConfig = [
@@ -35,16 +36,10 @@ const navConfig = [
 			// 	],
 			// },
 
+			// MANAGEMENT : CALENDAR
+			{ title: 'calendar', path: PATH_INSTRUCTOR.calendar, icon: ICONS.calendar },
 			// MANAGEMENT : COURSES
-			{
-				title: 'courses',
-				path: PATH_INSTRUCTOR.courses.root,
-				icon: ICONS.book,
-				children: [
-					{ title: 'list', path: PATH_INSTRUCTOR.courses.list },
-					{ title: 'create', path: PATH_INSTRUCTOR.courses.newCourse },
-				],
-			},
+			{ title: 'courses', path: PATH_INSTRUCTOR.courses.root, icon: ICONS.book },
 		],
 	},
 ];

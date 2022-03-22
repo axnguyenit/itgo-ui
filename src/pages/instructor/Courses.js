@@ -11,7 +11,9 @@ import {
 	Typography,
 	TableContainer,
 	TablePagination,
+	Button,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -26,13 +28,14 @@ import {
 	CourseMoreMenu,
 	CourseListHead,
 	CourseListToolbar,
-} from '../../sections/instructor/course-list';
+} from '../../sections/instructor/courses';
 // api
 import courseApi from '../../api/courseApi';
 // routes
-import { PATH_INSTRUCTOR } from '../../routes/paths';
+import { PATH_INSTRUCTOR, PATH_PAGE } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
+import Iconify from '../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -46,16 +49,16 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function CourseList() {
+export default function Courses() {
 	const { user } = useAuth();
 	const [courseList, setCourseList] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
-
 	const [order, setOrder] = useState('asc');
 	const [filterName, setFilterName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [orderBy, setOrderBy] = useState('createdAt');
+	const navigate = useNavigate();
 
 	const getAllCourses = async () => {
 		const params = {
@@ -66,11 +69,11 @@ export default function CourseList() {
 
 		try {
 			const response = await courseApi.getAll(params);
-			if (!response.data.success) return;
 			setCourseList(response.data.courses);
 			setPagination(response.data.pagination);
 		} catch (error) {
 			console.error(error);
+			navigate(PATH_PAGE.page500);
 		}
 	};
 
@@ -96,8 +99,8 @@ export default function CourseList() {
 
 	const handleDeleteCourse = async (courseId) => {
 		try {
-			const response = await courseApi.remove(courseId);
-			if (response.data.success) getAllCourses();
+			await courseApi.remove(courseId);
+			getAllCourses();
 		} catch (error) {
 			console.error(error);
 		}
@@ -108,16 +111,25 @@ export default function CourseList() {
 	const isNotFound = !filteredCourses.length && !!filterName;
 
 	return (
-		<Page title="Course List">
+		<Page title="Courses">
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading="Course List"
+					heading="Courses"
 					links={[
 						{ name: 'Instructor', href: PATH_INSTRUCTOR.root },
 						{
-							name: 'Courses List',
+							name: 'Courses',
 						},
 					]}
+					action={
+						<Button
+							variant="contained"
+							startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+							onClick={() => navigate(PATH_INSTRUCTOR.courses.newCourse)}
+						>
+							New Course
+						</Button>
+					}
 				/>
 				<Card>
 					<CourseListToolbar filterName={filterName} onFilterName={handleFilterByName} />

@@ -25,6 +25,11 @@ const courseApi = {
 		const url = `/api/courses/${id}`;
 		return axios.delete(url);
 	},
+
+	getStudents(id) {
+		const url = `/api/classes/${id}`;
+		return axios.get(url);
+	},
 };
 
 export default courseApi;

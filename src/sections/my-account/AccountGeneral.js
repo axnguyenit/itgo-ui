@@ -68,8 +68,6 @@ export default function AccountGeneral() {
 					const data = new FormData();
 					data.append('avatar', file);
 					const response = await uploadApi.addAvatar(data);
-
-					if (!response.data.success) return;
 					const path = response.data.file.path;
 					const avatar = { path, preview: URL.createObjectURL(file) };
 
