@@ -25,7 +25,7 @@ import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/user/list';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/users';
 import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
@@ -42,7 +42,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-export default function UserList() {
+export default function Users() {
 	const [userList, setUserList] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
@@ -59,7 +59,6 @@ export default function UserList() {
 
 		try {
 			const response = await userApi.getAll(params);
-			if (!response.data.success) return;
 			setUserList(response.data.users);
 			setPagination(response.data.pagination);
 		} catch (error) {
@@ -92,20 +91,16 @@ export default function UserList() {
 	const isNotFound = !filteredUsers.length && !!filterEmail;
 
 	return (
-		<Page title="User: List">
+		<Page title="Users">
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading="User List"
-					links={[
-						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
-						{ name: 'User', href: PATH_DASHBOARD.user.root },
-						{ name: 'List' },
-					]}
+					heading="Users"
+					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'Users' }]}
 					action={
 						<Button
 							variant="contained"
 							component={RouterLink}
-							to={PATH_DASHBOARD.user.newUser}
+							to={PATH_DASHBOARD.users.newUser}
 							startIcon={<Iconify icon={'eva:plus-fill'} />}
 						>
 							New User
@@ -127,7 +122,7 @@ export default function UserList() {
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>
-									{filteredUsers.length &&
+									{!!filteredUsers.length &&
 										filteredUsers.map((user) => {
 											const {
 												_id,

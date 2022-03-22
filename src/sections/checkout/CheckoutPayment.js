@@ -62,7 +62,7 @@ export default function CheckoutPayment() {
 	const onSubmit = async () => {
 		try {
 			const response = await paymentApi.getPayUrl();
-			if (response.data.success) window.location.href = response.data.payUrl;
+			window.location.href = response.data.payUrl;
 		} catch (error) {
 			console.error(error);
 		}

@@ -7,14 +7,13 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import UserNewForm from '../../sections/@dashboard/user/UserNewForm';
+import { UserNewForm } from '../../sections/@dashboard/users';
 
 // ----------------------------------------------------------------------
 
 export default function UserCreate() {
 	const { pathname } = useLocation();
 	const isEdit = pathname.includes('edit');
-
 	const currentUser = {};
 
 	return (
@@ -24,7 +23,7 @@ export default function UserCreate() {
 					heading={!isEdit ? 'Create a new user' : 'Edit user'}
 					links={[
 						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
-						{ name: 'User', href: PATH_DASHBOARD.user.list },
+						{ name: 'User', href: PATH_DASHBOARD.users.root },
 						{ name: !isEdit ? 'New user' : 'Edit user' },
 					]}
 				/>

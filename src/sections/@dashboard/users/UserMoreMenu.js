@@ -4,10 +4,10 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { MenuItem, IconButton } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Iconify from '../../../../components/Iconify';
-import MenuPopover from '../../../../components/MenuPopover';
+import Iconify from '../../../components/Iconify';
+import MenuPopover from '../../../components/MenuPopover';
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ export default function UserMoreMenu({ userId }) {
 					'& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
 				}}
 			>
-				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.user.root}/${userId}/edit`}>
+				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.users.root}/${userId}/edit`}>
 					<Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
 					Edit
 				</MenuItem>

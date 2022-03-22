@@ -35,8 +35,8 @@ export default function ForgotPassword() {
 	useEffect(() => {
 		const checkRequestResetPassword = async () => {
 			try {
-				const response = await userApi.checkRequestResetPassword(id, token);
-				if (response.data.success) setIsValid(true);
+				await userApi.checkRequestResetPassword(id, token);
+				setIsValid(true);
 			} catch (error) {
 				console.error(error);
 			}

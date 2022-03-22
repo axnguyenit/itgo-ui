@@ -47,13 +47,9 @@ const navConfig = [
 		items: [
 			// MANAGEMENT : USER
 			{
-				title: 'user',
-				path: PATH_DASHBOARD.user.root,
+				title: 'users',
+				path: PATH_DASHBOARD.users.root,
 				icon: ICONS.user,
-				children: [
-					{ title: 'list', path: PATH_DASHBOARD.user.list },
-					{ title: 'create', path: PATH_DASHBOARD.user.newUser },
-				],
 			},
 
 			// MANAGEMENT : COURSES
@@ -61,10 +57,6 @@ const navConfig = [
 				title: 'courses',
 				path: PATH_DASHBOARD.courses.root,
 				icon: ICONS.book,
-				children: [
-					{ title: 'list', path: PATH_DASHBOARD.courses.list },
-					{ title: 'create', path: PATH_DASHBOARD.courses.newCourse },
-				],
 			},
 		],
 	},

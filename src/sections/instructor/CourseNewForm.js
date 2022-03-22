@@ -77,6 +77,9 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 				return false;
 			})
 			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
+		minStudent: Yup.number()
+			.integer('Minimum student must be a integer')
+			.moreThan(4, 'Minimum student must be at least 5'),
 		overview: Yup.string()
 			.required('Overview is required')
 			.min(50, 'Overview must be at least 50 characters'),
@@ -94,6 +97,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 			cover: currentCourse?.cover || null,
 			price: currentCourse?.price || 0,
 			priceSale: currentCourse?.priceSale || 0,
+			minStudent: currentCourse?.minStudent || 5,
 			tags: currentCourse?.tags || [TAGS_OPTION[0]],
 			overview: currentCourse?.details.overview || '',
 			requirements: currentCourse?.details.requirements || '',
@@ -132,23 +136,19 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 		if (isEdit) {
 			data.id = currentCourse._id;
 			try {
-				const response = await courseApi.update(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Update success!');
-					navigate(PATH_INSTRUCTOR.courses.list);
-				}
+				await courseApi.update(data);
+				reset();
+				enqueueSnackbar('Update success!');
+				navigate(PATH_INSTRUCTOR.courses.root);
 			} catch (error) {
 				console.error(error);
 			}
 		} else {
 			try {
-				const response = await courseApi.add(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Create success!');
-					navigate(PATH_INSTRUCTOR.courses.list);
-				}
+				await courseApi.add(data);
+				reset();
+				enqueueSnackbar('Create success!');
+				navigate(PATH_INSTRUCTOR.courses.root);
 			} catch (error) {
 				console.error(error);
 			}
@@ -164,8 +164,6 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 					const data = new FormData();
 					data.append('image', file);
 					const response = await uploadApi.addCourseImage(data);
-
-					if (!response.data.success) return;
 					const path = response.data.file.path;
 					const cover = { path, preview: URL.createObjectURL(file) };
 					setValue('cover', cover);
@@ -239,11 +237,17 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 										/>
 									)}
 								/>
-							</Stack>
-						</Card>
 
-						<Card sx={{ p: 3 }}>
-							<Stack spacing={3} mb={2}>
+								<RHFTextField
+									name="minStudent"
+									label="Minimum student"
+									placeholder="0.00"
+									defaultValue={getValues('minStudent') === 0 ? '' : getValues('minStudent')}
+									onChange={(event) => setValue('minStudent', Number(event.target.value))}
+									InputLabelProps={{ shrink: true }}
+									InputProps={{ type: 'number' }}
+								/>
+
 								<RHFTextField
 									name="price"
 									label="Regular Price"

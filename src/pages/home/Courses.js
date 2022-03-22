@@ -34,10 +34,8 @@ export default function Courses() {
 			};
 			try {
 				const response = await courseApi.getAll(params);
-				if (response.data.success) {
-					setCourses(response.data.courses);
-					setPagination(response.data.pagination);
-				}
+				setCourses(response.data.courses);
+				setPagination(response.data.pagination);
 			} catch (error) {
 				console.error(error);
 			}

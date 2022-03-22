@@ -26,10 +26,8 @@ function MyLearning(props) {
 			try {
 				const params = { _page: page, _limit: LIMIT_COURSE };
 				const response = await orderApi.getByUser(params);
-				if (response.data.success) {
-					setEnrolledCourseList(response.data.orders);
-					setPagination(response.data.pagination);
-				}
+				setEnrolledCourseList(response.data.orders);
+				setPagination(response.data.pagination);
 			} catch (error) {
 				console.error(error);
 			}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { paramCase } from 'change-case';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Container, Divider, Grid, Stack, Tab } from '@mui/material';
@@ -11,6 +12,7 @@ import {
 	CourseDetailsSummary,
 	RelatedCourses,
 } from '../../sections/courses';
+import { PATH_PAGE } from '../../routes/paths';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Markdown from '../../components/Markdown';
 // api
@@ -27,19 +29,42 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const TAB_LIST = [
+	{
+		label: 'Overview',
+		value: '1',
+	},
+	{
+		label: 'Requirements',
+		value: '2',
+	},
+	{
+		label: 'Target Audiences',
+		value: '3',
+	},
+	{
+		label: 'Reviews',
+		value: '4',
+	},
+];
+
 export default function CourseDetails() {
 	const { id } = useParams();
 	const [value, setValue] = useState('1');
 	const [course, setCourse] = useState(null);
 	const [courses, setCourses] = useState(null);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const tab = searchParams.get('tab');
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getCourse = async () => {
 			try {
 				const response = await courseApi.get(id);
-				if (response.data.success) setCourse(response.data.course);
+				setCourse(response.data.course);
 			} catch (error) {
 				console.error(error);
+				navigate(PATH_PAGE.page404);
 			}
 		};
 
@@ -50,7 +75,7 @@ export default function CourseDetails() {
 			};
 			try {
 				const response = await courseApi.getAll(params);
-				if (response.data.success) setCourses(response.data.courses);
+				setCourses(response.data.courses);
 			} catch (error) {
 				console.error(error);
 			}
@@ -60,6 +85,19 @@ export default function CourseDetails() {
 		getCourse();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
+
+	useEffect(() => {
+		if (tab) {
+			const existTab = TAB_LIST.find((item) => paramCase(item.label) === tab);
+			if (existTab) setValue(existTab.value);
+		}
+	}, [tab]);
+
+	const handleChangeTab = (value) => {
+		setValue(value);
+		const params = TAB_LIST.find((tab) => tab.value === value);
+		setSearchParams({ tab: paramCase(params.label) });
+	};
 
 	return (
 		<Page title="Course Details">
@@ -76,11 +114,10 @@ export default function CourseDetails() {
 
 							<Stack sx={{ mt: 3 }}>
 								<TabContext value={value}>
-									<TabList onChange={(e, value) => setValue(value)}>
-										<Tab disableRipple value="1" label="Overview" />
-										<Tab disableRipple value="2" label="Requirements" />
-										<Tab disableRipple value="3" label="Target Audiences" />
-										<Tab disableRipple value="4" label="Reviews" />
+									<TabList onChange={(e, value) => handleChangeTab(value)}>
+										{TAB_LIST.map((tab) => (
+											<Tab disableRipple value={tab.value} label={tab.label} />
+										))}
 									</TabList>
 
 									<Divider />

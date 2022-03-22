@@ -69,14 +69,21 @@ export default function CourseMoreMenu({ onDelete, courseId, courseName }) {
 					'& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
 				}}
 			>
-				<MenuItem onClick={() => setIsOpenModal(true)} sx={{ color: 'error.main' }}>
-					<Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
-					Delete
+				<MenuItem
+					component={RouterLink}
+					to={`${PATH_INSTRUCTOR.courses.root}/${courseId}/students`}
+				>
+					<Iconify icon={'openmoji:man-student-light-skin-tone'} sx={{ ...ICON }} />
+					Students
 				</MenuItem>
 
 				<MenuItem component={RouterLink} to={`${PATH_INSTRUCTOR.courses.root}/${courseId}/edit`}>
 					<Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
 					Edit
+				</MenuItem>
+				<MenuItem onClick={() => setIsOpenModal(true)} sx={{ color: 'error.main' }}>
+					<Iconify icon={'eva:trash-2-outline'} sx={{ ...ICON }} />
+					Delete
 				</MenuItem>
 			</MenuPopover>
 

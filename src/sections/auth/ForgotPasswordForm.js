@@ -39,8 +39,8 @@ export default function ForgotPasswordForm({ onSent, onGetEmail }) {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await userApi.forgotPassword(data);
-			if (isMountedRef.current && response.data.success) {
+			await userApi.forgotPassword(data);
+			if (isMountedRef.current) {
 				onSent();
 				onGetEmail(data.email);
 			}

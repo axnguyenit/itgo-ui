@@ -29,7 +29,6 @@ export default function HomeInstructorList() {
 		try {
 			const response = await userApi.getAllInstructors(params);
 
-			if (!response.data.success) return;
 			setInstructorList(response.data.instructors);
 		} catch (error) {
 			console.error(error);

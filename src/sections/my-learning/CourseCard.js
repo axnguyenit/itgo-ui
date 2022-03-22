@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Box, Card, Link, Typography, Stack, Rating } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 // routes
 import { PATH_HOME } from '../../routes/paths';
 import Image from '../../components/Image';
@@ -13,9 +13,8 @@ CourseCard.propTypes = {
 };
 
 export default function CourseCard({ order }) {
-	const { _id, course } = order;
-
-	const linkTo = `${PATH_HOME.courses.root}/${_id}`;
+	const { course } = order;
+	const linkTo = `${PATH_HOME.myLearning.root}/${course._id}/events`;
 
 	return (
 		<Card>
@@ -38,7 +37,10 @@ export default function CourseCard({ order }) {
 				</Box>
 
 				<Stack direction="row" alignItems="flex-end" justifyContent="space-between">
-					<Rating value={4.5} size="small" precision={0.1} readOnly />
+					<Box sx={{ flexGrow: 1 }} />
+					<Button variant="contained" size="small" to={linkTo} component={RouterLink}>
+						Calendar
+					</Button>
 				</Stack>
 			</Stack>
 		</Card>

@@ -47,11 +47,9 @@ export default function CheckoutCart() {
 					cart,
 				};
 
-				const response = await paymentApi.add(data);
-				if (response.data.success) {
-					setSearchParams({});
-					getCartApi();
-				}
+				await paymentApi.add(data);
+				setSearchParams({});
+				getCartApi();
 			} catch (error) {
 				console.error(error);
 			}
@@ -65,10 +63,8 @@ export default function CheckoutCart() {
 
 	const handleDeleteCart = async (cartItemId) => {
 		try {
-			const response = await cartApi.removeItem(cartItemId);
-			if (response.data.success) {
-				dispatch(deleteCart(cartItemId));
-			}
+			await cartApi.removeItem(cartItemId);
+			dispatch(deleteCart(cartItemId));
 		} catch (error) {
 			enqueueSnackbar(error.errors[0].msg, { variant: 'warning' });
 		}

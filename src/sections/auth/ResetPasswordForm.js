@@ -49,8 +49,8 @@ export default function ResetPasswordForm({ onSent, id, token }) {
 	const onSubmit = async (data) => {
 		try {
 			if (isMountedRef.current) {
-				const response = await userApi.resetPassword(data, id, token);
-				if (response.data.success) onSent();
+				await userApi.resetPassword(data, id, token);
+				onSent();
 			}
 		} catch (error) {
 			console.error(error);

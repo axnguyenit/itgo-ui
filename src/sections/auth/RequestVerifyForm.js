@@ -39,8 +39,8 @@ export default function RequestVerifyForm({ onSent, onGetEmail }) {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await userApi.requestVerifyEmail(data);
-			if (isMountedRef.current && response.data.success) {
+			await userApi.requestVerifyEmail(data);
+			if (isMountedRef.current) {
 				onSent();
 				onGetEmail(data.email);
 			}
