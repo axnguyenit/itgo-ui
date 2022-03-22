@@ -25,6 +25,11 @@ const eventApi = {
 		const url = `/api/events/${id}`;
 		return axios.delete(url);
 	},
+
+	checkValidUser(id) {
+		const url = `/api/events/valid-user/${id}`;
+		return axios.get(url);
+	},
 };
 
 export default eventApi;
