@@ -18,7 +18,6 @@ import {
 	Autocomplete,
 	InputAdornment,
 } from '@mui/material';
-// routes
 // components
 import {
 	FormProvider,
@@ -28,10 +27,10 @@ import {
 	RHFUploadSingleFile,
 } from '../../../components/hook-form';
 import courseApi from '../../../api/courseApi';
-import uploadApi from '../../../api/uploadApi';
 import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import userApi from '../../../api/userApi';
+import cloudinary from '../../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -136,7 +135,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	useEffect(() => {
 		if (isEdit && currentCourse) {
 			reset(defaultValues);
-			setValue('cover', { path: currentCourse?.cover, preview: currentCourse?.cover });
+			setValue('cover', cloudinary.w700(currentCourse?.cover));
 		}
 		if (!isEdit) {
 			reset(defaultValues);
@@ -147,7 +146,6 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		data.cover = data.cover.path;
 		if (isEdit) {
 			data.id = currentCourse._id;
 			try {
@@ -171,20 +169,18 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	};
 
 	const handleDrop = useCallback(
-		async (acceptedFiles) => {
+		(acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				try {
-					const data = new FormData();
-					data.append('image', file);
-					const response = await uploadApi.addCourseImage(data);
-					const path = response.data.file.path;
-					const cover = { path, preview: URL.createObjectURL(file) };
-					setValue('cover', cover);
-				} catch (error) {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => {
+					setValue('cover', reader.result);
+				};
+				reader.onerror = (error) => {
 					console.error(error);
-				}
+				};
 			}
 		},
 		[setValue]

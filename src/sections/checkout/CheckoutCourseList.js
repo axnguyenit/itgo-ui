@@ -17,6 +17,7 @@ import { fCurrency } from '../../utils/formatNumber';
 // components
 import Image from '../../components/Image';
 import Iconify from '../../components/Iconify';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +60,7 @@ export default function CheckoutCourseList({ courses, onDelete }) {
 										<Box sx={{ display: 'flex', alignItems: 'center' }}>
 											<Image
 												alt="course image"
-												src={cover}
+												src={cloudinary.w100(cover)}
 												sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
 											/>
 											<Box>

@@ -17,6 +17,7 @@ import Label from '../../components/Label';
 import Image from '../../components/Image';
 import useAuth from '../../hooks/useAuth';
 import { PATH_AUTH } from '../../routes/paths';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ export default function CourseCard({ course }) {
 						Sale
 					</Label>
 				)}
-				<Image alt={name} src={cover} ratio="16/9" />
+				<Image alt={name} src={cloudinary.w300(cover)} ratio="16/9" />
 			</Box>
 
 			<Stack spacing={2} sx={{ p: 2 }}>

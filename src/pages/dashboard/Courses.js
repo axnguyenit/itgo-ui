@@ -34,6 +34,7 @@ import {
 // api
 import courseApi from '../../api/courseApi';
 import Iconify from '../../components/Iconify';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -150,7 +151,7 @@ export default function Courses() {
 														<Image
 															disabledEffect
 															alt={name}
-															src={cover}
+															src={cloudinary.w100(cover)}
 															sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
 														/>
 														<Typography variant="subtitle2" noWrap>

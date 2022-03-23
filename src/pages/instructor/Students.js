@@ -25,6 +25,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { UserListHead, UserListToolbar } from '../../sections/instructor/students';
 import courseApi from '../../api/courseApi';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -122,7 +123,7 @@ export default function Students() {
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
 													<TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-														<Avatar alt={firstName} src={avatar} sx={{ mr: 2 }} />
+														<Avatar alt={firstName} src={cloudinary.w100(avatar)} sx={{ mr: 2 }} />
 														<Typography variant="subtitle2" noWrap>
 															{firstName} {lastName}
 														</Typography>

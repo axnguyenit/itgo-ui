@@ -17,6 +17,7 @@ import Image from '../../components/Image';
 import Iconify from '../../components/Iconify';
 import InputStyle from '../../components/InputStyle';
 import SearchNotFound from '../../components/SearchNotFound';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -100,8 +101,8 @@ export default function CoursesSearch() {
 				return (
 					<li {...props}>
 						<Image
-							alt={cover}
-							src={cover}
+							alt={name}
+							src={cloudinary.w100(cover)}
 							sx={{ width: 48, height: 48, borderRadius: 1, flexShrink: 0, mr: 1.5 }}
 						/>
 						<Link underline="none" onClick={() => handleClick(name)}>

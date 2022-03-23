@@ -36,6 +36,7 @@ import { PATH_INSTRUCTOR, PATH_PAGE } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import Iconify from '../../components/Iconify';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -154,7 +155,7 @@ export default function Courses() {
 														<Image
 															disabledEffect
 															alt={name}
-															src={cover}
+															src={cloudinary.w100(cover)}
 															sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
 														/>
 														<Typography variant="subtitle2" noWrap>

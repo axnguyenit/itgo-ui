@@ -13,6 +13,7 @@ import cssStyles from '../../utils/cssStyles';
 import Image from '../../components/Image';
 import SvgIconStyle from '../../components/SvgIconStyle';
 import userApi from '../../api/userApi';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -150,7 +151,7 @@ function InstructorCard({ instructor }) {
 				/>
 				<Avatar
 					alt={firstName}
-					src={avatar}
+					src={cloudinary.w100(avatar)}
 					sx={{
 						width: 64,
 						height: 64,
@@ -163,7 +164,7 @@ function InstructorCard({ instructor }) {
 					}}
 				/>
 				<OverlayStyle />
-				<Image src={avatar} alt={avatar} ratio="16/9" />
+				<Image src={cloudinary.w300(avatar)} alt={firstName} ratio="16/9" />
 			</Box>
 
 			<Typography variant="subtitle1" sx={{ mt: 6 }}>

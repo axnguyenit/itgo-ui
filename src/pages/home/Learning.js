@@ -15,6 +15,7 @@ import eventApi from '../../api/eventApi';
 import { DialogAnimate } from '../../components/animate';
 import { ErrorIcon } from '../../assets';
 import zoomApi from '../../api/zoomApi';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -160,7 +161,12 @@ function Learning() {
 
 						<Grid xs={12} md={7}>
 							<ContentStyle>
-								<Image alt="js" ratio="21/9" sx={{ borderRadius: 1 }} src={meetingInfo?.cover} />
+								<Image
+									alt="js"
+									ratio="21/9"
+									sx={{ borderRadius: 1 }}
+									src={cloudinary.w700(meetingInfo?.cover)}
+								/>
 								<Typography variant="h3" sx={{ my: 5 }}>
 									Join Meeting
 								</Typography>

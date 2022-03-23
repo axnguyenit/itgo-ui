@@ -27,6 +27,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/users';
 import userApi from '../../api/userApi';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -139,7 +140,7 @@ export default function Users() {
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
 													<TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-														<Avatar alt={firstName} src={avatar} sx={{ mr: 2 }} />
+														<Avatar alt={firstName} src={cloudinary.w100(avatar)} sx={{ mr: 2 }} />
 														<Typography variant="subtitle2" noWrap>
 															{firstName} {lastName}
 														</Typography>

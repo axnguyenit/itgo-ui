@@ -16,6 +16,7 @@ import { addCart } from '../../redux/slices/cart';
 import cartApi from '../../api/cartApi';
 import useAuth from '../../hooks/useAuth';
 import { PATH_AUTH } from '../../routes/paths';
+import cloudinary from '../../utils/cloudinary';
 
 CourseDetailsSummary.propTypes = {
 	course: PropTypes.object.isRequired,
@@ -97,7 +98,12 @@ export default function CourseDetailsSummary({ course }) {
 				}}
 			/>
 
-			<Image alt="post media" src={course?.cover} ratio="21/9" sx={{ borderRadius: 1 }} />
+			<Image
+				alt="post media"
+				src={cloudinary.w900(course?.cover)}
+				ratio="21/9"
+				sx={{ borderRadius: 1 }}
+			/>
 		</Stack>
 	);
 }
