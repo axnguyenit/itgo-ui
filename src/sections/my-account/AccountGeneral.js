@@ -31,7 +31,7 @@ export default function AccountGeneral() {
 		firstName: user?.firstName || '',
 		lastName: user?.lastName || '',
 		email: user?.email || '',
-		avatar: user?.avatar ? cloudinary.w150(user?.avatar) : '',
+		avatar: user?.avatar ? cloudinary.w300(user?.avatar) : '',
 		phoneNumber: user?.phoneNumber || '',
 		address: user?.address || '',
 		region: user?.region || '',
