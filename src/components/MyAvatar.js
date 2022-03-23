@@ -2,6 +2,7 @@
 import useAuth from '../hooks/useAuth';
 // utils
 import createAvatar from '../utils/createAvatar';
+import cloudinary from '../utils/cloudinary';
 //
 import Avatar from './Avatar';
 
@@ -12,7 +13,7 @@ export default function MyAvatar({ ...other }) {
 
 	return (
 		<Avatar
-			src={user?.avatar}
+			src={cloudinary.w100(user?.avatar)}
 			alt={`${user?.firstName} ${user?.lastName}`}
 			color={user?.avatar ? 'default' : createAvatar(`${user?.firstName} ${user?.lastName}`).color}
 			{...other}

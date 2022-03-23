@@ -5,6 +5,7 @@ import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 // routes
 import { PATH_HOME } from '../../routes/paths';
 import Image from '../../components/Image';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,7 @@ export default function CourseCard({ order }) {
 	return (
 		<Card>
 			<Box sx={{ position: 'relative' }}>
-				<Image alt={course?.name} src={course?.cover} ratio="16/9" />
+				<Image alt={course?.name} src={cloudinary.w300(course?.cover)} ratio="16/9" />
 			</Box>
 
 			<Stack spacing={2} sx={{ p: 2 }}>

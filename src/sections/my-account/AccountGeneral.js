@@ -11,8 +11,8 @@ import { LoadingButton } from '@mui/lab';
 import useAuth from '../../hooks/useAuth';
 // components
 import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
-import uploadApi from '../../api/uploadApi';
 import userApi from '../../api/userApi';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ export default function AccountGeneral() {
 		firstName: user?.firstName || '',
 		lastName: user?.lastName || '',
 		email: user?.email || '',
-		avatar: user?.avatar || '',
+		avatar: user?.avatar ? cloudinary.w150(user?.avatar) : '',
 		phoneNumber: user?.phoneNumber || '',
 		address: user?.address || '',
 		region: user?.region || '',
@@ -51,7 +51,6 @@ export default function AccountGeneral() {
 	const onSubmit = async (data) => {
 		try {
 			data.id = user._id;
-			data.avatar = data.avatar?.path;
 			await userApi.update(data);
 			enqueueSnackbar('Update success!');
 		} catch (error) {
@@ -60,21 +59,18 @@ export default function AccountGeneral() {
 	};
 
 	const handleDrop = useCallback(
-		async (acceptedFiles) => {
+		(acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				try {
-					const data = new FormData();
-					data.append('avatar', file);
-					const response = await uploadApi.addAvatar(data);
-					const path = response.data.file.path;
-					const avatar = { path, preview: URL.createObjectURL(file) };
-
-					setValue('avatar', avatar);
-				} catch (error) {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => {
+					setValue('avatar', reader.result);
+				};
+				reader.onerror = (error) => {
 					console.error(error);
-				}
+				};
 			}
 		},
 		[setValue]
