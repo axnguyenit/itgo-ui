@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { MuiForm5 as Form } from '@rjsf/material-ui';
 import { useSnackbar } from 'notistack';
 import UploadButton from './UploadButton';
 import Autocomplete from './Autocomplete';
 import { LoadingButton } from '@mui/lab';
 import roadmapApi from '../../../api/roadmapApi';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,7 @@ const schema = {
 	type: 'object',
 	properties: {
 		name: { type: 'string', title: 'Roadmap name' },
+		slogan: { type: 'string', title: 'Slogan' },
 		description: { type: 'string', title: 'Description' },
 		technologies: {
 			type: 'array',
@@ -53,6 +56,7 @@ const schema = {
 
 const defaultValue = {
 	name: '',
+	slogan: '',
 	description: '',
 	technologies: [
 		{
@@ -66,6 +70,7 @@ const defaultValue = {
 
 function validate(formData, errors) {
 	if (!formData.name) errors.name?.addError('Roadmap name is required');
+	if (!formData.slogan) errors.slogan?.addError('Slogan is required');
 	if (!formData.description) errors.description?.addError('Description is required');
 	if (formData.technologies.length > 0) {
 		formData.technologies.forEach((technology, index) => {
@@ -93,6 +98,7 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [currentFormData, setCurrentFormData] = useState(defaultValue);
 	const { enqueueSnackbar } = useSnackbar();
+	const navigate = useNavigate();
 
 	const handleSubmit = async ({ formData }) => {
 		setIsSubmitting(true);
@@ -111,6 +117,7 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 				await roadmapApi.add(formData);
 			}
 			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
+			navigate(PATH_DASHBOARD.roadmap.root);
 		} catch (error) {
 			console.error(error);
 		}

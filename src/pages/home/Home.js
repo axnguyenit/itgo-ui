@@ -14,33 +14,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 	backgroundColor: theme.palette.background.default,
 }));
 
-const ROADMAPS = [
-	{
-		title: 'Frontend',
-		desc: `Step by step guide to becoming a Frontend Developer in ${new Date().getFullYear()}`,
-	},
-	{
-		title: 'Backend',
-		desc: `Step by step guide to becoming a Backend Developer in ${new Date().getFullYear()}`,
-	},
-	{
-		title: 'DevOps',
-		desc: `Step by step guide for DevOps or operations role in ${new Date().getFullYear()}`,
-	},
-	{
-		title: 'React',
-		desc: `Step by step guide to becoming a React Developer in ${new Date().getFullYear()}`,
-	},
-	{
-		title: 'Android',
-		desc: `Step by step guide to becoming an Android Developer in ${new Date().getFullYear()}`,
-	},
-	{
-		title: 'Java',
-		desc: `Step by step guide to becoming a Java Developer in ${new Date().getFullYear()}`,
-	},
-];
-
 export default function Home() {
 	return (
 		<Page title="Home">

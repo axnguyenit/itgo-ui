@@ -1,6 +1,6 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Card, Typography, Box, Grid, CardHeader, Divider } from '@mui/material';
+import { Card, Typography, Box, Grid, CardHeader } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import roadmapApi from '../../api/roadmapApi';
