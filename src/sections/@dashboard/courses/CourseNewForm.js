@@ -127,44 +127,37 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 		try {
 			const response = await userApi.getAllInstructors({});
 			setInstructorList(response.data.instructors);
+			if (!isEdit) setValue('instructor', response.data.instructors[0]?._id);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
 	useEffect(() => {
+		getAllInstructors();
 		if (isEdit && currentCourse) {
 			reset(defaultValues);
 			setValue('cover', cloudinary.w700(currentCourse?.cover));
+			setValue('instructor', currentCourse?.instructor._id);
 		}
-		if (!isEdit) {
-			reset(defaultValues);
-		}
+		if (!isEdit) reset(defaultValues);
 
-		getAllInstructors();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		if (isEdit) {
-			data.id = currentCourse._id;
-			try {
+		try {
+			if (isEdit) {
+				data.id = currentCourse._id;
 				await courseApi.update(data);
-				reset();
-				enqueueSnackbar('Update success!');
-				navigate(PATH_DASHBOARD.courses.root);
-			} catch (error) {
-				console.error(error);
-			}
-		} else {
-			try {
+			} else {
 				await courseApi.add(data);
-				reset();
-				enqueueSnackbar('Create success!');
-				navigate(PATH_DASHBOARD.courses.root);
-			} catch (error) {
-				console.error(error);
 			}
+			reset();
+			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
+			navigate(PATH_DASHBOARD.courses.root);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 

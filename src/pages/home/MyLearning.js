@@ -44,9 +44,7 @@ function MyLearning(props) {
 					src={`${window.location.origin}/assets/images/my-learning.jpg`}
 				/>
 				<Container sx={{ mt: 15, mb: 10 }}>
-					{!!enrolledCourseList.length && (
-						<CourseList orders={enrolledCourseList} loading={!enrolledCourseList.length} />
-					)}
+					<CourseList orders={enrolledCourseList} loading={!enrolledCourseList.length} />
 
 					{!enrolledCourseList.length && (
 						<Stack>

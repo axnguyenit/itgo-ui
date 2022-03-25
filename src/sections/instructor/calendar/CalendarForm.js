@@ -99,6 +99,7 @@ export default function CalendarForm({ event, range, onCancel, onGetEvents }) {
 		reset,
 		watch,
 		control,
+		setValue,
 		handleSubmit,
 		formState: { isSubmitting },
 	} = methods;
@@ -145,6 +146,7 @@ export default function CalendarForm({ event, range, onCancel, onGetEvents }) {
 				};
 				const response = await courseApi.getAll(params);
 				setCourseList(response.data.courses);
+				setValue('courseId', response.data.courses[0]._id);
 			} catch (error) {
 				console.error(error);
 				navigate(PATH_PAGE.page500);

@@ -6,10 +6,7 @@ import HomeLayout from '../layouts/home/';
 import InstructorLayout from '../layouts/instructor';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
-import AuthGuard from '../guards/AuthGuard';
-import InstructorGuard from '../guards/InstructorGuard';
-import BasedGuard from '../guards/BasedGuard';
-import GuestGuard from '../guards/GuestGuard';
+import { AuthGuard, InstructorGuard, BasedGuard, GuestGuard } from '../guards';
 import { PATH_DASHBOARD, PATH_INSTRUCTOR } from './paths';
 // components
 import LoadingScreen from '../components/LoadingScreen';
@@ -94,12 +91,17 @@ export default function Router() {
 				{ element: <Navigate to={PATH_DASHBOARD.general.app} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
 				{
+					path: 'roadmap',
+					children: [
+						{ element: <Roadmaps />, index: true },
+						{ path: 'create', element: <RoadmapCreate /> },
+						{ path: ':id/edit', element: <RoadmapCreate /> },
+					],
+				},
+				{
 					path: 'courses',
 					children: [
-						{
-							element: <DashboardCourses />,
-							index: true,
-						},
+						{ element: <DashboardCourses />, index: true },
 						{ path: 'create', element: <CourseCreate /> },
 						{ path: ':id/edit', element: <CourseCreate /> },
 					],
@@ -107,10 +109,7 @@ export default function Router() {
 				{
 					path: 'users',
 					children: [
-						{
-							element: <Users />,
-							index: true,
-						},
+						{ element: <Users />, index: true },
 						{ path: 'create', element: <UserCreate /> },
 						{ path: ':name/edit', element: <UserCreate /> },
 					],
@@ -132,10 +131,7 @@ export default function Router() {
 				{
 					path: 'courses',
 					children: [
-						{
-							element: <InstructorCourses />,
-							index: true,
-						},
+						{ element: <InstructorCourses />, index: true },
 						{ path: 'create', element: <InstructorCourseCreate /> },
 						{ path: ':id/students', element: <InstructorStudents /> },
 						{ path: ':id/edit', element: <InstructorCourseCreate /> },
@@ -154,6 +150,15 @@ export default function Router() {
 				{ path: 'faqs', element: <Faqs /> },
 				{ path: 'courses', element: <Courses /> },
 				{ path: 'courses/:id', element: <CourseDetails /> },
+				{ path: 'roadmap/:id', element: <Roadmap /> },
+				{
+					path: 'instructor/:id',
+					element: (
+						<BasedGuard>
+							<InstructorProfile />
+						</BasedGuard>
+					),
+				},
 				{
 					path: 'account-settings',
 					element: (
@@ -218,16 +223,20 @@ const Users = Loadable(lazy(() => import('../pages/dashboard/Users')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
 const DashboardCourses = Loadable(lazy(() => import('../pages/dashboard/Courses')));
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
+const Roadmaps = Loadable(lazy(() => import('../pages/dashboard/Roadmaps')));
+const RoadmapCreate = Loadable(lazy(() => import('../pages/dashboard/RoadmapCreate')));
 // Instructor
 const InstructorCourses = Loadable(lazy(() => import('../pages/instructor/Courses')));
 const InstructorCourseCreate = Loadable(lazy(() => import('../pages/instructor/CourseCreate')));
 const InstructorCalendar = Loadable(lazy(() => import('../pages/instructor/Calendar')));
 const InstructorStudents = Loadable(lazy(() => import('../pages/instructor/Students')));
+const InstructorProfile = Loadable(lazy(() => import('../pages/home/InstructorProfile')));
 
-// Main
+// Home
 const Home = Loadable(lazy(() => import('../pages/home/Home')));
 const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 const Faqs = Loadable(lazy(() => import('../pages/home/Faqs')));
+const Roadmap = Loadable(lazy(() => import('../pages/home/Roadmap')));
 const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));

@@ -6,6 +6,11 @@ const userApi = {
 		return axios.get(url, { params });
 	},
 
+	get(id) {
+		const url = `/api/users/user/${id}`;
+		return axios.get(url);
+	},
+
 	register(data) {
 		const url = '/api/auth/register';
 		return axios.post(url, data);

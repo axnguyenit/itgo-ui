@@ -32,7 +32,6 @@ const navConfig = [
 			// 		{ title: 'cards', path: PATH_INSTRUCTOR.user.cards },
 			// 		{ title: 'list', path: PATH_INSTRUCTOR.user.list },
 			// 		{ title: 'create', path: PATH_INSTRUCTOR.user.newUser },
-			// 		{ title: 'edit', path: PATH_INSTRUCTOR.user.editById },
 			// 	],
 			// },
 

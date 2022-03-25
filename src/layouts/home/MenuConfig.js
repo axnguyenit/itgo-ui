@@ -28,8 +28,8 @@ const menuConfig = [
 	},
 	{
 		title: 'Roadmap',
-		path: '/roadmap',
-		icon: <Iconify icon={'raphael:roadmap'} {...ICON_SIZE} />,
+		path: PATH_HOME.roadmap.root,
+		icon: <Iconify icon={'fa-solid:road'} {...ICON_SIZE} />,
 		children: [
 			{
 				subheader: 'Roadmap',
