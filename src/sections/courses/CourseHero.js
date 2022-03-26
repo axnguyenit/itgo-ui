@@ -12,7 +12,7 @@ const RootStyle = styled('div')(({ theme, src }) => ({
   url(${src})`,
 	padding: theme.spacing(10, 0),
 	[theme.breakpoints.up('md')]: {
-		height: 360,
+		height: 250,
 		padding: 0,
 	},
 }));
@@ -34,14 +34,12 @@ export default function CourseHero({ label, src }) {
 		<RootStyle src={src}>
 			<Container component={MotionContainer} sx={{ position: 'relative', height: '100%' }}>
 				<ContentStyle spacing={5}>
-					<div>
-						<Box sx={{ display: 'inline-flex', color: 'common.white' }}>
-							{label &&
-								label
-									.split(' ')
-									.map((e, index) => <TextAnimate key={index} text={e} sx={{ mr: 2 }} />)}
-						</Box>
-					</div>
+					<Box sx={{ display: 'inline-flex', color: 'common.white' }}>
+						{label &&
+							label
+								.split(' ')
+								.map((e, index) => <TextAnimate key={index} text={e} sx={{ mr: 2 }} />)}
+					</Box>
 				</ContentStyle>
 			</Container>
 		</RootStyle>

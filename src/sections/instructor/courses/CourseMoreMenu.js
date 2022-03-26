@@ -92,7 +92,8 @@ export default function CourseMoreMenu({ onDelete, courseId, courseName }) {
 				<Divider sx={{ borderStyle: 'dashed', mt: 2 }} />
 				<Stack spacing={3} sx={{ px: 3, py: 2 }}>
 					<Typography>
-						Are you sure to want to permanently delete this course ({`${courseName}`})?
+						Are you sure to want to permanently delete this course&nbsp;
+						<strong>{`${courseName}`}</strong>?
 					</Typography>
 				</Stack>
 

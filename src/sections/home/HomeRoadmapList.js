@@ -60,12 +60,12 @@ export default function HomeRoadmapList() {
 			<Grid container spacing={3}>
 				{!!roadmapList.length &&
 					roadmapList.map((roadmap) => (
-						<Grid item xs={12} md={4}>
+						<Grid item xs={12} sm={6} md={4}>
 							<RootStyle to={`${PATH_HOME.roadmap.root}/${roadmap._id}`} component={RouterLink}>
 								<Box>
 									<Typography variant="h4">{roadmap.name}</Typography>
 									<Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-										{roadmap.description} in {new Date().getFullYear()}
+										{roadmap.slogan} in {new Date().getFullYear()}
 									</Typography>
 								</Box>
 							</RootStyle>

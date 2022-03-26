@@ -28,6 +28,7 @@ import roadmapApi from '../../api/roadmapApi';
 
 const TABLE_HEAD = [
 	{ id: 'name', label: 'Name', alignRight: false },
+	{ id: 'slogan', label: 'Slogan', alignRight: false },
 	{ id: 'description', label: 'Description', alignRight: false },
 	{ id: '' },
 ];
@@ -52,6 +53,15 @@ export default function Roadmaps() {
 			const response = await roadmapApi.getAll(params);
 			setRoadmaps(response.data.roadmaps);
 			setPagination(response.data.pagination);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleDeleteRoadmap = async (roadmapId) => {
+		try {
+			await roadmapApi.remove(roadmapId);
+			getRoadmaps();
 		} catch (error) {
 			console.error(error);
 		}
@@ -108,7 +118,7 @@ export default function Roadmaps() {
 								<TableBody>
 									{!!filteredRoadmaps.length &&
 										filteredRoadmaps.map((roadmap) => {
-											const { _id, name, description } = roadmap;
+											const { _id, name, slogan, description } = roadmap;
 
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
@@ -118,10 +128,15 @@ export default function Roadmaps() {
 														</Typography>
 													</TableCell>
 
+													<TableCell align="left">{slogan}</TableCell>
 													<TableCell align="left">{description}</TableCell>
 
 													<TableCell align="right">
-														<RoadmapMoreMenu roadmapId={_id} />
+														<RoadmapMoreMenu
+															roadmapId={_id}
+															roadmapName={name}
+															onDelete={() => handleDeleteRoadmap(_id)}
+														/>
 													</TableCell>
 												</TableRow>
 											);

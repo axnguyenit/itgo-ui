@@ -83,7 +83,7 @@ export default function HomeInstructorList() {
 		<Box sx={{ textAlign: 'center' }}>
 			<CardHeader
 				title="Instructors"
-				subheader={`${instructorList.length} Instructors`}
+				subheader="Top 8 experienced Instructors"
 				sx={{
 					'& .MuiCardHeader-action': {
 						alignSelf: 'center',

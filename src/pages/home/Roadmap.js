@@ -32,10 +32,10 @@ function Roadmap() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
 
-	const handleClick = () => {
+	const handleClick = (tag) => {
 		navigate({
 			pathname: PATH_HOME.courses.root,
-			search: createSearchParams({ status: 'sent' }).toString(),
+			search: createSearchParams({ category: tag }).toString(),
 		});
 	};
 
@@ -48,11 +48,17 @@ function Roadmap() {
 					</Typography>
 					<Typography variant="body1">{roadmap?.description}</Typography>
 				</Box>
-
-				{!!roadmap?.technologies.length &&
-					roadmap.technologies.map((technology, index) => (
-						<RoadmapItem key={index} no={index + 1} technology={technology} onClick={handleClick} />
-					))}
+				<Stack spacing={4}>
+					{!!roadmap?.technologies.length &&
+						roadmap.technologies.map((technology, index) => (
+							<RoadmapItem
+								key={index}
+								no={index + 1}
+								technology={technology}
+								onClick={handleClick}
+							/>
+						))}
+				</Stack>
 			</Container>
 		</Page>
 	);
@@ -70,7 +76,7 @@ function RoadmapItem({ technology, onClick, no }) {
 	return (
 		<Stack spacing={2}>
 			<Typography variant="h3">{`${no}. ${technology?.technology}`}</Typography>
-			<Typography variant="body1">{technology?.technology}</Typography>
+			<Typography variant="body1">{technology?.description}</Typography>
 
 			<Card>
 				<Stack spacing={2} sx={{ p: { xs: 2, md: 4 } }} direction="row" alignItems="center">
@@ -81,7 +87,7 @@ function RoadmapItem({ technology, onClick, no }) {
 					/>
 					<Box>
 						<Typography variant="h4">Related Courses</Typography>
-						<Button onClick={() => onClick()} variant="contained" sx={{ mt: 1 }}>
+						<Button onClick={() => onClick(technology?.tag)} variant="contained" sx={{ mt: 1 }}>
 							Learn now
 						</Button>
 					</Box>

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line react-hooks/exhaustive-deps
 import { MuiForm5 as Form } from '@rjsf/material-ui';
 import { useSnackbar } from 'notistack';
 import UploadButton from './UploadButton';
-import Autocomplete from './Autocomplete';
 import { LoadingButton } from '@mui/lab';
 import roadmapApi from '../../../api/roadmapApi';
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -23,9 +23,6 @@ const uiSchema = {
 			},
 			image: {
 				'ui:widget': UploadButton,
-			},
-			tags: {
-				'ui:widget': Autocomplete,
 			},
 		},
 	},
@@ -47,7 +44,7 @@ const schema = {
 					technology: { type: 'string', title: 'Technology name' },
 					description: { type: 'string', title: 'Description' },
 					image: { type: 'string' },
-					tags: { type: 'string' },
+					tag: { type: 'string', title: 'Tag' },
 				},
 			},
 		},
@@ -62,7 +59,7 @@ const defaultValue = {
 		{
 			technology: '',
 			description: '',
-			tags: '',
+			tag: '',
 			image: '',
 		},
 	],
@@ -78,7 +75,7 @@ function validate(formData, errors) {
 				errors.technologies[index].technology?.addError('Technology name is required');
 			if (!technology.description)
 				errors.technologies[index].description?.addError('Description is required');
-			if (!technology.tags) errors.technologies[index].tags?.addError('Tags is required');
+			if (!technology.tag) errors.technologies[index].tag?.addError('Tag is required');
 			if (!technology.image) errors.technologies[index].image?.addError('Image is required');
 		});
 	} else {
@@ -104,12 +101,6 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 		setIsSubmitting(true);
 
 		try {
-			if (formData.technologies.length > 0) {
-				formData.technologies.forEach((technology, index) => {
-					formData.technologies[index].tags = formData.technologies[index].tags?.split(',');
-				});
-			}
-
 			if (isEdit) {
 				formData.id = currentFormData._id;
 				await roadmapApi.update(formData);
@@ -117,7 +108,7 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 				await roadmapApi.add(formData);
 			}
 			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
-			navigate(PATH_DASHBOARD.roadmap.root);
+			// navigate(PATH_DASHBOARD.roadmap.root);
 		} catch (error) {
 			console.error(error);
 		}

@@ -84,16 +84,6 @@ export default function InstructorProfile() {
 			icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
 			component: <></>,
 		},
-		// {
-		// 	value: 'friends',
-		// 	icon: <Iconify icon={'eva:people-fill'} width={20} height={20} />,
-		// 	component: <></>,
-		// },
-		// {
-		// 	value: 'gallery',
-		// 	icon: <Iconify icon={'ic:round-perm-media'} width={20} height={20} />,
-		// 	component: <></>,
-		// },
 	];
 
 	return (
@@ -101,7 +91,7 @@ export default function InstructorProfile() {
 			<Container maxWidth="lg" sx={{ mt: 15, mb: 10 }}>
 				<Card
 					sx={{
-						mb: 3,
+						mb: 4,
 						height: 280,
 						position: 'relative',
 					}}
