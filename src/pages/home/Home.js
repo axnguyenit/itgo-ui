@@ -4,14 +4,7 @@ import { styled } from '@mui/material/styles';
 // components
 import Page from '../../components/Page';
 // sections
-import {
-	HomeHero,
-	HomeWidgetSummary,
-	HomeInstructorList,
-	HomePopularTech,
-} from 'src/sections/home';
-import { BookingIllustration, CheckInIllustration, CheckOutIllustration } from '../../assets';
-// import jwtDecode from 'jwt-decode';
+import { HomeHero, HomeRoadmapList, HomeInstructorList, HomePopularTech } from 'src/sections/home';
 
 // ----------------------------------------------------------------------
 
@@ -28,24 +21,8 @@ export default function Home() {
 			<ContentStyle>
 				<Container sx={{ mt: 15 }}>
 					<Grid container spacing={3}>
-						<Grid item xs={12} md={4}>
-							<HomeWidgetSummary
-								title="Experienced instructors"
-								total={714000}
-								icon={<BookingIllustration />}
-							/>
-						</Grid>
-
-						<Grid item xs={12} md={4}>
-							<HomeWidgetSummary title="Students" total={311000} icon={<CheckInIllustration />} />
-						</Grid>
-
-						<Grid item xs={12} md={4}>
-							<HomeWidgetSummary
-								title="The best programming learning platform"
-								total={'1st'}
-								icon={<CheckOutIllustration />}
-							/>
+						<Grid item xs={12} md={12} lg={12}>
+							<HomeRoadmapList />
 						</Grid>
 
 						<Grid item xs={12} md={12} lg={12}>

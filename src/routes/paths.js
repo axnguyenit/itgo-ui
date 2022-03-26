@@ -49,7 +49,6 @@ export const PATH_HOME = {
 	},
 	roadmap: {
 		root: path(ROOTS_HOME, '/roadmap'),
-		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),
 	},
 	checkout: path(ROOTS_HOME, '/checkout'),
 };
@@ -60,10 +59,10 @@ export const PATH_INSTRUCTOR = {
 		root: path(ROOTS_INSTRUCTOR, '/courses'),
 		course: path(ROOTS_HOME, '/courses/:id'),
 		students: path(ROOTS_HOME, '/courses/:id/students'),
-		newCourse: path(ROOTS_INSTRUCTOR, '/courses/create'),
-		editById: path(ROOTS_INSTRUCTOR, '/courses/:id/edit'),
+		create: path(ROOTS_INSTRUCTOR, '/courses/create'),
 	},
 	calendar: path(ROOTS_INSTRUCTOR, '/calendar'),
+	profile: path(ROOTS_INSTRUCTOR, '/:id'),
 };
 
 export const PATH_DASHBOARD = {
@@ -77,13 +76,16 @@ export const PATH_DASHBOARD = {
 	},
 	users: {
 		root: path(ROOTS_DASHBOARD, '/users'),
-		newUser: path(ROOTS_DASHBOARD, '/users/create'),
-		editById: path(ROOTS_DASHBOARD, `/users/:id/edit`),
+		create: path(ROOTS_DASHBOARD, '/users/create'),
 		account: path(ROOTS_DASHBOARD, '/users/account'),
 	},
 	courses: {
 		root: path(ROOTS_DASHBOARD, '/courses'),
-		newCourse: path(ROOTS_DASHBOARD, '/courses/create'),
-		editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
+		create: path(ROOTS_DASHBOARD, '/courses/create'),
+		// editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
+	},
+	roadmap: {
+		root: path(ROOTS_DASHBOARD, '/roadmap'),
+		create: path(ROOTS_DASHBOARD, '/roadmap/create'),
 	},
 };

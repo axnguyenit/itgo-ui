@@ -93,17 +93,6 @@ export default function Calendar() {
 		}
 	};
 
-	// user not need
-	// const handleSelectRange = (arg) => {
-	// 	const calendarEl = calendarRef.current;
-	// 	if (calendarEl) {
-	// 		const calendarApi = calendarEl.getApi();
-	// 		calendarApi.unselect();
-	// 	}
-	// 	dispatch(selectRange(arg.start, arg.end));
-	// 	setIsOpenModal(true);
-	// };
-
 	const handleSelectEvent = (arg) => {
 		const selectedEvent = events.find((event) => event.id === arg.event.id);
 		setSelectedEvent(selectedEvent);
@@ -131,7 +120,6 @@ export default function Calendar() {
 						<FullCalendar
 							weekends
 							droppable
-							// selectable //user not need
 							events={events}
 							ref={calendarRef}
 							rerenderDelay={10}

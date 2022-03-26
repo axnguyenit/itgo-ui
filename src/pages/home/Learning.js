@@ -159,7 +159,7 @@ function Learning() {
 							</Grid>
 						)}
 
-						<Grid xs={12} md={7}>
+						<Grid item xs={12} md={7}>
 							<ContentStyle>
 								<Image
 									alt="js"

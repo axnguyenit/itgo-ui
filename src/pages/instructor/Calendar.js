@@ -6,13 +6,14 @@ import timelinePlugin from '@fullcalendar/timeline';
 import interactionPlugin from '@fullcalendar/interaction';
 //
 import { useState, useRef, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 // @mui
-import { Card, Container, DialogTitle } from '@mui/material';
+import { Button, Card, Container, DialogTitle, Stack, Typography } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
 import { updateEvent, selectRange } from '../../redux/slices/calendar';
 // routes
-import { PATH_INSTRUCTOR } from '../../routes/paths';
+import { PATH_HOME, PATH_INSTRUCTOR } from '../../routes/paths';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
@@ -197,8 +198,23 @@ export default function Calendar() {
 				</Card>
 
 				<DialogAnimate open={isOpenModal} onClose={handleCloseModal}>
-					<DialogTitle>{selectedEvent ? 'Edit Event' : 'Add Event'}</DialogTitle>
-
+					<DialogTitle>
+						<Stack direction="row" alignItems="center" justifyContent="space-between">
+							<Typography variant="subtitle1">
+								{selectedEvent ? 'Edit Event' : 'Add Event'}
+							</Typography>
+							{selectedEvent && (
+								<Button
+									variant="contained"
+									to={`${PATH_HOME.learning.root}/${selectedEvent?.id}`}
+									component={RouterLink}
+									sx={{ ml: 1.5 }}
+								>
+									Join meeting
+								</Button>
+							)}
+						</Stack>
+					</DialogTitle>
 					<CalendarForm
 						event={selectedEvent || {}}
 						range={selectedRange}

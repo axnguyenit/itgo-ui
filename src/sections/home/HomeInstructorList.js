@@ -3,7 +3,9 @@ import Slider from 'react-slick';
 import { useEffect, useRef, useState } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Card, Avatar, CardHeader, Typography, Box, Divider, Rating } from '@mui/material';
+import { Card, Avatar, CardHeader, Typography, Box, Divider, Rating, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_INSTRUCTOR } from '../../routes/paths';
 import { CarouselArrows } from '../../components/carousel';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -81,7 +83,7 @@ export default function HomeInstructorList() {
 		<Box sx={{ textAlign: 'center' }}>
 			<CardHeader
 				title="Instructors"
-				subheader={`${instructorList.length} Instructors`}
+				subheader="Top 8 experienced Instructors"
 				sx={{
 					'& .MuiCardHeader-action': {
 						alignSelf: 'center',
@@ -102,7 +104,7 @@ export default function HomeInstructorList() {
 					sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
 				>
 					<Slider ref={carouselRef} {...settings}>
-						{instructorList.length &&
+						{!!instructorList.length &&
 							instructorList.map((instructor) => (
 								<InstructorCard key={instructor._id} instructor={instructor} />
 							))}
@@ -130,7 +132,7 @@ InstructorCard.propTypes = {
 };
 
 function InstructorCard({ instructor }) {
-	const { firstName, lastName, avatar, position } = instructor;
+	const { _id, firstName, lastName, avatar, position } = instructor;
 
 	return (
 		<Card sx={{ textAlign: 'center', my: 3, mx: 1.5 }}>
@@ -167,13 +169,21 @@ function InstructorCard({ instructor }) {
 				<Image src={cloudinary.w300(avatar)} alt={firstName} ratio="16/9" />
 			</Box>
 
-			<Typography variant="subtitle1" sx={{ mt: 6 }}>
-				{firstName} {lastName}
-			</Typography>
-
-			<Typography variant="body2" sx={{ color: 'text.secondary', my: 2.5 }}>
-				{position ? position : '#'}
-			</Typography>
+			<Box sx={{ mt: 6 }}>
+				<Link
+					to={`${PATH_INSTRUCTOR.root}/${_id}`}
+					//
+					color="inherit"
+					component={RouterLink}
+				>
+					<Typography variant="subtitle2" noWrap>
+						{firstName} {lastName}
+					</Typography>
+				</Link>
+				<Typography variant="body2" sx={{ color: 'text.secondary', my: 1.5 }}>
+					{position ? position : '#'}
+				</Typography>
+			</Box>
 
 			<Divider sx={{ borderStyle: 'dashed', marginBottom: 1 }} />
 			<Rating size="small" value={4.5} precision={0.1} readOnly />

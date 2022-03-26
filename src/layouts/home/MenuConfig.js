@@ -26,20 +26,6 @@ const menuConfig = [
 		icon: <Iconify icon={'el:book'} {...ICON_SIZE} />,
 		path: PATH_HOME.courses.root,
 	},
-	{
-		title: 'Roadmap',
-		path: '/roadmap',
-		icon: <Iconify icon={'raphael:roadmap'} {...ICON_SIZE} />,
-		children: [
-			{
-				subheader: 'Roadmap',
-				items: [
-					{ title: 'Front End', path: PATH_HOME.roadmap.specialization },
-					{ title: 'Back End', path: PATH_HOME.roadmap.specialization },
-				],
-			},
-		],
-	},
 ];
 
 export default menuConfig;

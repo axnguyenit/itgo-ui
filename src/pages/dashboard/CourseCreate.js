@@ -36,10 +36,10 @@ export default function CourseCreate() {
 	}, [isEdit, id]);
 
 	return (
-		<Page title={!isEdit ? 'Create a new course' : 'Edit course'}>
+		<Page title={!isEdit ? 'New course' : 'Edit course'}>
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading={!isEdit ? 'Create a new course' : 'Edit course'}
+					heading={!isEdit ? 'New course' : 'Edit course'}
 					links={[
 						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
 						{

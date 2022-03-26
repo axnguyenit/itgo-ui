@@ -132,25 +132,18 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		if (isEdit) {
-			data.id = currentCourse._id;
-			try {
+		try {
+			if (isEdit) {
+				data.id = currentCourse._id;
 				await courseApi.update(data);
-				reset();
-				enqueueSnackbar('Update success!');
-				navigate(PATH_INSTRUCTOR.courses.root);
-			} catch (error) {
-				console.error(error);
-			}
-		} else {
-			try {
+			} else {
 				await courseApi.add(data);
-				reset();
-				enqueueSnackbar('Create success!');
-				navigate(PATH_INSTRUCTOR.courses.root);
-			} catch (error) {
-				console.error(error);
 			}
+			reset();
+			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
+			navigate(PATH_INSTRUCTOR.courses.root);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 

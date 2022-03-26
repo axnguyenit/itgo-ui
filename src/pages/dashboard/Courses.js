@@ -120,7 +120,7 @@ export default function Courses() {
 						<Button
 							variant="contained"
 							startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
-							onClick={() => navigate(PATH_DASHBOARD.courses.newCourse)}
+							onClick={() => navigate(PATH_DASHBOARD.courses.create)}
 						>
 							New Course
 						</Button>

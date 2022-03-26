@@ -24,6 +24,7 @@ const ICONS = {
 	analytics: getIcon('ic_analytics'),
 	dashboard: getIcon('ic_dashboard'),
 	booking: getIcon('ic_booking'),
+	roadmap: getIcon('ic_road'),
 };
 
 const navConfig = [
@@ -57,6 +58,12 @@ const navConfig = [
 				title: 'courses',
 				path: PATH_DASHBOARD.courses.root,
 				icon: ICONS.book,
+			},
+
+			{
+				title: 'roadmaps',
+				path: PATH_DASHBOARD.roadmap.root,
+				icon: ICONS.roadmap,
 			},
 		],
 	},
