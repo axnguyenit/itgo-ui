@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { capitalCase } from 'change-case';
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
 // components
@@ -10,32 +11,35 @@ import { AccountGeneral, AccountChangePassword } from '../../sections/my-account
 
 // ----------------------------------------------------------------------
 
+const ACCOUNT_TABS = [
+	{
+		value: 'general',
+		icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
+		component: <AccountGeneral />,
+	},
+	{
+		value: 'change-password',
+		icon: <Iconify icon={'ic:round-vpn-key'} width={20} height={20} />,
+		component: <AccountChangePassword />,
+	},
+];
+
 export default function AccountSettings() {
 	const [currentTab, setCurrentTab] = useState('general');
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	const ACCOUNT_TABS = [
-		{
-			value: 'general',
-			icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-			component: <AccountGeneral />,
-		},
-		// {
-		// 	value: 'billing',
-		// 	icon: <Iconify icon={'ic:round-receipt'} width={20} height={20} />,
-		// 	component: (
-		// 		<AccountBilling
-		// 			cards={_userPayment}
-		// 			addressBook={_userAddressBook}
-		// 			invoices={_userInvoices}
-		// 		/>
-		// 	),
-		// },
-		{
-			value: 'change_password',
-			icon: <Iconify icon={'ic:round-vpn-key'} width={20} height={20} />,
-			component: <AccountChangePassword />,
-		},
-	];
+	useEffect(() => {
+		const tab = searchParams.get('tab');
+		if (tab) {
+			const existTab = ACCOUNT_TABS.find((item) => item.value === tab);
+			if (existTab) setCurrentTab(existTab.value);
+		}
+	}, [searchParams]);
+
+	const handleChangeTab = (value) => {
+		setCurrentTab(value);
+		setSearchParams({ tab: value });
+	};
 
 	return (
 		<Page title="Account Settings">
@@ -45,7 +49,7 @@ export default function AccountSettings() {
 					scrollButtons="auto"
 					variant="scrollable"
 					allowScrollButtonsMobile
-					onChange={(e, value) => setCurrentTab(value)}
+					onChange={(e, value) => handleChangeTab(value)}
 				>
 					{ACCOUNT_TABS.map((tab) => (
 						<Tab

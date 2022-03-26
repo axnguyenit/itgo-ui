@@ -36,6 +36,11 @@ const userApi = {
 		return axios.get(url);
 	},
 
+	changePassword(data) {
+		const url = `/api/users/change-password`;
+		return axios.post(url, data);
+	},
+
 	forgotPassword(data) {
 		const url = '/api/auth/forgot-password';
 		return axios.post(url, data);

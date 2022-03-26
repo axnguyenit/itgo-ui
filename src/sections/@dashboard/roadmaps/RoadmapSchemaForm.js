@@ -108,7 +108,7 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 				await roadmapApi.add(formData);
 			}
 			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
-			// navigate(PATH_DASHBOARD.roadmap.root);
+			navigate(PATH_DASHBOARD.roadmap.root);
 		} catch (error) {
 			console.error(error);
 		}

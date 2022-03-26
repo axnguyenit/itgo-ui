@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { paramCase } from 'change-case';
 // @mui
 import { styled } from '@mui/material/styles';
 import { useSearchParams } from 'react-router-dom';
