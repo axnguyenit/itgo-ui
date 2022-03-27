@@ -81,36 +81,40 @@ export default function HomeInstructorList() {
 
 	return (
 		<Box sx={{ textAlign: 'center' }}>
-			<CardHeader
-				title="Instructors"
-				subheader="Top 8 experienced Instructors"
-				sx={{
-					'& .MuiCardHeader-action': {
-						alignSelf: 'center',
-					},
-					'& .MuiCardHeader-title': {
-						fontSize: 28,
-					},
-				}}
-			/>
-			<Divider sx={{ borderStyle: 'none', marginBottom: 2 }} />
+			{instructorList.length > 0 && (
+				<Box>
+					<CardHeader
+						title="Instructors"
+						subheader="Top 8 experienced Instructors"
+						sx={{
+							'& .MuiCardHeader-action': {
+								alignSelf: 'center',
+							},
+							'& .MuiCardHeader-title': {
+								fontSize: 28,
+							},
+							mb: 2,
+						}}
+					/>
 
-			<Box sx={{ position: 'relative' }}>
-				<CarouselArrows
-					filled
-					customIcon={'ic:round-keyboard-arrow-right'}
-					onNext={handleNext}
-					onPrevious={handlePrevious}
-					sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
-				>
-					<Slider ref={carouselRef} {...settings}>
-						{!!instructorList.length &&
-							instructorList.map((instructor) => (
-								<InstructorCard key={instructor._id} instructor={instructor} />
-							))}
-					</Slider>
-				</CarouselArrows>
-			</Box>
+					<Box sx={{ position: 'relative' }}>
+						<CarouselArrows
+							filled
+							customIcon={'ic:round-keyboard-arrow-right'}
+							onNext={handleNext}
+							onPrevious={handlePrevious}
+							sx={{ '& .arrow': { width: 28, height: 28, p: 0 } }}
+						>
+							<Slider ref={carouselRef} {...settings}>
+								{instructorList.length > 0 &&
+									instructorList.map((instructor) => (
+										<InstructorCard key={instructor._id} instructor={instructor} />
+									))}
+							</Slider>
+						</CarouselArrows>
+					</Box>
+				</Box>
+			)}
 		</Box>
 	);
 }

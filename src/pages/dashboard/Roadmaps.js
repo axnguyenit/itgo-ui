@@ -9,19 +9,19 @@ import {
 	TableBody,
 	TableCell,
 	Container,
-	Typography,
 	TableContainer,
 	TablePagination,
 } from '@mui/material';
-// routes
-import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+// routes
+import { PATH_DASHBOARD } from '../../routes/paths';
 // sections
 import { RoadmapListHead, RoadmapMoreMenu } from '../../sections/@dashboard/roadmaps';
+// api
 import roadmapApi from '../../api/roadmapApi';
 
 // ----------------------------------------------------------------------
@@ -91,12 +91,12 @@ export default function Roadmaps() {
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
 					heading="Roadmaps"
-					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.roadmap.root }, { name: 'Roadmaps' }]}
+					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.roadmaps.root }, { name: 'Roadmaps' }]}
 					action={
 						<Button
 							variant="contained"
 							component={RouterLink}
-							to={PATH_DASHBOARD.roadmap.create}
+							to={PATH_DASHBOARD.roadmaps.create}
 							startIcon={<Iconify icon={'eva:plus-fill'} />}
 						>
 							New Roadmap
@@ -122,15 +122,9 @@ export default function Roadmaps() {
 
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
-													<TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-														<Typography variant="subtitle2" noWrap>
-															{name}
-														</Typography>
-													</TableCell>
-
+													<TableCell>{name}</TableCell>
 													<TableCell align="left">{slogan}</TableCell>
 													<TableCell align="left">{description}</TableCell>
-
 													<TableCell align="right">
 														<RoadmapMoreMenu
 															roadmapId={_id}
@@ -142,7 +136,7 @@ export default function Roadmaps() {
 											);
 										})}
 									{emptyRows > 0 && (
-										<TableRow style={{ height: 72 * emptyRows }}>
+										<TableRow style={{ height: 68 * emptyRows }}>
 											<TableCell colSpan={4} />
 										</TableRow>
 									)}
