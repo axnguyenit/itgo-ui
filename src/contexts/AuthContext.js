@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
-import { isValidToken, setSession } from '../utils/jwt';
+import { setSession } from '../utils/jwt';
 import { getCartApi } from '../redux/slices/cart';
 import { PATH_AUTH } from '../routes/paths';
 
@@ -64,9 +64,10 @@ function AuthProvider({ children }) {
 		const initialize = async () => {
 			try {
 				const accessToken = window.localStorage.getItem('accessToken');
+				const refreshToken = window.localStorage.getItem('refreshToken');
 
-				if (accessToken && isValidToken(accessToken)) {
-					setSession(accessToken);
+				if (accessToken) {
+					setSession(accessToken, refreshToken);
 
 					const response = await axios.get('/api/users/my-account');
 					const { user } = response.data;
@@ -112,11 +113,11 @@ function AuthProvider({ children }) {
 			email,
 			password,
 		});
-		const { accessToken, user } = response.data;
+		const { accessToken, refreshToken, user } = response.data;
 
 		if (!user.emailVerified) navigate(PATH_AUTH.verify, { replace: true });
 		if (user.emailVerified) {
-			setSession(accessToken);
+			setSession(accessToken, refreshToken);
 			getCartApi();
 			dispatch({
 				type: 'LOGIN',
@@ -128,7 +129,7 @@ function AuthProvider({ children }) {
 	};
 
 	const logout = async () => {
-		setSession(null);
+		setSession(null, null);
 		dispatch({ type: 'LOGOUT' });
 	};
 
