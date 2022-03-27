@@ -42,36 +42,43 @@ export default function HomeRoadmapList() {
 
 	return (
 		<Box>
-			<Box sx={{ textAlign: 'center', mb: 4 }}>
-				<CardHeader
-					title="Roadmaps"
-					subheader="Foot in the door, you should focus on one roadmap"
-					sx={{
-						'& .MuiCardHeader-action': {
-							alignSelf: 'center',
-						},
-						'& .MuiCardHeader-title': {
-							fontSize: 28,
-						},
-					}}
-				/>
-			</Box>
+			{roadmapList.length > 0 && (
+				<Box>
+					<Box sx={{ textAlign: 'center', mb: 5 }}>
+						<CardHeader
+							title="Roadmaps"
+							subheader="Foot in the door, you should focus on one roadmap"
+							sx={{
+								'& .MuiCardHeader-action': {
+									alignSelf: 'center',
+								},
+								'& .MuiCardHeader-title': {
+									fontSize: 28,
+								},
+							}}
+						/>
+					</Box>
 
-			<Grid container spacing={3}>
-				{!!roadmapList.length &&
-					roadmapList.map((roadmap) => (
-						<Grid item xs={12} sm={6} md={4}>
-							<RootStyle to={`${PATH_HOME.roadmap.root}/${roadmap._id}`} component={RouterLink}>
-								<Box>
-									<Typography variant="h4">{roadmap.name}</Typography>
-									<Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-										{roadmap.slogan} in {new Date().getFullYear()}
-									</Typography>
-								</Box>
-							</RootStyle>
-						</Grid>
-					))}
-			</Grid>
+					<Grid container spacing={3}>
+						{roadmapList.length > 0 &&
+							roadmapList.map((roadmap) => (
+								<Grid item xs={12} sm={6} md={4}>
+									<RootStyle
+										to={`${PATH_HOME.roadmaps.root}/${roadmap._id}`}
+										component={RouterLink}
+									>
+										<Box>
+											<Typography variant="h4">{roadmap.name}</Typography>
+											<Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+												{roadmap.slogan} in {new Date().getFullYear()}
+											</Typography>
+										</Box>
+									</RootStyle>
+								</Grid>
+							))}
+					</Grid>
+				</Box>
+			)}
 		</Box>
 	);
 }

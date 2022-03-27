@@ -91,11 +91,11 @@ export default function Router() {
 				{ element: <Navigate to={PATH_DASHBOARD.general.app} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
 				{
-					path: 'roadmap',
+					path: 'users',
 					children: [
-						{ element: <Roadmaps />, index: true },
-						{ path: 'create', element: <RoadmapCreate /> },
-						{ path: ':id/edit', element: <RoadmapCreate /> },
+						{ element: <Users />, index: true },
+						{ path: 'create', element: <UserCreate /> },
+						{ path: ':name/edit', element: <UserCreate /> },
 					],
 				},
 				{
@@ -107,11 +107,19 @@ export default function Router() {
 					],
 				},
 				{
-					path: 'users',
+					path: 'roadmaps',
 					children: [
-						{ element: <Users />, index: true },
-						{ path: 'create', element: <UserCreate /> },
-						{ path: ':name/edit', element: <UserCreate /> },
+						{ element: <Roadmaps />, index: true },
+						{ path: 'create', element: <RoadmapCreate /> },
+						{ path: ':id/edit', element: <RoadmapCreate /> },
+					],
+				},
+				{
+					path: 'technologies',
+					children: [
+						{ element: <Technologies />, index: true },
+						{ path: 'create', element: <TechnologyCreate /> },
+						{ path: ':id/edit', element: <TechnologyCreate /> },
 					],
 				},
 			],
@@ -225,6 +233,8 @@ const DashboardCourses = Loadable(lazy(() => import('../pages/dashboard/Courses'
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 const Roadmaps = Loadable(lazy(() => import('../pages/dashboard/Roadmaps')));
 const RoadmapCreate = Loadable(lazy(() => import('../pages/dashboard/RoadmapCreate')));
+const Technologies = Loadable(lazy(() => import('../pages/dashboard/Technologies')));
+const TechnologyCreate = Loadable(lazy(() => import('../pages/dashboard/TechnologyCreate')));
 // Instructor
 const InstructorCourses = Loadable(lazy(() => import('../pages/instructor/Courses')));
 const InstructorCourseCreate = Loadable(lazy(() => import('../pages/instructor/CourseCreate')));

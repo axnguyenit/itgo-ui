@@ -47,8 +47,8 @@ export const PATH_HOME = {
 	learning: {
 		root: path(ROOTS_HOME, '/learning'),
 	},
-	roadmap: {
-		root: path(ROOTS_HOME, '/roadmap'),
+	roadmaps: {
+		root: path(ROOTS_HOME, '/roadmaps'),
 	},
 	checkout: path(ROOTS_HOME, '/checkout'),
 };
@@ -84,8 +84,12 @@ export const PATH_DASHBOARD = {
 		create: path(ROOTS_DASHBOARD, '/courses/create'),
 		// editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
 	},
-	roadmap: {
-		root: path(ROOTS_DASHBOARD, '/roadmap'),
-		create: path(ROOTS_DASHBOARD, '/roadmap/create'),
+	roadmaps: {
+		root: path(ROOTS_DASHBOARD, '/roadmaps'),
+		create: path(ROOTS_DASHBOARD, '/roadmaps/create'),
+	},
+	technologies: {
+		root: path(ROOTS_DASHBOARD, '/technologies'),
+		create: path(ROOTS_DASHBOARD, '/technologies/create'),
 	},
 };

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import {
@@ -17,17 +17,17 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import Iconify from '../../../components/Iconify';
 import MenuPopover from '../../../components/MenuPopover';
-import { DialogAnimate } from 'src/components/animate';
+import { DialogAnimate } from '../../../components/animate';
 
 // ----------------------------------------------------------------------
 
-RoadmapMoreMenu.propTypes = {
-	roadmapId: PropTypes.string.isRequired,
-	roadmapName: PropTypes.string.isRequired,
+TechnologyMoreMenu.propTypes = {
+	technologyId: PropTypes.string.isRequired,
+	technologyName: PropTypes.string.isRequired,
 	onDelete: PropTypes.func,
 };
 
-export default function RoadmapMoreMenu({ roadmapId, roadmapName, onDelete }) {
+export default function TechnologyMoreMenu({ technologyId, technologyName, onDelete }) {
 	const [open, setOpen] = useState(null);
 	const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -69,7 +69,10 @@ export default function RoadmapMoreMenu({ roadmapId, roadmapName, onDelete }) {
 					'& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
 				}}
 			>
-				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.roadmaps.root}/${roadmapId}/edit`}>
+				<MenuItem
+					component={RouterLink}
+					to={`${PATH_DASHBOARD.technologies.root}/${technologyId}/edit`}
+				>
 					<Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
 					Edit
 				</MenuItem>
@@ -80,13 +83,13 @@ export default function RoadmapMoreMenu({ roadmapId, roadmapName, onDelete }) {
 			</MenuPopover>
 
 			<DialogAnimate open={isOpenModal} onClose={() => setIsOpenModal(false)}>
-				<DialogTitle>Delete roadmap</DialogTitle>
+				<DialogTitle>Delete technology</DialogTitle>
 				<Divider sx={{ borderStyle: 'dashed', mt: 2 }} />
 
 				<Stack spacing={3} sx={{ px: 3, py: 2 }}>
 					<Typography>
-						Are you sure to want to permanently delete this roadmap&nbsp;
-						<strong>{`${roadmapName}`}</strong>?
+						Are you sure to want to permanently delete this technology&nbsp;
+						<strong>{`${technologyName}`}</strong>?
 					</Typography>
 				</Stack>
 

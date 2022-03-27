@@ -1,6 +1,7 @@
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
@@ -27,7 +28,6 @@ import {
 	RHFUploadSingleFile,
 } from '../../../components/hook-form';
 import courseApi from '../../../api/courseApi';
-import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import userApi from '../../../api/userApi';
 import cloudinary from '../../../utils/cloudinary';
