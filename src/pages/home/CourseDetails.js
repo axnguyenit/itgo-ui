@@ -33,7 +33,7 @@ const TAB_LIST = ['overview', 'requirements', 'target-audiences', 'reviews'];
 
 export default function CourseDetails() {
 	const { id } = useParams();
-	const [currentTab, setCurrentTab] = useState('1');
+	const [currentTab, setCurrentTab] = useState('overview');
 	const [course, setCourse] = useState(null);
 	const [courses, setCourses] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -98,7 +98,7 @@ export default function CourseDetails() {
 								<TabContext value={currentTab}>
 									<TabList onChange={(e, value) => handleChangeTab(value)}>
 										{TAB_LIST.map((tab) => (
-											<Tab disableRipple value={tab} label={capitalCase(tab)} />
+											<Tab key={tab} disableRipple value={tab} label={capitalCase(tab)} />
 										))}
 									</TabList>
 
