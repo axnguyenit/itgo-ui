@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Grid, Stack, Typography, Box } from '@mui/material';
+import { Card, Grid, Stack, Typography } from '@mui/material';
 // components
 import { FormProvider, RHFTextField, RHFUploadSingleFile } from '../../../components/hook-form';
 import technologyApi from '../../../api/technologyApi';
@@ -112,15 +112,13 @@ export default function TechnologyNewForm({ isEdit, currentTechnology }) {
 				<Grid item xs={12} md={8}>
 					<Card sx={{ p: 3 }}>
 						<Stack spacing={3}>
-							<Box>
-								<LabelStyle>Image</LabelStyle>
-								<RHFUploadSingleFile
-									name="image"
-									accept="image/*"
-									maxSize={3145728}
-									onDrop={handleDrop}
-								/>
-							</Box>
+							<LabelStyle>Image</LabelStyle>
+							<RHFUploadSingleFile
+								name="image"
+								accept="image/*"
+								maxSize={3145728}
+								onDrop={handleDrop}
+							/>
 						</Stack>
 					</Card>
 				</Grid>

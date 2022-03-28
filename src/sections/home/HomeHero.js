@@ -9,6 +9,7 @@ import { MotionContainer, varFade } from '../../components/animate';
 const RootStyle = styled(m.div)(({ theme }) => ({
 	position: 'relative',
 	backgroundColor: theme.palette.grey[400],
+	overflow: 'hidden',
 	[theme.breakpoints.up('md')]: {
 		top: 0,
 		left: 0,

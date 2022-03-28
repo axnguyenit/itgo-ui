@@ -158,7 +158,7 @@ export default function Router() {
 				{ path: 'faqs', element: <Faqs /> },
 				{ path: 'courses', element: <Courses /> },
 				{ path: 'courses/:id', element: <CourseDetails /> },
-				{ path: 'roadmap/:id', element: <Roadmap /> },
+				{ path: 'roadmaps/:id', element: <Roadmap /> },
 				{
 					path: 'instructor/:id',
 					element: (
@@ -188,6 +188,14 @@ export default function Router() {
 					element: (
 						<BasedGuard>
 							<StudentCalendar />
+						</BasedGuard>
+					),
+				},
+				{
+					path: 'become-instructor',
+					element: (
+						<BasedGuard>
+							<BecomeInstructor />
 						</BasedGuard>
 					),
 				},
@@ -248,6 +256,7 @@ const Checkout = Loadable(lazy(() => import('../pages/home/Checkout')));
 const Faqs = Loadable(lazy(() => import('../pages/home/Faqs')));
 const Roadmap = Loadable(lazy(() => import('../pages/home/Roadmap')));
 const Courses = Loadable(lazy(() => import('../pages/home/Courses')));
+const BecomeInstructor = Loadable(lazy(() => import('../pages/home/BecomeInstructor')));
 const CourseDetails = Loadable(lazy(() => import('../pages/home/CourseDetails')));
 const Learning = Loadable(lazy(() => import('../pages/home/Learning')));
 const AccountSettings = Loadable(lazy(() => import('../pages/home/AccountSettings')));

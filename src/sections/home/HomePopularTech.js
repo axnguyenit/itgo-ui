@@ -46,6 +46,7 @@ export default function HomePopularTech() {
 				<Box>
 					<CardHeader
 						title="Popular Technologies"
+						subheader="Most popular technologies right now"
 						sx={{
 							'& .MuiCardHeader-title': {
 								fontSize: 28,

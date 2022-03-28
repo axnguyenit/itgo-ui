@@ -42,6 +42,15 @@ const TAGS_OPTION = [
 	'ReactJS',
 	'Front End',
 	'Back End',
+	'Kotlin',
+	'Java',
+	'Android',
+	'C',
+	'C++',
+	'.NET',
+	'PHP',
+	'Laravel',
+	'Angular',
 ];
 
 export default function Courses() {
