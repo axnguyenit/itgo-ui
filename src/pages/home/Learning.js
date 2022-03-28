@@ -16,6 +16,7 @@ import { DialogAnimate } from '../../components/animate';
 import { ErrorIcon } from '../../assets';
 import zoomApi from '../../api/zoomApi';
 import cloudinary from '../../utils/cloudinary';
+import LoadingScreen from '../../components/LoadingScreen';
 
 // ----------------------------------------------------------------------
 
@@ -84,8 +85,10 @@ function Learning() {
 	const registrantToken = '';
 	const navigate = useNavigate();
 	const [meetingInfo, setMeetingInfo] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
+		setIsLoading(true);
 		const checkValidUserInClass = async () => {
 			try {
 				const response = await eventApi.checkValidUser(id);
@@ -93,6 +96,7 @@ function Learning() {
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		checkValidUserInClass();
@@ -143,6 +147,7 @@ function Learning() {
 	return (
 		<Page title="Learning">
 			<RootStyle>
+				{isLoading && <LoadingScreen />}
 				<HeaderStyle>
 					<Logo />
 				</HeaderStyle>

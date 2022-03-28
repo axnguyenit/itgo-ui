@@ -37,9 +37,11 @@ const TAGS_OPTION = [
 	'TypeScript',
 	'HTML, CSS',
 	'NodeJS',
+	'NestJS',
 	'ExpressJS',
 	'Python',
 	'ReactJS',
+	'NextJS',
 	'Front End',
 	'Back End',
 	'Kotlin',
@@ -69,7 +71,7 @@ export default function Courses() {
 			const newCategory = TAGS_OPTION.find((option) =>
 				option.toLocaleLowerCase().includes(_category.toLocaleLowerCase())
 			);
-			setCategory(newCategory || 'All');
+			setCategory(newCategory);
 		}
 
 		const getAllCourses = async () => {
