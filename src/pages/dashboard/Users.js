@@ -119,7 +119,6 @@ export default function Users() {
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
-									rowCount={userList.length}
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>

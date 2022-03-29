@@ -125,7 +125,7 @@ export default function Courses() {
 					action={
 						<Button
 							variant="contained"
-							startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
+							startIcon={<Iconify icon="eva:plus-fill" width={20} height={20} />}
 							onClick={() => navigate(PATH_INSTRUCTOR.courses.create)}
 						>
 							New Course

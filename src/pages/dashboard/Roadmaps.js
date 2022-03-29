@@ -91,7 +91,7 @@ export default function Roadmaps() {
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
 					heading="Roadmaps"
-					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.roadmaps.root }, { name: 'Roadmaps' }]}
+					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'Roadmaps' }]}
 					action={
 						<Button
 							variant="contained"
@@ -112,7 +112,6 @@ export default function Roadmaps() {
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
-									rowCount={roadmaps.length}
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>

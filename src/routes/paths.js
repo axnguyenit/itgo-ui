@@ -51,6 +51,7 @@ export const PATH_HOME = {
 		root: path(ROOTS_HOME, '/roadmaps'),
 	},
 	checkout: path(ROOTS_HOME, '/checkout'),
+	becomeInstructor: path(ROOTS_HOME, '/become-instructor'),
 };
 
 export const PATH_INSTRUCTOR = {
@@ -67,13 +68,7 @@ export const PATH_INSTRUCTOR = {
 
 export const PATH_DASHBOARD = {
 	root: ROOTS_DASHBOARD,
-	general: {
-		app: path(ROOTS_DASHBOARD, '/app'),
-		ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
-		analytics: path(ROOTS_DASHBOARD, '/analytics'),
-		banking: path(ROOTS_DASHBOARD, '/banking'),
-		booking: path(ROOTS_DASHBOARD, '/booking'),
-	},
+	app: path(ROOTS_DASHBOARD, '/app'),
 	users: {
 		root: path(ROOTS_DASHBOARD, '/users'),
 		create: path(ROOTS_DASHBOARD, '/users/create'),
@@ -87,6 +82,16 @@ export const PATH_DASHBOARD = {
 	roadmaps: {
 		root: path(ROOTS_DASHBOARD, '/roadmaps'),
 		create: path(ROOTS_DASHBOARD, '/roadmaps/create'),
+	},
+	paymentInfo: path(ROOTS_DASHBOARD, '/payment-info'),
+	instructors: {
+		root: path(ROOTS_DASHBOARD, '/instructors'),
+		courses: path(ROOTS_DASHBOARD, '/instructors/:id/courses'),
+		students: path(ROOTS_DASHBOARD, '/instructors/:id/courses/:courseId/students'),
+	},
+	applications: {
+		root: path(ROOTS_DASHBOARD, '/applications'),
+		cv: path(ROOTS_DASHBOARD, '/applications/:id/cv'),
 	},
 	technologies: {
 		root: path(ROOTS_DASHBOARD, '/technologies'),

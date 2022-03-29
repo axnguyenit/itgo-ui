@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 import {
+	Box,
 	Card,
 	Chip,
 	Grid,
@@ -21,9 +22,9 @@ import {
 } from '@mui/material';
 // components
 import {
-	FormProvider,
 	RHFSelect,
 	RHFEditor,
+	FormProvider,
 	RHFTextField,
 	RHFUploadSingleFile,
 } from '../../../components/hook-form';
@@ -196,20 +197,20 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 						<Stack spacing={3}>
 							<RHFTextField name="name" label="Course Name" />
 
-							<div>
+							<Box>
 								<LabelStyle>Overview</LabelStyle>
 								<RHFEditor simple name="overview" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Requirements</LabelStyle>
 								<RHFEditor simple name="requirements" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Target Audiences</LabelStyle>
 								<RHFEditor simple name="targetAudiences" />
-							</div>
+							</Box>
 
-							<div>
+							<Box>
 								<LabelStyle>Cover</LabelStyle>
 								<RHFUploadSingleFile
 									name="cover"
@@ -217,7 +218,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 									maxSize={3145728}
 									onDrop={handleDrop}
 								/>
-							</div>
+							</Box>
 						</Stack>
 					</Card>
 				</Grid>

@@ -41,10 +41,7 @@ export default function CourseDetails() {
 
 	useEffect(() => {
 		const tab = searchParams.get('tab');
-		if (tab) {
-			const existTab = TAB_LIST.find((item) => item === tab);
-			if (existTab) setCurrentTab(existTab);
-		}
+		if (TAB_LIST.includes(tab)) setCurrentTab(tab);
 	}, [searchParams]);
 
 	useEffect(() => {

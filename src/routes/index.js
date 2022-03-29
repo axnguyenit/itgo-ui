@@ -88,7 +88,7 @@ export default function Router() {
 				</AuthGuard>
 			),
 			children: [
-				{ element: <Navigate to={PATH_DASHBOARD.general.app} replace />, index: true },
+				{ element: <Navigate to={PATH_DASHBOARD.app} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
 				{
 					path: 'users',
@@ -120,6 +120,13 @@ export default function Router() {
 						{ element: <Technologies />, index: true },
 						{ path: 'create', element: <TechnologyCreate /> },
 						{ path: ':id/edit', element: <TechnologyCreate /> },
+					],
+				},
+				{
+					path: 'applications',
+					children: [
+						{ element: <Applications />, index: true },
+						{ path: ':id/cv', element: <PDFViewer /> },
 					],
 				},
 			],
@@ -241,6 +248,8 @@ const DashboardCourses = Loadable(lazy(() => import('../pages/dashboard/Courses'
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 const Roadmaps = Loadable(lazy(() => import('../pages/dashboard/Roadmaps')));
 const RoadmapCreate = Loadable(lazy(() => import('../pages/dashboard/RoadmapCreate')));
+const Applications = Loadable(lazy(() => import('../pages/dashboard/Applications')));
+const PDFViewer = Loadable(lazy(() => import('../pages/dashboard/PDFViewer')));
 const Technologies = Loadable(lazy(() => import('../pages/dashboard/Technologies')));
 const TechnologyCreate = Loadable(lazy(() => import('../pages/dashboard/TechnologyCreate')));
 // Instructor

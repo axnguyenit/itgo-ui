@@ -15,9 +15,12 @@ const ICONS = {
 	// calendar: getIcon('ic_calendar'),
 	user: getIcon('ic_user'),
 	book: getIcon('ic_book'),
-	dashboard: getIcon('ic_dashboard'),
 	roadmap: getIcon('ic_road'),
+	payment: getIcon('ic_payment'),
+	dashboard: getIcon('ic_dashboard'),
+	instructor: getIcon('ic_instructor'),
 	technology: getIcon('ic_technology'),
+	application: getIcon('ic_application'),
 };
 
 const navConfig = [
@@ -25,7 +28,7 @@ const navConfig = [
 	// ----------------------------------------------------------------------
 	{
 		subheader: 'general',
-		items: [{ title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard }],
+		items: [{ title: 'app', path: PATH_DASHBOARD.app, icon: ICONS.dashboard }],
 	},
 
 	// MANAGEMENT
@@ -33,7 +36,7 @@ const navConfig = [
 	{
 		subheader: 'management',
 		items: [
-			// MANAGEMENT : USER
+			// MANAGEMENT : USERS
 			{
 				title: 'users',
 				path: PATH_DASHBOARD.users.root,
@@ -47,18 +50,38 @@ const navConfig = [
 				icon: ICONS.book,
 			},
 
-			// MANAGEMENT : COURSES
+			// MANAGEMENT : ROADMAPS
 			{
 				title: 'roadmaps',
 				path: PATH_DASHBOARD.roadmaps.root,
 				icon: ICONS.roadmap,
 			},
 
-			// MANAGEMENT : COURSES
+			// MANAGEMENT : INSTRUCTORS
+			{
+				title: 'instructors',
+				path: PATH_DASHBOARD.instructors.root,
+				icon: ICONS.instructor,
+			},
+
+			// MANAGEMENT : APPLICATIONS
+			{
+				title: 'applications',
+				path: PATH_DASHBOARD.applications.root,
+				icon: ICONS.application,
+			},
+
+			// MANAGEMENT : TECHNOLOGIES
 			{
 				title: 'technologies',
 				path: PATH_DASHBOARD.technologies.root,
 				icon: ICONS.technology,
+			},
+
+			{
+				title: 'payment info',
+				path: PATH_DASHBOARD.paymentInfo,
+				icon: ICONS.payment,
 			},
 		],
 	},

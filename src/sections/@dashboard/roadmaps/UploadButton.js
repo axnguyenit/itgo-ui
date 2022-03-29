@@ -25,7 +25,7 @@ export default function UploadButton({ onChange, required, value }) {
 	const [preview, setPreview] = useState(null);
 
 	const handleSelectFile = () => {
-		selectFileEl.current.click();
+		selectFileEl.current?.click();
 	};
 
 	useEffect(() => {
