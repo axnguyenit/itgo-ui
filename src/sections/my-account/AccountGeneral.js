@@ -5,20 +5,19 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 // components
-import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
 import userApi from '../../api/userApi';
 import cloudinary from '../../utils/cloudinary';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
 	const { enqueueSnackbar } = useSnackbar();
-
 	const { user } = useAuth();
 
 	const UpdateUserSchema = Yup.object().shape({
@@ -65,12 +64,8 @@ export default function AccountGeneral() {
 			if (file) {
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
-				reader.onloadend = () => {
-					setValue('avatar', reader.result);
-				};
-				reader.onerror = (error) => {
-					console.error(error);
-				};
+				reader.onloadend = () => setValue('avatar', reader.result);
+				reader.onerror = (error) => console.error(error);
 			}
 		},
 		[setValue]

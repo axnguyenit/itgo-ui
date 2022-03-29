@@ -1,26 +1,82 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { capitalCase } from 'change-case';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 // @mui
-import { styled } from '@mui/material/styles';
-import { Card, Grid, Stack, Typography } from '@mui/material';
+import { Box, Stack, Tab, Tabs, Typography } from '@mui/material';
 // components
-import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
+const TABS = [
+	{
+		value: 'become-an-instructor',
+		component: <TabBecomeAnInstructor />,
+	},
+	{
+		value: 'instructor-rules',
+		component: <TabInstructorRules />,
+	},
+	{
+		value: 'start-with-course',
+		component: <TabStartWithCourse />,
+	},
+];
+
 export default function InstructorRules() {
-	const navigate = useNavigate();
-	const [page, setPage] = useState(1);
+	const [currentTab, setCurrentTab] = useState('become-an-instructor');
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	useEffect(() => {
-		const _category = searchParams.get('category');
+		const tab = searchParams.get('tab');
+		if (tab) setCurrentTab(tab);
 	}, [searchParams]);
 
-	const handleChangePage = (value) => {
-		setPage(value);
-		setSearchParams({ page: value });
+	const handleChangeTab = (value) => {
+		setCurrentTab(value);
+		setSearchParams({ tab: value });
 	};
 
-	return <Stack>InstructorRules</Stack>;
+	return (
+		<Stack>
+			<Stack direction="row" justifyContent="center" sx={{ mb: 1 }}>
+				<Tabs
+					value={currentTab}
+					onChange={(e, value) => handleChangeTab(value)}
+					variant="scrollable"
+					scrollButtons="auto"
+					allowScrollButtonsMobile
+				>
+					{TABS.map((tab) => (
+						<Tab disableRipple key={tab.value} value={tab.value} label={capitalCase(tab.value)} />
+					))}
+				</Tabs>
+			</Stack>
+
+			{TABS.map((tab) => {
+				const isMatched = tab.value === currentTab;
+				return isMatched && <Box key={tab.value}>{tab.component}</Box>;
+			})}
+		</Stack>
+	);
+}
+
+function TabBecomeAnInstructor(params) {
+	return (
+		<Box>
+			<Typography variant="body1">
+				It is a long established fact that a reader will be distracted by the readable content of a
+				page when looking at its layout. The point of using Lorem Ipsum is that it has a
+				more-or-less normal distribution of letters, as opposed to using 'Content here, content
+				here', making it look like readable English. Many desktop publishing packages and web page
+				editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
+				uncover many web sites still in their infancy.
+			</Typography>
+		</Box>
+	);
+}
+function TabInstructorRules(params) {
+	return <Box>TabInstructorRules</Box>;
+}
+function TabStartWithCourse(params) {
+	return <Box>TabStartWithCourse</Box>;
 }

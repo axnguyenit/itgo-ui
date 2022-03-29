@@ -103,7 +103,6 @@ export default function Students() {
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
-									rowCount={studentList.length}
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>

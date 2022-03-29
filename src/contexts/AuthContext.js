@@ -139,6 +139,7 @@ function AuthProvider({ children }) {
 				...state,
 				login,
 				logout,
+				dispatch,
 			}}
 		>
 			{children}
