@@ -58,10 +58,6 @@ export default function InstructorMoreMenu({ userId }) {
 					<Iconify icon="el:book" sx={{ ...ICON }} />
 					Courses
 				</MenuItem>
-				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.users.root}/${userId}/edit`}>
-					<Iconify icon="eva:edit-fill" sx={{ ...ICON }} />
-					Edit
-				</MenuItem>
 			</MenuPopover>
 		</>
 	);

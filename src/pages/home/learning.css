@@ -72,6 +72,11 @@
 	margin: 0 auto !important;
 }
 
+#zmmtg-root .participants-section-container__participants-footer-bottom button:nth-child(1),
+#zmmtg-root .participants-section-container__participants-footer-bottom button:nth-child(2) {
+	display: none !important;
+}
+
 .chat-container .chat-box__chat-textarea {
 	font-family: 'Public Sans', sans-serif !important;
 	width: 100% !important;

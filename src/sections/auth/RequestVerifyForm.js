@@ -63,7 +63,7 @@ export default function RequestVerifyForm({ onSent, onGetEmail }) {
 					variant="contained"
 					loading={isSubmitting}
 				>
-					Reset Password
+					Verify
 				</LoadingButton>
 			</Stack>
 		</FormProvider>
