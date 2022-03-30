@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 // @mui
-import { styled } from '@mui/material/styles';
 import {
 	Box,
 	Table,
@@ -17,18 +16,7 @@ import { fCurrency } from '../../utils/formatNumber';
 // components
 import Image from '../../components/Image';
 import Iconify from '../../components/Iconify';
-
-// ----------------------------------------------------------------------
-
-const IncrementerStyle = styled('div')(({ theme }) => ({
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'space-between',
-	marginBottom: theme.spacing(0.5),
-	padding: theme.spacing(0.5, 0.75),
-	borderRadius: theme.shape.borderRadius,
-	border: `solid 1px ${theme.palette.grey[500_32]}`,
-}));
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +47,7 @@ export default function CheckoutCourseList({ courses, onDelete }) {
 										<Box sx={{ display: 'flex', alignItems: 'center' }}>
 											<Image
 												alt="course image"
-												src={cover}
+												src={cloudinary.w100(cover)}
 												sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
 											/>
 											<Box>
@@ -85,38 +73,5 @@ export default function CheckoutCourseList({ courses, onDelete }) {
 				</TableBody>
 			</Table>
 		</TableContainer>
-	);
-}
-
-// ----------------------------------------------------------------------
-
-Incrementer.propTypes = {
-	available: PropTypes.number,
-	quantity: PropTypes.number,
-	onIncrease: PropTypes.func,
-	onDecrease: PropTypes.func,
-};
-
-function Incrementer({ available, quantity, onIncrease, onDecrease }) {
-	return (
-		<Box sx={{ width: 96, textAlign: 'right' }}>
-			<IncrementerStyle>
-				<IconButton size="small" color="inherit" onClick={onDecrease} disabled={quantity <= 1}>
-					<Iconify icon={'eva:minus-fill'} width={16} height={16} />
-				</IconButton>
-				{quantity}
-				<IconButton
-					size="small"
-					color="inherit"
-					onClick={onIncrease}
-					disabled={quantity >= available}
-				>
-					<Iconify icon={'eva:plus-fill'} width={16} height={16} />
-				</IconButton>
-			</IncrementerStyle>
-			<Typography variant="caption" sx={{ color: 'text.secondary' }}>
-				available: {available}
-			</Typography>
-		</Box>
 	);
 }

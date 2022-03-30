@@ -1,7 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-// import Label from '../../../components/Label';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
@@ -11,49 +10,33 @@ const getIcon = (name) => (
 );
 
 const ICONS = {
-	blog: getIcon('ic_blog'),
-	cart: getIcon('ic_cart'),
-	book: getIcon('ic_book'),
-	chat: getIcon('ic_chat'),
-	mail: getIcon('ic_mail'),
 	user: getIcon('ic_user'),
-	kanban: getIcon('ic_kanban'),
-	banking: getIcon('ic_banking'),
-	calendar: getIcon('ic_calendar'),
-	ecommerce: getIcon('ic_ecommerce'),
-	analytics: getIcon('ic_analytics'),
+	book: getIcon('ic_book'),
+	roadmap: getIcon('ic_road'),
 	dashboard: getIcon('ic_dashboard'),
-	booking: getIcon('ic_booking'),
+	instructor: getIcon('ic_instructor'),
+	technology: getIcon('ic_technology'),
+	application: getIcon('ic_application'),
 };
 
 const navConfig = [
 	// GENERAL
 	// ----------------------------------------------------------------------
-	{
-		subheader: 'general',
-		items: [
-			{ title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
-			// { title: 'e-commerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
-			// { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-			// { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-			// { title: 'booking', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking },
-		],
-	},
+	// {
+	// 	subheader: 'general',
+	// 	items: [{ title: 'app', path: PATH_DASHBOARD.app, icon: ICONS.dashboard }],
+	// },
 
 	// MANAGEMENT
 	// ----------------------------------------------------------------------
 	{
 		subheader: 'management',
 		items: [
-			// MANAGEMENT : USER
+			// MANAGEMENT : USERS
 			{
-				title: 'user',
-				path: PATH_DASHBOARD.user.root,
+				title: 'users',
+				path: PATH_DASHBOARD.users.root,
 				icon: ICONS.user,
-				children: [
-					{ title: 'list', path: PATH_DASHBOARD.user.list },
-					{ title: 'create', path: PATH_DASHBOARD.user.newUser },
-				],
 			},
 
 			// MANAGEMENT : COURSES
@@ -61,10 +44,34 @@ const navConfig = [
 				title: 'courses',
 				path: PATH_DASHBOARD.courses.root,
 				icon: ICONS.book,
-				children: [
-					{ title: 'list', path: PATH_DASHBOARD.courses.list },
-					{ title: 'create', path: PATH_DASHBOARD.courses.newCourse },
-				],
+			},
+
+			// MANAGEMENT : ROADMAPS
+			{
+				title: 'roadmaps',
+				path: PATH_DASHBOARD.roadmaps.root,
+				icon: ICONS.roadmap,
+			},
+
+			// MANAGEMENT : INSTRUCTORS
+			{
+				title: 'instructors',
+				path: PATH_DASHBOARD.instructors.root,
+				icon: ICONS.instructor,
+			},
+
+			// MANAGEMENT : APPLICATIONS
+			{
+				title: 'applications',
+				path: PATH_DASHBOARD.applications.root,
+				icon: ICONS.application,
+			},
+
+			// MANAGEMENT : TECHNOLOGIES
+			{
+				title: 'technologies',
+				path: PATH_DASHBOARD.technologies.root,
+				icon: ICONS.technology,
 			},
 		],
 	},

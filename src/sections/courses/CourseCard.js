@@ -1,14 +1,23 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 // @mui
-import { Box, Card, Link, Typography, Stack, Rating } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 // routes
 import { PATH_HOME } from '../../routes/paths';
+// redux
+import { useDispatch, useSelector } from '../../redux/store';
+import { addCart } from '../../redux/slices/cart';
+// api
+import cartApi from '../../api/cartApi';
 // utils
 import { fCurrency } from '../../utils/formatNumber';
 // components
 import Label from '../../components/Label';
 import Image from '../../components/Image';
+import useAuth from '../../hooks/useAuth';
+import { PATH_AUTH } from '../../routes/paths';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -18,8 +27,41 @@ CourseCard.propTypes = {
 
 export default function CourseCard({ course }) {
 	const { _id, name, cover, price, priceSale, instructor } = course;
+	const { enqueueSnackbar } = useSnackbar();
+	const dispatch = useDispatch();
+	const { cart } = useSelector((state) => state.cart);
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth();
 
 	const linkTo = `${PATH_HOME.courses.root}/${_id}`;
+
+	const handleAddCart = async (course) => {
+		const isExisted = cart.find((cartItem) => cartItem.course._id === course._id);
+
+		if (!isExisted) {
+			try {
+				const data = {
+					total: cart.length + 1,
+					courseId: course._id,
+				};
+				const response = await cartApi.add(data);
+				const cartItem = {
+					_id: response.data.cartItem._id,
+					cartId: response.data.cartItem.cartId,
+					course,
+				};
+				enqueueSnackbar('Add to cart successfully');
+				dispatch(addCart(cartItem));
+			} catch (error) {
+				console.error(error);
+				isAuthenticated
+					? enqueueSnackbar(error?.errors[0]?.msg, { variant: 'warning' })
+					: navigate(PATH_AUTH.login);
+			}
+		} else {
+			enqueueSnackbar('This course already exists in your cart', { variant: 'info' });
+		}
+	};
 
 	return (
 		<Card>
@@ -39,7 +81,7 @@ export default function CourseCard({ course }) {
 						Sale
 					</Label>
 				)}
-				<Image alt={name} src={cover} ratio="16/9" />
+				<Image alt={name} src={cloudinary.w300(cover)} ratio="16/9" />
 			</Box>
 
 			<Stack spacing={2} sx={{ p: 2 }}>
@@ -57,8 +99,6 @@ export default function CourseCard({ course }) {
 				</Box>
 
 				<Stack direction="row" alignItems="flex-end" justifyContent="space-between">
-					<Rating value={4.5} size="small" precision={0.1} readOnly />
-
 					<Stack direction="row" alignItems="flex-end" spacing={0.5}>
 						{!!priceSale && (
 							<Typography
@@ -70,6 +110,12 @@ export default function CourseCard({ course }) {
 						)}
 						<Typography variant="subtitle1">{fCurrency(priceSale || price)}</Typography>
 					</Stack>
+					{/* <Rating value={4.5} size="small" precision={0.1} readOnly /> */}
+
+					<Box sx={{ flexGrow: 1 }} />
+					<Button variant="contained" onClick={() => handleAddCart(course)} size="small">
+						Add to cart
+					</Button>
 				</Stack>
 			</Stack>
 		</Card>

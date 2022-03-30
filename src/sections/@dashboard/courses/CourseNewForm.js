@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 import {
+	Box,
 	Card,
 	Chip,
 	Grid,
@@ -18,28 +20,20 @@ import {
 	Autocomplete,
 	InputAdornment,
 } from '@mui/material';
-// routes
 // components
 import {
-	FormProvider,
 	RHFSelect,
 	RHFEditor,
+	FormProvider,
 	RHFTextField,
 	RHFUploadSingleFile,
 } from '../../../components/hook-form';
 import courseApi from '../../../api/courseApi';
-import uploadApi from '../../../api/uploadApi';
-import { useNavigate } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../../routes/paths';
+import userApi from '../../../api/userApi';
+import cloudinary from '../../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
-
-const INSTRUCTOR_OPTION = [
-	{
-		_id: '621ef50a265a5b324c1dec77',
-		email: 'kha.nguyen01.it@gmail.com',
-	},
-];
 
 const TAGS_OPTION = [
 	'JavaScript',
@@ -51,6 +45,15 @@ const TAGS_OPTION = [
 	'ReactJS',
 	'Front End',
 	'Back End',
+	'Kotlin',
+	'Java',
+	'Android',
+	'C',
+	'C++',
+	'.NET',
+	'PHP',
+	'Laravel',
+	'Angular',
 ];
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
@@ -69,25 +72,45 @@ CourseNewForm.propTypes = {
 export default function CourseNewForm({ isEdit, currentCourse }) {
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
+	const [instructorList, setInstructorList] = useState([]);
 
 	const NewCourseSchema = Yup.object().shape({
 		instructor: Yup.string().required('Instructor is required'),
 		name: Yup.string().required('Name is required'),
 		cover: Yup.mixed().required('Cover is required'),
-		price: Yup.number().moreThan(0, 'Price must be more than 0'),
-		priceSale: Yup.number().lessThan(Yup.ref('price'), 'Price sale must be less than price'),
-		overview: Yup.string().required('Overview is required'),
-		requirements: Yup.string().required('Requirements is required'),
-		targetAudiences: Yup.string().required('Target Audiences is required'),
+		price: Yup.number()
+			.integer('Price must be a integer')
+			.moreThan(1000, 'Price must be more than 1000'),
+		priceSale: Yup.number()
+			.integer('Price sale must be a integer')
+			.test('priceSale', 'Price sale must be more than 1000', (priceSale) => {
+				if (priceSale === 0) return true;
+				if (priceSale && priceSale > 1000) return true;
+				return false;
+			})
+			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
+		minStudent: Yup.number()
+			.integer('Minimum student must be a integer')
+			.moreThan(4, 'Minimum student must be at least 5'),
+		overview: Yup.string()
+			.required('Overview is required')
+			.min(50, 'Overview must be at least 50 characters'),
+		requirements: Yup.string()
+			.required('Requirements is required')
+			.min(50, 'Requirements must be at least 50 characters'),
+		targetAudiences: Yup.string()
+			.required('Target Audiences is required')
+			.min(50, 'Target Audiences must be at least 50 characters'),
 	});
 
 	const defaultValues = useMemo(
 		() => ({
-			instructor: currentCourse?.instructor?._id || INSTRUCTOR_OPTION[0]._id,
+			instructor: currentCourse?.instructor?._id || '',
 			name: currentCourse?.name || '',
 			cover: currentCourse?.cover || null,
 			price: currentCourse?.price || 0,
 			priceSale: currentCourse?.priceSale || 0,
+			minStudent: currentCourse?.minStudent || 5,
 			tags: currentCourse?.tags || [TAGS_OPTION[0]],
 			overview: currentCourse?.details.overview || '',
 			requirements: currentCourse?.details.requirements || '',
@@ -110,62 +133,57 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 		formState: { isSubmitting },
 	} = methods;
 
+	const getAllInstructors = async () => {
+		try {
+			const response = await userApi.getAllInstructors({});
+			setInstructorList(response.data.instructors);
+			if (!isEdit) setValue('instructor', response.data.instructors[0]?._id);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	useEffect(() => {
+		getAllInstructors();
 		if (isEdit && currentCourse) {
 			reset(defaultValues);
-			setValue('cover', { path: currentCourse?.cover, preview: currentCourse?.cover });
+			setValue('cover', cloudinary.w700(currentCourse?.cover));
+			setValue('instructor', currentCourse?.instructor._id);
 		}
-		if (!isEdit) {
-			reset(defaultValues);
-		}
+		if (!isEdit) reset(defaultValues);
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		data.cover = data.cover.path;
-		if (isEdit) {
-			data.id = currentCourse._id;
-			try {
-				const response = await courseApi.update(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Update success!');
-					navigate(PATH_DASHBOARD.courses.list);
-				}
-			} catch (error) {
-				console.error(error);
+		try {
+			if (isEdit) {
+				data.id = currentCourse._id;
+				await courseApi.update(data);
+			} else {
+				await courseApi.add(data);
 			}
-		} else {
-			try {
-				const response = await courseApi.add(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Create success!');
-					navigate(PATH_DASHBOARD.courses.list);
-				}
-			} catch (error) {
-				console.error(error);
-			}
+			reset();
+			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
+			navigate(PATH_DASHBOARD.courses.root);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
 	const handleDrop = useCallback(
-		async (acceptedFiles) => {
+		(acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				try {
-					const data = new FormData();
-					data.append('image', file);
-					const response = await uploadApi.addCourseImage(data);
-
-					if (!response.data.success) return;
-					const path = response.data.file.path;
-					const cover = { path, preview: URL.createObjectURL(file) };
-					setValue('cover', cover);
-				} catch (error) {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => {
+					setValue('cover', reader.result);
+				};
+				reader.onerror = (error) => {
 					console.error(error);
-				}
+				};
 			}
 		},
 		[setValue]
@@ -179,20 +197,20 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 						<Stack spacing={3}>
 							<RHFTextField name="name" label="Course Name" />
 
-							<div>
+							<Box>
 								<LabelStyle>Overview</LabelStyle>
 								<RHFEditor simple name="overview" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Requirements</LabelStyle>
 								<RHFEditor simple name="requirements" />
-							</div>
-							<div>
+							</Box>
+							<Box>
 								<LabelStyle>Target Audiences</LabelStyle>
 								<RHFEditor simple name="targetAudiences" />
-							</div>
+							</Box>
 
-							<div>
+							<Box>
 								<LabelStyle>Cover</LabelStyle>
 								<RHFUploadSingleFile
 									name="cover"
@@ -200,7 +218,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 									maxSize={3145728}
 									onDrop={handleDrop}
 								/>
-							</div>
+							</Box>
 						</Stack>
 					</Card>
 				</Grid>
@@ -209,12 +227,13 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 					<Stack spacing={3}>
 						<Card sx={{ p: 3 }}>
 							<Stack spacing={3} mt={2}>
-								<RHFSelect name="instructor" label="Instructor">
-									{INSTRUCTOR_OPTION.map((instructor) => (
-										<option key={instructor?._id} value={instructor?._id}>
-											{instructor.email}
-										</option>
-									))}
+								<RHFSelect name="instructor" label="Instructor" InputLabelProps={{ shrink: true }}>
+									{!!instructorList.length &&
+										instructorList.map((instructor) => (
+											<option key={instructor?._id} value={instructor?._id}>
+												{instructor?.email}
+											</option>
+										))}
 								</RHFSelect>
 								<Controller
 									name="tags"
@@ -240,11 +259,17 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 										/>
 									)}
 								/>
-							</Stack>
-						</Card>
 
-						<Card sx={{ p: 3 }}>
-							<Stack spacing={3} mb={2}>
+								<RHFTextField
+									name="minStudent"
+									label="Minimum student"
+									placeholder="0.00"
+									defaultValue={getValues('minStudent') === 0 ? '' : getValues('minStudent')}
+									onChange={(event) => setValue('minStudent', Number(event.target.value))}
+									InputLabelProps={{ shrink: true }}
+									InputProps={{ type: 'number' }}
+								/>
+
 								<RHFTextField
 									name="price"
 									label="Regular Price"

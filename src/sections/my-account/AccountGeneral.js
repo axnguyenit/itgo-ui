@@ -5,20 +5,19 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 // components
-import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
-import uploadApi from '../../api/uploadApi';
 import userApi from '../../api/userApi';
+import cloudinary from '../../utils/cloudinary';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
 	const { enqueueSnackbar } = useSnackbar();
-
 	const { user } = useAuth();
 
 	const UpdateUserSchema = Yup.object().shape({
@@ -31,7 +30,7 @@ export default function AccountGeneral() {
 		firstName: user?.firstName || '',
 		lastName: user?.lastName || '',
 		email: user?.email || '',
-		avatar: user?.avatar || '',
+		avatar: user?.avatar ? cloudinary.w300(user?.avatar) : '',
 		phoneNumber: user?.phoneNumber || '',
 		address: user?.address || '',
 		region: user?.region || '',
@@ -51,7 +50,6 @@ export default function AccountGeneral() {
 	const onSubmit = async (data) => {
 		try {
 			data.id = user._id;
-			data.avatar = data.avatar?.path;
 			await userApi.update(data);
 			enqueueSnackbar('Update success!');
 		} catch (error) {
@@ -60,24 +58,14 @@ export default function AccountGeneral() {
 	};
 
 	const handleDrop = useCallback(
-		async (acceptedFiles) => {
+		(acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				try {
-					const data = new FormData();
-					data.append('avatar', file);
-					const response = await uploadApi.addAvatar(data);
-					console.log(response);
-
-					if (!response.data.success) return;
-					const path = response.data.file.path;
-					const avatar = { path, preview: URL.createObjectURL(file) };
-
-					setValue('avatar', avatar);
-				} catch (error) {
-					console.error(error);
-				}
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => setValue('avatar', reader.result);
+				reader.onerror = (error) => console.error(error);
 			}
 		},
 		[setValue]

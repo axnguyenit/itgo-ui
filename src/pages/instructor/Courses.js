@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 // @mui
 import {
-	Box,
 	Card,
 	Table,
 	TableRow,
@@ -11,7 +10,9 @@ import {
 	Typography,
 	TableContainer,
 	TablePagination,
+	Button,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -19,20 +20,18 @@ import { fCurrency } from '../../utils/formatNumber';
 import Page from '../../components/Page';
 import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
-import SearchNotFound from '../../components/SearchNotFound';
+import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import {
-	CourseMoreMenu,
-	CourseListHead,
-	CourseListToolbar,
-} from '../../sections/@dashboard/courses/course-list';
+import { CourseMoreMenu } from '../../sections/instructor/courses';
 // api
 import courseApi from '../../api/courseApi';
 // routes
-import { PATH_INSTRUCTOR } from '../../routes/paths';
+import { PATH_INSTRUCTOR, PATH_PAGE } from '../../routes/paths';
 // hooks
 import useAuth from '../../hooks/useAuth';
+import Iconify from '../../components/Iconify';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -51,11 +50,10 @@ export default function Courses() {
 	const [courseList, setCourseList] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
-
 	const [order, setOrder] = useState('asc');
-	const [filterName, setFilterName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [orderBy, setOrderBy] = useState('createdAt');
+	const navigate = useNavigate();
 
 	const getAllCourses = async () => {
 		const params = {
@@ -66,11 +64,11 @@ export default function Courses() {
 
 		try {
 			const response = await courseApi.getAll(params);
-			if (!response.data.success) return;
 			setCourseList(response.data.courses);
 			setPagination(response.data.pagination);
 		} catch (error) {
 			console.error(error);
+			navigate(PATH_PAGE.page500);
 		}
 	};
 
@@ -90,49 +88,51 @@ export default function Courses() {
 		setPage(1);
 	};
 
-	const handleFilterByName = (filterName) => {
-		setFilterName(filterName);
-	};
-
 	const handleDeleteCourse = async (courseId) => {
 		try {
-			const response = await courseApi.remove(courseId);
-			if (response.data.success) getAllCourses();
+			await courseApi.remove(courseId);
+			getAllCourses();
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
 	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - courseList.length) : 0;
-	const filteredCourses = applySortFilter(courseList, getComparator(order, orderBy), filterName);
-	const isNotFound = !filteredCourses.length && !!filterName;
+	const filteredCourses = applySortFilter(courseList, getComparator(order, orderBy));
 
 	return (
-		<Page title="Course List">
+		<Page title="Courses">
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading="Course List"
+					heading="Courses"
 					links={[
 						{ name: 'Instructor', href: PATH_INSTRUCTOR.root },
 						{
-							name: 'Courses List',
+							name: 'Courses',
 						},
 					]}
+					action={
+						<Button
+							variant="contained"
+							startIcon={<Iconify icon="eva:plus-fill" width={20} height={20} />}
+							onClick={() => navigate(PATH_INSTRUCTOR.courses.create)}
+						>
+							New Course
+						</Button>
+					}
 				/>
 				<Card>
-					<CourseListToolbar filterName={filterName} onFilterName={handleFilterByName} />
-
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<CourseListHead
+								<TableListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>
-									{filteredCourses.length &&
+									{!!filteredCourses.length &&
 										filteredCourses.map((course) => {
 											const { _id, name, cover, price, priceSale, createdAt } = course;
 
@@ -142,8 +142,8 @@ export default function Courses() {
 														<Image
 															disabledEffect
 															alt={name}
-															src={cover}
-															sx={{ borderRadius: 1.5, width: 64, height: 64, mr: 2 }}
+															src={cloudinary.w100(cover)}
+															sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
 														/>
 														<Typography variant="subtitle2" noWrap>
 															{name}
@@ -163,23 +163,11 @@ export default function Courses() {
 											);
 										})}
 									{emptyRows > 0 && (
-										<TableRow style={{ height: 96 * emptyRows }}>
-											<TableCell colSpan={6} />
+										<TableRow style={{ height: 80 * emptyRows }}>
+											<TableCell colSpan={5} />
 										</TableRow>
 									)}
 								</TableBody>
-
-								{isNotFound && (
-									<TableBody>
-										<TableRow>
-											<TableCell align="center" colSpan={6}>
-												<Box sx={{ py: 3 }}>
-													<SearchNotFound searchQuery={filterName} />
-												</Box>
-											</TableCell>
-										</TableRow>
-									</TableBody>
-								)}
 							</Table>
 						</TableContainer>
 					</Scrollbar>

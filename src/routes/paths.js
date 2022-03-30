@@ -14,11 +14,9 @@ const ROOTS_DASHBOARD = '/dashboard';
 export const PATH_AUTH = {
 	root: ROOTS_AUTH,
 	login: path(ROOTS_AUTH, '/login'),
-	loginUnprotected: path(ROOTS_AUTH, '/login-unprotected'),
 	register: path(ROOTS_AUTH, '/register'),
-	registerUnprotected: path(ROOTS_AUTH, '/register-unprotected'),
-	resetPassword: path(ROOTS_AUTH, '/reset-password'),
 	verify: path(ROOTS_AUTH, '/verify'),
+	forgotPassword: path(ROOTS_AUTH, '/forgot-password'),
 };
 
 export const PATH_PAGE = {
@@ -39,50 +37,64 @@ export const PATH_HOME = {
 	home: path(ROOTS_HOME, '/'),
 	account: path(ROOTS_HOME, '/account-settings'),
 	myLearning: {
-		root: path(ROOTS_HOME, '/my-learning'),
+		root: path(ROOTS_HOME, '/my-courses'),
 		all: path(ROOTS_HOME, '/'),
 	},
 	courses: {
 		root: path(ROOTS_HOME, '/courses'),
 		course: path(ROOTS_HOME, '/courses/:id'),
 	},
-	roadmap: {
-		root: path(ROOTS_HOME, '/roadmap'),
-		specialization: path(ROOTS_HOME, '/roadmap/:specialization'),
+	learning: {
+		root: path(ROOTS_HOME, '/learning'),
+	},
+	roadmaps: {
+		root: path(ROOTS_HOME, '/roadmaps'),
 	},
 	checkout: path(ROOTS_HOME, '/checkout'),
+	becomeInstructor: path(ROOTS_HOME, '/become-instructor'),
 };
 
 export const PATH_INSTRUCTOR = {
 	root: ROOTS_INSTRUCTOR,
 	courses: {
 		root: path(ROOTS_INSTRUCTOR, '/courses'),
-		list: path(ROOTS_INSTRUCTOR, '/courses/list'),
-		newCourse: path(ROOTS_INSTRUCTOR, '/courses/new'),
-		editById: path(ROOTS_INSTRUCTOR, '/courses/:id/edit'),
+		course: path(ROOTS_HOME, '/courses/:id'),
+		students: path(ROOTS_HOME, '/courses/:id/students'),
+		create: path(ROOTS_INSTRUCTOR, '/courses/create'),
 	},
+	calendar: path(ROOTS_INSTRUCTOR, '/calendar'),
+	profile: path(ROOTS_INSTRUCTOR, '/:id'),
 };
 
 export const PATH_DASHBOARD = {
 	root: ROOTS_DASHBOARD,
-	general: {
-		app: path(ROOTS_DASHBOARD, '/app'),
-		ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
-		analytics: path(ROOTS_DASHBOARD, '/analytics'),
-		banking: path(ROOTS_DASHBOARD, '/banking'),
-		booking: path(ROOTS_DASHBOARD, '/booking'),
-	},
-	user: {
-		root: path(ROOTS_DASHBOARD, '/user'),
-		list: path(ROOTS_DASHBOARD, '/user/list'),
-		newUser: path(ROOTS_DASHBOARD, '/user/new'),
-		editById: path(ROOTS_DASHBOARD, `/user/:id/edit`),
-		account: path(ROOTS_DASHBOARD, '/user/account'),
+	app: path(ROOTS_DASHBOARD, '/app'),
+	users: {
+		root: path(ROOTS_DASHBOARD, '/users'),
+		create: path(ROOTS_DASHBOARD, '/users/create'),
+		account: path(ROOTS_DASHBOARD, '/users/account'),
 	},
 	courses: {
 		root: path(ROOTS_DASHBOARD, '/courses'),
-		list: path(ROOTS_DASHBOARD, '/courses/list'),
-		newCourse: path(ROOTS_DASHBOARD, '/courses/new'),
-		editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
+		create: path(ROOTS_DASHBOARD, '/courses/create'),
+		// editById: path(ROOTS_DASHBOARD, '/courses/:id/edit'),
+	},
+	roadmaps: {
+		root: path(ROOTS_DASHBOARD, '/roadmaps'),
+		create: path(ROOTS_DASHBOARD, '/roadmaps/create'),
+	},
+	paymentInfo: path(ROOTS_DASHBOARD, '/payment-info'),
+	instructors: {
+		root: path(ROOTS_DASHBOARD, '/instructors'),
+		courses: path(ROOTS_DASHBOARD, '/instructors/:id/courses'),
+		students: path(ROOTS_DASHBOARD, '/instructors/courses/:id/students'),
+	},
+	applications: {
+		root: path(ROOTS_DASHBOARD, '/applications'),
+		cv: path(ROOTS_DASHBOARD, '/applications/:id/cv'),
+	},
+	technologies: {
+		root: path(ROOTS_DASHBOARD, '/technologies'),
+		create: path(ROOTS_DASHBOARD, '/technologies/create'),
 	},
 };

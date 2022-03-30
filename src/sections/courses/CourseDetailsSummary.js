@@ -13,9 +13,10 @@ import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from '../../redux/store';
 import { addCart } from '../../redux/slices/cart';
 // api
-import cartApi from 'src/api/cartApi';
-import useAuth from 'src/hooks/useAuth';
-import { PATH_AUTH } from 'src/routes/paths';
+import cartApi from '../../api/cartApi';
+import useAuth from '../../hooks/useAuth';
+import { PATH_AUTH } from '../../routes/paths';
+import cloudinary from '../../utils/cloudinary';
 
 CourseDetailsSummary.propTypes = {
 	course: PropTypes.object.isRequired,
@@ -38,20 +39,17 @@ export default function CourseDetailsSummary({ course }) {
 					courseId: course._id,
 				};
 				const response = await cartApi.add(data);
-
-				if (response.data.success) {
-					const cartItem = {
-						_id: response.data.cartItem._id,
-						cartId: response.data.cartItem.cartId,
-						course,
-					};
-					enqueueSnackbar('Add to cart successfully');
-					dispatch(addCart(cartItem));
-				}
+				const cartItem = {
+					_id: response.data.cartItem._id,
+					cartId: response.data.cartItem.cartId,
+					course,
+				};
+				enqueueSnackbar('Add to cart successfully');
+				dispatch(addCart(cartItem));
 			} catch (error) {
 				console.error(error);
 				isAuthenticated
-					? enqueueSnackbar('Somethings went wrong, try again', { variant: 'warning' })
+					? enqueueSnackbar(error?.errors[0]?.msg, { variant: 'warning' })
 					: navigate(PATH_AUTH.login);
 			}
 		} else {
@@ -67,7 +65,7 @@ export default function CourseDetailsSummary({ course }) {
 				avatar={<MyAvatar />}
 				title={
 					<Link to="#" variant="subtitle2" color="text.primary" component={RouterLink}>
-						{`${course?.instructor.firstName} ${course?.instructor.lastName}`}
+						{`${course?.instructor?.firstName} ${course?.instructor?.lastName}`}
 					</Link>
 				}
 				subheader={
@@ -100,7 +98,12 @@ export default function CourseDetailsSummary({ course }) {
 				}}
 			/>
 
-			<Image alt="post media" src={course?.cover} ratio="21/9" sx={{ borderRadius: 1 }} />
+			<Image
+				alt="post media"
+				src={cloudinary.w1200(course?.cover)}
+				ratio="21/9"
+				sx={{ borderRadius: 1 }}
+			/>
 		</Stack>
 	);
 }

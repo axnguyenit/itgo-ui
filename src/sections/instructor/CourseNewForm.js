@@ -28,9 +28,9 @@ import {
 	RHFUploadSingleFile,
 } from '../../components/hook-form';
 import courseApi from '../../api/courseApi';
-import uploadApi from '../../api/uploadApi';
 import { useNavigate } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_INSTRUCTOR } from '../../routes/paths';
+import cloudinary from 'src/utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +44,15 @@ const TAGS_OPTION = [
 	'ReactJS',
 	'Front End',
 	'Back End',
+	'Kotlin',
+	'Java',
+	'Android',
+	'C',
+	'C++',
+	'.NET',
+	'PHP',
+	'Laravel',
+	'Angular',
 ];
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
@@ -66,11 +75,29 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	const NewCourseSchema = Yup.object().shape({
 		name: Yup.string().required('Name is required'),
 		cover: Yup.mixed().required('Cover is required'),
-		price: Yup.number().moreThan(0, 'Price must be more than 0'),
-		priceSale: Yup.number().lessThan(Yup.ref('price'), 'Price sale must be less than price'),
-		overview: Yup.string().required('Overview is required'),
-		requirements: Yup.string().required('Requirements is required'),
-		targetAudiences: Yup.string().required('Target Audiences is required'),
+		price: Yup.number()
+			.integer('Price must be a integer')
+			.moreThan(1000, 'Price must be more than 1000'),
+		priceSale: Yup.number()
+			.integer('Price sale must be a integer')
+			.test('priceSale', 'Price sale must be more than 1000', (priceSale) => {
+				if (priceSale === 0) return true;
+				if (priceSale && priceSale > 1000) return true;
+				return false;
+			})
+			.lessThan(Yup.ref('price'), 'Price sale must be less than price and more than 1000'),
+		minStudent: Yup.number()
+			.integer('Minimum student must be a integer')
+			.moreThan(4, 'Minimum student must be at least 5'),
+		overview: Yup.string()
+			.required('Overview is required')
+			.min(50, 'Overview must be at least 50 characters'),
+		requirements: Yup.string()
+			.required('Requirements is required')
+			.min(50, 'Requirements must be at least 50 characters'),
+		targetAudiences: Yup.string()
+			.required('Target Audiences is required')
+			.min(50, 'Target Audiences must be at least 50 characters'),
 	});
 
 	const defaultValues = useMemo(
@@ -79,6 +106,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 			cover: currentCourse?.cover || null,
 			price: currentCourse?.price || 0,
 			priceSale: currentCourse?.priceSale || 0,
+			minStudent: currentCourse?.minStudent || 5,
 			tags: currentCourse?.tags || [TAGS_OPTION[0]],
 			overview: currentCourse?.details.overview || '',
 			requirements: currentCourse?.details.requirements || '',
@@ -104,7 +132,7 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	useEffect(() => {
 		if (isEdit && currentCourse) {
 			reset(defaultValues);
-			setValue('cover', { path: currentCourse?.cover, preview: currentCourse?.cover });
+			setValue('cover', cloudinary.w700(currentCourse?.cover));
 		}
 		if (!isEdit) {
 			reset(defaultValues);
@@ -113,50 +141,34 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 	}, [isEdit, currentCourse]);
 
 	const onSubmit = async (data) => {
-		data.cover = data.cover.path;
-		if (isEdit) {
-			data.id = currentCourse._id;
-			try {
-				const response = await courseApi.update(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Update success!');
-					navigate(PATH_DASHBOARD.courses.list);
-				}
-			} catch (error) {
-				console.error(error);
+		try {
+			if (isEdit) {
+				data.id = currentCourse._id;
+				await courseApi.update(data);
+			} else {
+				await courseApi.add(data);
 			}
-		} else {
-			try {
-				const response = await courseApi.add(data);
-				if (response.data.success) {
-					reset();
-					enqueueSnackbar('Create success!');
-					navigate(PATH_DASHBOARD.courses.list);
-				}
-			} catch (error) {
-				console.error(error);
-			}
+			reset();
+			enqueueSnackbar(isEdit ? 'Update success!' : 'Create success!');
+			navigate(PATH_INSTRUCTOR.courses.root);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
 	const handleDrop = useCallback(
-		async (acceptedFiles) => {
+		(acceptedFiles) => {
 			const file = acceptedFiles[0];
 
 			if (file) {
-				try {
-					const data = new FormData();
-					data.append('image', file);
-					const response = await uploadApi.addCourseImage(data);
-
-					if (!response.data.success) return;
-					const path = response.data.file.path;
-					const cover = { path, preview: URL.createObjectURL(file) };
-					setValue('cover', cover);
-				} catch (error) {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onloadend = () => {
+					setValue('cover', reader.result);
+				};
+				reader.onerror = (error) => {
 					console.error(error);
-				}
+				};
 			}
 		},
 		[setValue]
@@ -224,11 +236,17 @@ export default function CourseNewForm({ isEdit, currentCourse }) {
 										/>
 									)}
 								/>
-							</Stack>
-						</Card>
 
-						<Card sx={{ p: 3 }}>
-							<Stack spacing={3} mb={2}>
+								<RHFTextField
+									name="minStudent"
+									label="Minimum student"
+									placeholder="0.00"
+									defaultValue={getValues('minStudent') === 0 ? '' : getValues('minStudent')}
+									onChange={(event) => setValue('minStudent', Number(event.target.value))}
+									InputLabelProps={{ shrink: true }}
+									InputProps={{ type: 'number' }}
+								/>
+
 								<RHFTextField
 									name="price"
 									label="Regular Price"

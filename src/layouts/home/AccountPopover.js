@@ -101,7 +101,7 @@ export default function AccountPopover() {
 			>
 				<Box sx={{ my: 1.5, px: 2.5 }}>
 					<Typography variant="subtitle2" noWrap>
-						{user?.displayName}
+						{`${user?.firstName} ${user?.lastName}`}
 					</Typography>
 					<Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
 						{user?.email}
@@ -123,7 +123,7 @@ export default function AccountPopover() {
 					))}
 					{(user?.isInstructor || user?.isAdmin) && (
 						<MenuItem to={PATH_INSTRUCTOR.root} component={RouterLink} onClick={handleClose}>
-							Instructors
+							Instructor
 						</MenuItem>
 					)}
 					{user?.isAdmin && (

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 // hooks
 import useAuth from '../hooks/useAuth';
-// pages
-import Login from '../pages/auth/Login';
+import { Navigate } from 'react-router-dom';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+import { PATH_AUTH } from '../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ export default function BasedGuard({ children }) {
 
 	if (!isInitialized) return <LoadingScreen />;
 
-	if (!isAuthenticated) return <Login />;
+	if (!isAuthenticated) return <Navigate to={PATH_AUTH.login} />;
 
 	return <>{children}</>;
 }

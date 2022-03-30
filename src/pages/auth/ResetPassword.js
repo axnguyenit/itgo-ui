@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -10,9 +10,10 @@ import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 // sections
-import { ResetPasswordForm } from '../../sections/auth/reset-password';
+import { ResetPasswordForm } from '../../sections/auth';
 // assets
-import { SentIcon } from '../../assets';
+import { SuccessIcon, ErrorIcon } from '../../assets';
+import userApi from '../../api/userApi';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +27,23 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ResetPassword() {
-	const [email, setEmail] = useState('');
+export default function ForgotPassword() {
 	const [sent, setSent] = useState(false);
+	const [isValid, setIsValid] = useState(false);
+	const { id, token } = useParams();
+
+	useEffect(() => {
+		const checkRequestResetPassword = async () => {
+			try {
+				await userApi.checkRequestResetPassword(id, token);
+				setIsValid(true);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		checkRequestResetPassword();
+	}, [id, token]);
 
 	return (
 		<Page title="Reset Password" sx={{ height: 1 }}>
@@ -37,20 +52,13 @@ export default function ResetPassword() {
 
 				<Container>
 					<Box sx={{ maxWidth: 480, mx: 'auto' }}>
-						{!sent ? (
+						{!sent && isValid && (
 							<>
 								<Typography variant="h3" paragraph>
-									Forgot your password?
-								</Typography>
-								<Typography sx={{ color: 'text.secondary', mb: 5 }}>
-									Please enter the email address associated with your account and We will email you
-									a code to reset your password.
+									Create new password
 								</Typography>
 
-								<ResetPasswordForm
-									onSent={() => setSent(true)}
-									onGetEmail={(value) => setEmail(value)}
-								/>
+								<ResetPasswordForm onSent={() => setSent(true)} id={id} token={token} />
 
 								<Button
 									fullWidth
@@ -62,18 +70,32 @@ export default function ResetPassword() {
 									Back
 								</Button>
 							</>
-						) : (
+						)}
+						{sent && (
 							<Box sx={{ textAlign: 'center' }}>
-								<SentIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
+								<SuccessIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
 
 								<Typography variant="h3" gutterBottom>
-									Request sent successfully
+									Reset password successfully
 								</Typography>
-								<Typography>
-									We have sent a code verification to &nbsp;
-									<strong>{email}</strong>
-									<br />
-									Please check your email.
+
+								<Button
+									size="large"
+									variant="contained"
+									component={RouterLink}
+									to={PATH_AUTH.login}
+									sx={{ mt: 5 }}
+								>
+									Back
+								</Button>
+							</Box>
+						)}
+
+						{!isValid && (
+							<Box sx={{ textAlign: 'center' }}>
+								<ErrorIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
+								<Typography variant="h3" gutterBottom>
+									Link reset password is invalid
 								</Typography>
 
 								<Button

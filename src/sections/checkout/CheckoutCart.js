@@ -1,4 +1,5 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 // @mui
 import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
@@ -14,26 +15,56 @@ import EmptyContent from '../../components/EmptyContent';
 //
 import CheckoutSummary from './CheckoutSummary';
 import CheckoutCourseList from './CheckoutCourseList';
-import cartApi from 'src/api/cartApi';
+import cartApi from '../../api/cartApi';
+import paymentApi from '../../api/paymentApi';
+import { getCartApi } from '../../redux/slices/cart';
 
 // ----------------------------------------------------------------------
 
 export default function CheckoutCart() {
 	const dispatch = useDispatch();
 	const { enqueueSnackbar } = useSnackbar();
-
+	const [searchParams, setSearchParams] = useSearchParams();
 	const { cart, total, discount, subtotal } = useSelector((state) => state.cart);
-
 	const totalItems = cart.length;
-
 	const isEmptyCart = cart.length === 0;
+
+	const resultCode = searchParams.get('resultCode');
+
+	// transId, amount, orderId
+
+	const storeTransaction = async () => {
+		if (resultCode && Number(resultCode) >= 0 && cart.length) {
+			try {
+				const transId = searchParams.get('transId');
+				const message = searchParams.get('message');
+				const amount = searchParams.get('amount');
+				const data = {
+					transId,
+					message,
+					amount,
+					resultCode,
+					cart,
+				};
+
+				await paymentApi.add(data);
+				setSearchParams({});
+				getCartApi();
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	};
+
+	useEffect(() => {
+		storeTransaction();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [resultCode, cart]);
 
 	const handleDeleteCart = async (cartItemId) => {
 		try {
-			const response = await cartApi.removeItem(cartItemId);
-			if (response.data.success) {
-				dispatch(deleteCart(cartItemId));
-			}
+			await cartApi.removeItem(cartItemId);
+			dispatch(deleteCart(cartItemId));
 		} catch (error) {
 			enqueueSnackbar(error.errors[0].msg, { variant: 'warning' });
 		}

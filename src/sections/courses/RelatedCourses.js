@@ -7,6 +7,7 @@ import { fCurrency } from '../../utils/formatNumber';
 //
 import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
+import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +48,7 @@ function CourseItem({ course }) {
 		<Stack direction="row" spacing={2}>
 			<Image
 				alt={name}
-				src={cover}
+				src={cloudinary.w100(cover)}
 				sx={{ width: 45, height: 45, borderRadius: 1.5, flexShrink: 0 }}
 			/>
 

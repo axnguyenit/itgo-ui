@@ -6,11 +6,11 @@ import {
 	Stack,
 	Button,
 	Divider,
-	TextField,
+	// TextField,
 	CardHeader,
 	Typography,
 	CardContent,
-	InputAdornment,
+	// InputAdornment,
 } from '@mui/material';
 // utils
 import { fCurrency } from '../../utils/formatNumber';
@@ -80,7 +80,7 @@ export default function CheckoutSummary({
 						</Box>
 					</Stack>
 
-					{enableDiscount && (
+					{/* {enableDiscount && (
 						<TextField
 							fullWidth
 							placeholder="Discount codes / Gifts"
@@ -93,7 +93,7 @@ export default function CheckoutSummary({
 								),
 							}}
 						/>
-					)}
+					)} */}
 				</Stack>
 			</CardContent>
 		</Card>

@@ -1,17 +1,18 @@
+import { capitalCase } from 'change-case';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box, Container, Divider, Grid, Stack, Tab } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Box, Container, Divider, Stack, Tab } from '@mui/material';
 // components
-import Page from '../../components/Page';
 import {
 	CourseHero,
 	// CourseDetailsReview,
 	CourseDetailsSummary,
-	RelatedCourses,
 } from '../../sections/courses';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
+import Page from '../../components/Page';
+import { PATH_PAGE } from '../../routes/paths';
 import Markdown from '../../components/Markdown';
 // api
 import courseApi from '../../api/courseApi';
@@ -27,87 +28,89 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const TAB_LIST = ['overview', 'requirements', 'target-audiences', 'reviews'];
+
 export default function CourseDetails() {
 	const { id } = useParams();
-	const [value, setValue] = useState('1');
+	const [currentTab, setCurrentTab] = useState('overview');
 	const [course, setCourse] = useState(null);
-	const [courses, setCourses] = useState(null);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const tab = searchParams.get('tab');
+		if (TAB_LIST.includes(tab)) setCurrentTab(tab);
+	}, [searchParams]);
 
 	useEffect(() => {
 		const getCourse = async () => {
 			try {
 				const response = await courseApi.get(id);
-				if (response.data.success) setCourse(response.data.course);
+				setCourse(response.data.course);
 			} catch (error) {
 				console.error(error);
+				navigate(PATH_PAGE.page404);
 			}
 		};
 
-		const getCourses = async () => {
-			const params = {
-				_page: 1,
-				_limit: 7,
-			};
-			try {
-				const response = await courseApi.getAll(params);
-				if (response.data.success) setCourses(response.data.courses);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		getCourses();
 		getCourse();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
 
+	const handleChangeTab = (value) => {
+		setCurrentTab(value);
+		setSearchParams({ tab: value });
+	};
+
 	return (
 		<Page title="Course Details">
 			<RootStyle>
-				<CourseHero label="Course Details" />
+				<CourseHero
+					label="Course Details"
+					src={`${window.location.origin}/assets/images/courses-hero.jpg`}
+				/>
 
 				<Container sx={{ mt: 15, mb: 10 }}>
-					<Grid container spacing={4}>
-						<Grid item xs={12} md={8} spacing={3}>
-							{course && <CourseDetailsSummary course={course} />}
+					{/* <Grid container spacing={4}> */}
+					{/* <Grid item xs={12} md={8} spacing={3}> */}
+					{course && <CourseDetailsSummary course={course} />}
 
-							<Stack sx={{ mt: 3 }}>
-								<TabContext value={value}>
-									<TabList onChange={(e, value) => setValue(value)}>
-										<Tab disableRipple value="1" label="Overview" />
-										<Tab disableRipple value="2" label="Requirements" />
-										<Tab disableRipple value="3" label="Target Audiences" />
-										<Tab disableRipple value="4" label="Reviews" />
-									</TabList>
+					<Stack sx={{ mt: 3 }}>
+						<TabContext value={currentTab}>
+							<TabList onChange={(e, value) => handleChangeTab(value)}>
+								{TAB_LIST.map((tab) => (
+									<Tab key={tab} disableRipple value={tab} label={capitalCase(tab)} />
+								))}
+							</TabList>
 
-									<Divider />
+							<Divider />
 
-									<TabPanel value="1">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.overview} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="2">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.requirements} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="3">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.targetAudiences} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="4">
-										Tab 4{/* <CourseDetailsReview product={product} /> */}
-									</TabPanel>
-								</TabContext>
-							</Stack>
-						</Grid>
+							<TabPanel value="overview">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.overview} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="requirements">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.requirements} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="target-audiences">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.targetAudiences} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="reviews">
+								Tab 4{/* <CourseDetailsReview product={product} /> */}
+							</TabPanel>
+						</TabContext>
+					</Stack>
+					{/* </Grid> */}
 
-						<Grid item xs={12} md={4}>
+					{/* <Grid item xs={12} md={4}>
 							{courses && <RelatedCourses courses={courses} />}
-						</Grid>
-					</Grid>
+						</Grid> */}
+					{/* </Grid> */}
 				</Container>
 			</RootStyle>
 		</Page>
