@@ -10,18 +10,16 @@ import {
 	Typography,
 	TableContainer,
 	TablePagination,
-	Button,
 } from '@mui/material';
 // routes
-import { useNavigate } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../routes/paths';
+import { useNavigate, useParams } from 'react-router-dom';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
 // components
 import Page from '../../components/Page';
 import Image from '../../components/Image';
-import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
 import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
@@ -39,12 +37,13 @@ const TABLE_HEAD = [
 	{ id: 'instructor', label: 'Instructor', alignRight: false },
 	{ id: 'createdAt', label: 'Create at', alignRight: false },
 	{ id: 'price', label: 'Price', alignRight: true },
+	{ id: 'priceSale', label: 'Price Sale', alignRight: true },
 	{ id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function Courses() {
+export default function InstructorCourses() {
 	const [courses, setCourses] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
@@ -52,11 +51,13 @@ export default function Courses() {
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [orderBy, setOrderBy] = useState('createdAt');
 	const navigate = useNavigate();
+	const { id } = useParams();
 
 	const getAllCourses = async () => {
 		const params = {
 			_page: page,
 			_limit: rowsPerPage,
+			_instructor: id,
 		};
 		try {
 			const response = await courseApi.getAll(params);
@@ -64,6 +65,7 @@ export default function Courses() {
 			setPagination(response.data.pagination);
 		} catch (error) {
 			console.error(error);
+			navigate(PATH_PAGE.page404);
 		}
 	};
 
@@ -102,19 +104,9 @@ export default function Courses() {
 					heading="Courses"
 					links={[
 						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
-						{
-							name: 'Courses',
-						},
+						{ name: 'Instructors', href: PATH_DASHBOARD.instructors.root },
+						{ name: 'Courses' },
 					]}
-					action={
-						<Button
-							variant="contained"
-							startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20} />}
-							onClick={() => navigate(PATH_DASHBOARD.courses.create)}
-						>
-							New Course
-						</Button>
-					}
 				/>
 
 				<Card>
@@ -131,7 +123,7 @@ export default function Courses() {
 								<TableBody>
 									{filteredCourses.length > 0 &&
 										filteredCourses.map((course) => {
-											const { _id, name, cover, price, createdAt, instructor } = course;
+											const { _id, name, cover, price, priceSale, createdAt, instructor } = course;
 
 											return (
 												<TableRow hover key={_id} tabIndex={-1} role="checkbox">
@@ -151,6 +143,7 @@ export default function Courses() {
 													</TableCell>
 													<TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
 													<TableCell align="right">{fCurrency(price)}</TableCell>
+													<TableCell align="right">{fCurrency(priceSale)}</TableCell>
 													<TableCell align="right">
 														<CourseMoreMenu
 															courseId={_id}

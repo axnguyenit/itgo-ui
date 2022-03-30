@@ -1,6 +1,6 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Container, CardHeader, Typography, Box, Grid, Alert } from '@mui/material';
+import { Container, CardHeader, Typography, Box, Grid, Alert, Stack } from '@mui/material';
 // components
 import Page from '../../components/Page';
 import Image from '../../components/Image';
@@ -32,7 +32,7 @@ export default function BecomeInstructor() {
 					<Box sx={{ textAlign: 'center' }}>
 						<CardHeader
 							title="Apply As Instructor"
-							subheader="Lorem ipsum dolor sit amet, consectetur"
+							subheader="Share your knowledge with everyone"
 							sx={{
 								'& .MuiCardHeader-action': {
 									alignSelf: 'center',
@@ -43,12 +43,14 @@ export default function BecomeInstructor() {
 								mb: 2,
 							}}
 						/>
-						<Typography variant="body2" sx={{ mb: 4 }}>
-							Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores
-							nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis
-							unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-							rem aperiam.
-						</Typography>
+						<Stack direction="row" alignItems="center" justifyContent="center">
+							<Typography variant="body2" sx={{ mb: 4, width: { xs: '100%', md: '80%' } }}>
+								ITGO needs talented human resources like you, let's create values together with
+								ITGO. To be a instructor at ITGO, you just fill in your working position and attach
+								you CV as PDF. We will consider your application and response to you if you can
+								afford it. Don't hesitate, we are always waiting for you
+							</Typography>
+						</Stack>
 					</Box>
 
 					<Grid container spacing={5}>
@@ -60,7 +62,7 @@ export default function BecomeInstructor() {
 
 						<Grid item xs={12} md={4}>
 							{user?.isInstructor ? (
-								<Alert success>You are already a instructor</Alert>
+								<Alert>You are already a instructor</Alert>
 							) : user?.isApply ? (
 								<Alert>Your have already sent the request. Please wait for approvement</Alert>
 							) : (

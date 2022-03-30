@@ -35,6 +35,12 @@ const cloudinary = {
 		return `https://res.cloudinary.com/itgo/image/upload/c_scale,w_900/v1/${img}`;
 	},
 
+	w1200(img) {
+		if (!img) return;
+		if (img.startsWith('http')) return img;
+		return `https://res.cloudinary.com/itgo/image/upload/c_scale,w_1200/v1/${img}`;
+	},
+
 	pdf(file) {
 		if (!file) return;
 		if (file.startsWith('http')) return file;

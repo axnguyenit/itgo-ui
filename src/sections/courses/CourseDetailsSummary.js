@@ -100,7 +100,7 @@ export default function CourseDetailsSummary({ course }) {
 
 			<Image
 				alt="post media"
-				src={cloudinary.w900(course?.cover)}
+				src={cloudinary.w1200(course?.cover)}
 				ratio="21/9"
 				sx={{ borderRadius: 1 }}
 			/>

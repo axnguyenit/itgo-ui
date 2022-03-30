@@ -16,11 +16,12 @@ import {
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
+import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // sections
-import { RoadmapListHead, RoadmapMoreMenu } from '../../sections/@dashboard/roadmaps';
+import { RoadmapMoreMenu } from '../../sections/@dashboard/roadmaps';
 // api
 import roadmapApi from '../../api/roadmapApi';
 
@@ -108,7 +109,7 @@ export default function Roadmaps() {
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<RoadmapListHead
+								<TableListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}

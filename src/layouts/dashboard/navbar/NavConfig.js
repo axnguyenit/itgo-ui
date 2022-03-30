@@ -10,13 +10,9 @@ const getIcon = (name) => (
 );
 
 const ICONS = {
-	// cart: getIcon('ic_cart'),
-	// chat: getIcon('ic_chat'),
-	// calendar: getIcon('ic_calendar'),
 	user: getIcon('ic_user'),
 	book: getIcon('ic_book'),
 	roadmap: getIcon('ic_road'),
-	payment: getIcon('ic_payment'),
 	dashboard: getIcon('ic_dashboard'),
 	instructor: getIcon('ic_instructor'),
 	technology: getIcon('ic_technology'),
@@ -26,10 +22,10 @@ const ICONS = {
 const navConfig = [
 	// GENERAL
 	// ----------------------------------------------------------------------
-	{
-		subheader: 'general',
-		items: [{ title: 'app', path: PATH_DASHBOARD.app, icon: ICONS.dashboard }],
-	},
+	// {
+	// 	subheader: 'general',
+	// 	items: [{ title: 'app', path: PATH_DASHBOARD.app, icon: ICONS.dashboard }],
+	// },
 
 	// MANAGEMENT
 	// ----------------------------------------------------------------------
@@ -76,12 +72,6 @@ const navConfig = [
 				title: 'technologies',
 				path: PATH_DASHBOARD.technologies.root,
 				icon: ICONS.technology,
-			},
-
-			{
-				title: 'payment info',
-				path: PATH_DASHBOARD.paymentInfo,
-				icon: ICONS.payment,
 			},
 		],
 	},

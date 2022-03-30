@@ -87,7 +87,7 @@ export const PATH_DASHBOARD = {
 	instructors: {
 		root: path(ROOTS_DASHBOARD, '/instructors'),
 		courses: path(ROOTS_DASHBOARD, '/instructors/:id/courses'),
-		students: path(ROOTS_DASHBOARD, '/instructors/:id/courses/:courseId/students'),
+		students: path(ROOTS_DASHBOARD, '/instructors/courses/:id/students'),
 	},
 	applications: {
 		root: path(ROOTS_DASHBOARD, '/applications'),

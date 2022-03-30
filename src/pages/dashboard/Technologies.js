@@ -19,9 +19,10 @@ import Page from '../../components/Page';
 import Image from '../../components/Image';
 import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
+import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import { TechnologyListHead, TechnologyMoreMenu } from '../../sections/@dashboard/technologies';
+import { TechnologyMoreMenu } from '../../sections/@dashboard/technologies';
 import cloudinary from '../../utils/cloudinary';
 import technologyApi from '../../api/technologyApi';
 
@@ -109,7 +110,7 @@ export default function Technologies() {
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<TechnologyListHead
+								<TableListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}

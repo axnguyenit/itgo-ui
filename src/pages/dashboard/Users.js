@@ -1,12 +1,10 @@
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import {
 	Card,
 	Table,
 	Avatar,
-	Button,
 	TableRow,
 	TableBody,
 	TableCell,
@@ -20,12 +18,11 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import Label from '../../components/Label';
-import Iconify from '../../components/Iconify';
 import Scrollbar from '../../components/Scrollbar';
-import SearchNotFound from '../../components/SearchNotFound';
+import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../sections/@dashboard/users';
+import { UserMoreMenu } from '../../sections/@dashboard/users';
 import userApi from '../../api/userApi';
 import cloudinary from '../../utils/cloudinary';
 
@@ -49,7 +46,6 @@ export default function Users() {
 	const [pagination, setPagination] = useState({});
 	const [order, setOrder] = useState('asc');
 	const [orderBy, setOrderBy] = useState('name');
-	const [filterEmail, setFilterEmail] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	const getAllUsers = async () => {
@@ -83,13 +79,8 @@ export default function Users() {
 		setPage(1);
 	};
 
-	const handleFilterByName = (filterEmail) => {
-		setFilterEmail(filterEmail);
-	};
-
 	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - userList.length) : 0;
-	const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterEmail);
-	const isNotFound = !filteredUsers.length && !!filterEmail;
+	const filteredUsers = applySortFilter(userList, getComparator(order, orderBy));
 
 	return (
 		<Page title="Users">
@@ -97,25 +88,13 @@ export default function Users() {
 				<HeaderBreadcrumbs
 					heading="Users"
 					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'Users' }]}
-					action={
-						<Button
-							variant="contained"
-							component={RouterLink}
-							to={PATH_DASHBOARD.users.create}
-							startIcon={<Iconify icon={'eva:plus-fill'} />}
-						>
-							New User
-						</Button>
-					}
 				/>
 
 				<Card>
-					<UserListToolbar filterEmail={filterEmail} onFilterEmail={handleFilterByName} />
-
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<UserListHead
+								<TableListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
@@ -168,15 +147,6 @@ export default function Users() {
 										</TableRow>
 									)}
 								</TableBody>
-								{isNotFound && (
-									<TableBody>
-										<TableRow>
-											<TableCell align="center" colSpan={7} sx={{ py: 3 }}>
-												<SearchNotFound searchQuery={filterEmail} />
-											</TableCell>
-										</TableRow>
-									</TableBody>
-								)}
 							</Table>
 						</TableContainer>
 					</Scrollbar>

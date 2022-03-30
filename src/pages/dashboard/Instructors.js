@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
 import { sentenceCase } from 'change-case';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 // @mui
 import {
 	Card,
@@ -15,7 +14,7 @@ import {
 	TablePagination,
 } from '@mui/material';
 // routes
-import { PATH_INSTRUCTOR, PATH_PAGE } from '../../routes/paths';
+import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -23,7 +22,8 @@ import Scrollbar from '../../components/Scrollbar';
 import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import courseApi from '../../api/courseApi';
+import { InstructorMoreMenu } from '../../sections/@dashboard/instructors';
+import userApi from '../../api/userApi';
 import cloudinary from '../../utils/cloudinary';
 
 // ----------------------------------------------------------------------
@@ -32,36 +32,40 @@ const TABLE_HEAD = [
 	{ id: 'name', label: 'Name', alignRight: false },
 	{ id: 'email', label: 'Email', alignRight: false },
 	{ id: 'position', label: 'Position', alignRight: false },
-	{ id: 'role', label: 'Role', alignRight: false },
+	{ id: 'isVerified', label: 'Verified', alignRight: false },
 	{ id: 'status', label: 'Status', alignRight: false },
-	// { id: '' },
+	{ id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function Students() {
-	const [studentList, setStudentList] = useState([]);
-	const [page, setPage] = useState(0);
+export default function Instructors() {
+	const [userList, setInstructorList] = useState([]);
+	const [page, setPage] = useState(1);
+	const [pagination, setPagination] = useState({});
 	const [order, setOrder] = useState('asc');
 	const [orderBy, setOrderBy] = useState('name');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
-	const { id } = useParams();
-	const navigate = useNavigate();
 
-	useEffect(() => {
-		const getAllStudents = async () => {
-			try {
-				const response = await courseApi.getStudents(id);
-				setStudentList(response.data.students);
-			} catch (error) {
-				console.error(error);
-				navigate(PATH_PAGE.page404);
-			}
+	const getInstructors = async () => {
+		const params = {
+			_page: page,
+			_limit: rowsPerPage,
 		};
 
-		getAllStudents();
+		try {
+			const response = await userApi.getAllInstructors(params);
+			setInstructorList(response.data.instructors);
+			setPagination(response.data.pagination);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		getInstructors();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id]);
+	}, [page, rowsPerPage]);
 
 	const handleRequestSort = (property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -71,18 +75,18 @@ export default function Students() {
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
+		setPage(1);
 	};
 
-	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - studentList.length) : 0;
-	const filteredStudents = applySortFilter(studentList, getComparator(order, orderBy));
+	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - userList.length) : 0;
+	const filteredInstructors = applySortFilter(userList, getComparator(order, orderBy));
 
 	return (
-		<Page title="Students">
+		<Page title="Instructors">
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
-					heading="Students"
-					links={[{ name: 'Instructor', href: PATH_INSTRUCTOR.root }, { name: 'Students' }]}
+					heading="Instructors"
+					links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'Instructors' }]}
 				/>
 
 				<Card>
@@ -96,14 +100,14 @@ export default function Students() {
 									onRequestSort={handleRequestSort}
 								/>
 								<TableBody>
-									{!!filteredStudents.length &&
-										filteredStudents.map((user) => {
+									{!!filteredInstructors.length &&
+										filteredInstructors.map((user) => {
 											const {
 												_id,
 												firstName,
 												lastName,
 												email,
-												isInstructor,
+												emailVerified,
 												avatar,
 												position,
 												isBanned,
@@ -119,26 +123,22 @@ export default function Students() {
 													</TableCell>
 													<TableCell align="left">{email}</TableCell>
 													<TableCell align="left">{position ? position : '#'}</TableCell>
-													<TableCell align="left">
-														{isInstructor ? 'Instructor' : 'Student'}
-													</TableCell>
+													<TableCell align="left">{emailVerified ? 'Yes' : 'No'}</TableCell>
 													<TableCell align="left">
 														<Label variant={'ghost'} color={isBanned ? 'error' : 'success'}>
 															{sentenceCase(isBanned ? 'banned' : 'active')}
 														</Label>
 													</TableCell>
 
-													{/* <TableCell align="right">
-														<UserMoreMenu userId={_id} />
-													</TableCell> */}
+													<TableCell align="right">
+														<InstructorMoreMenu userId={_id} />
+													</TableCell>
 												</TableRow>
 											);
 										})}
-									{(emptyRows > 0 || !filteredStudents.length) && (
-										<TableRow
-											style={{ height: 72 * (!filteredStudents.length ? rowsPerPage : emptyRows) }}
-										>
-											<TableCell colSpan={5} />
+									{emptyRows > 0 && (
+										<TableRow style={{ height: 72 * emptyRows }}>
+											<TableCell colSpan={7} />
 										</TableRow>
 									)}
 								</TableBody>
@@ -149,10 +149,10 @@ export default function Students() {
 					<TablePagination
 						rowsPerPageOptions={[5, 10, 25]}
 						component="div"
-						count={studentList.length}
+						count={pagination._totalRows}
 						rowsPerPage={rowsPerPage}
-						page={page}
-						onPageChange={(e, page) => setPage(page)}
+						page={page - 1}
+						onPageChange={(event, value) => setPage(value + 1)}
 						onRowsPerPageChange={handleChangeRowsPerPage}
 					/>
 				</Card>

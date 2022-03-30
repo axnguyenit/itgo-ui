@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 // @mui
 import {
-	Box,
 	Card,
 	Table,
 	TableRow,
@@ -21,14 +20,10 @@ import { fCurrency } from '../../utils/formatNumber';
 import Page from '../../components/Page';
 import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
-import SearchNotFound from '../../components/SearchNotFound';
+import TableListHead from '../../components/TableListHead';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
-import {
-	CourseMoreMenu,
-	CourseListHead,
-	CourseListToolbar,
-} from '../../sections/instructor/courses';
+import { CourseMoreMenu } from '../../sections/instructor/courses';
 // api
 import courseApi from '../../api/courseApi';
 // routes
@@ -56,7 +51,6 @@ export default function Courses() {
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState({});
 	const [order, setOrder] = useState('asc');
-	const [filterName, setFilterName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [orderBy, setOrderBy] = useState('createdAt');
 	const navigate = useNavigate();
@@ -94,10 +88,6 @@ export default function Courses() {
 		setPage(1);
 	};
 
-	const handleFilterByName = (filterName) => {
-		setFilterName(filterName);
-	};
-
 	const handleDeleteCourse = async (courseId) => {
 		try {
 			await courseApi.remove(courseId);
@@ -108,8 +98,7 @@ export default function Courses() {
 	};
 
 	const emptyRows = page > 0 ? Math.max(0, rowsPerPage - courseList.length) : 0;
-	const filteredCourses = applySortFilter(courseList, getComparator(order, orderBy), filterName);
-	const isNotFound = !filteredCourses.length && !!filterName;
+	const filteredCourses = applySortFilter(courseList, getComparator(order, orderBy));
 
 	return (
 		<Page title="Courses">
@@ -133,12 +122,10 @@ export default function Courses() {
 					}
 				/>
 				<Card>
-					<CourseListToolbar filterName={filterName} onFilterName={handleFilterByName} />
-
 					<Scrollbar>
 						<TableContainer sx={{ minWidth: 800 }}>
 							<Table>
-								<CourseListHead
+								<TableListHead
 									order={order}
 									orderBy={orderBy}
 									headLabel={TABLE_HEAD}
@@ -181,18 +168,6 @@ export default function Courses() {
 										</TableRow>
 									)}
 								</TableBody>
-
-								{isNotFound && (
-									<TableBody>
-										<TableRow>
-											<TableCell align="center" colSpan={5}>
-												<Box sx={{ py: 3 }}>
-													<SearchNotFound searchQuery={filterName} />
-												</Box>
-											</TableCell>
-										</TableRow>
-									</TableBody>
-								)}
 							</Table>
 						</TableContainer>
 					</Scrollbar>

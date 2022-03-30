@@ -15,7 +15,7 @@ import {
 	TablePagination,
 } from '@mui/material';
 // routes
-import { PATH_INSTRUCTOR, PATH_PAGE } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -82,7 +82,11 @@ export default function Students() {
 			<Container maxWidth={'lg'}>
 				<HeaderBreadcrumbs
 					heading="Students"
-					links={[{ name: 'Instructor', href: PATH_INSTRUCTOR.root }, { name: 'Students' }]}
+					links={[
+						{ name: 'Dashboard', href: PATH_DASHBOARD.root },
+						{ name: 'Instructors', href: PATH_DASHBOARD.instructors.root },
+						{ name: 'Students' },
+					]}
 				/>
 
 				<Card>

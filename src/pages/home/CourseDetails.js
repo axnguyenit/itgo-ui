@@ -4,13 +4,12 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Container, Divider, Grid, Stack, Tab } from '@mui/material';
+import { Box, Container, Divider, Stack, Tab } from '@mui/material';
 // components
 import {
 	CourseHero,
 	// CourseDetailsReview,
 	CourseDetailsSummary,
-	RelatedCourses,
 } from '../../sections/courses';
 import Page from '../../components/Page';
 import { PATH_PAGE } from '../../routes/paths';
@@ -35,7 +34,6 @@ export default function CourseDetails() {
 	const { id } = useParams();
 	const [currentTab, setCurrentTab] = useState('overview');
 	const [course, setCourse] = useState(null);
-	const [courses, setCourses] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
@@ -55,20 +53,6 @@ export default function CourseDetails() {
 			}
 		};
 
-		const getCourses = async () => {
-			const params = {
-				_page: 1,
-				_limit: 7,
-			};
-			try {
-				const response = await courseApi.getAll(params);
-				setCourses(response.data.courses);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		getCourses();
 		getCourse();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
@@ -87,46 +71,46 @@ export default function CourseDetails() {
 				/>
 
 				<Container sx={{ mt: 15, mb: 10 }}>
-					<Grid container spacing={4}>
-						<Grid item xs={12} md={8} spacing={3}>
-							{course && <CourseDetailsSummary course={course} />}
+					{/* <Grid container spacing={4}> */}
+					{/* <Grid item xs={12} md={8} spacing={3}> */}
+					{course && <CourseDetailsSummary course={course} />}
 
-							<Stack sx={{ mt: 3 }}>
-								<TabContext value={currentTab}>
-									<TabList onChange={(e, value) => handleChangeTab(value)}>
-										{TAB_LIST.map((tab) => (
-											<Tab key={tab} disableRipple value={tab} label={capitalCase(tab)} />
-										))}
-									</TabList>
+					<Stack sx={{ mt: 3 }}>
+						<TabContext value={currentTab}>
+							<TabList onChange={(e, value) => handleChangeTab(value)}>
+								{TAB_LIST.map((tab) => (
+									<Tab key={tab} disableRipple value={tab} label={capitalCase(tab)} />
+								))}
+							</TabList>
 
-									<Divider />
+							<Divider />
 
-									<TabPanel value="overview">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.overview} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="requirements">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.requirements} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="target-audiences">
-										<Box sx={{ py: 4 }}>
-											<Markdown children={course?.details.targetAudiences} />
-										</Box>
-									</TabPanel>
-									<TabPanel value="reviews">
-										Tab 4{/* <CourseDetailsReview product={product} /> */}
-									</TabPanel>
-								</TabContext>
-							</Stack>
-						</Grid>
+							<TabPanel value="overview">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.overview} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="requirements">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.requirements} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="target-audiences">
+								<Box sx={{ py: 4 }}>
+									<Markdown children={course?.details.targetAudiences} />
+								</Box>
+							</TabPanel>
+							<TabPanel value="reviews">
+								Tab 4{/* <CourseDetailsReview product={product} /> */}
+							</TabPanel>
+						</TabContext>
+					</Stack>
+					{/* </Grid> */}
 
-						<Grid item xs={12} md={4}>
+					{/* <Grid item xs={12} md={4}>
 							{courses && <RelatedCourses courses={courses} />}
-						</Grid>
-					</Grid>
+						</Grid> */}
+					{/* </Grid> */}
 				</Container>
 			</RootStyle>
 		</Page>

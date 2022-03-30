@@ -88,7 +88,7 @@ export default function Router() {
 				</AuthGuard>
 			),
 			children: [
-				{ element: <Navigate to={PATH_DASHBOARD.app} replace />, index: true },
+				{ element: <Navigate to={PATH_DASHBOARD.users.root} replace />, index: true },
 				{ path: 'app', element: <GeneralApp /> },
 				{
 					path: 'users',
@@ -115,11 +115,11 @@ export default function Router() {
 					],
 				},
 				{
-					path: 'technologies',
+					path: 'instructors',
 					children: [
-						{ element: <Technologies />, index: true },
-						{ path: 'create', element: <TechnologyCreate /> },
-						{ path: ':id/edit', element: <TechnologyCreate /> },
+						{ element: <Instructors />, index: true },
+						{ path: ':id/courses', element: <DashboardInstructorCourses /> },
+						{ path: 'courses/:id/students', element: <DashboardInstructorStudents /> },
 					],
 				},
 				{
@@ -127,6 +127,14 @@ export default function Router() {
 					children: [
 						{ element: <Applications />, index: true },
 						{ path: ':id/cv', element: <PDFViewer /> },
+					],
+				},
+				{
+					path: 'technologies',
+					children: [
+						{ element: <Technologies />, index: true },
+						{ path: 'create', element: <TechnologyCreate /> },
+						{ path: ':id/edit', element: <TechnologyCreate /> },
 					],
 				},
 			],
@@ -248,6 +256,11 @@ const DashboardCourses = Loadable(lazy(() => import('../pages/dashboard/Courses'
 const CourseCreate = Loadable(lazy(() => import('../pages/dashboard/CourseCreate')));
 const Roadmaps = Loadable(lazy(() => import('../pages/dashboard/Roadmaps')));
 const RoadmapCreate = Loadable(lazy(() => import('../pages/dashboard/RoadmapCreate')));
+const Instructors = Loadable(lazy(() => import('../pages/dashboard/Instructors')));
+const DashboardInstructorCourses = Loadable(
+	lazy(() => import('../pages/dashboard/InstructorCourses'))
+);
+const DashboardInstructorStudents = Loadable(lazy(() => import('../pages/dashboard/Students')));
 const Applications = Loadable(lazy(() => import('../pages/dashboard/Applications')));
 const PDFViewer = Loadable(lazy(() => import('../pages/dashboard/PDFViewer')));
 const Technologies = Loadable(lazy(() => import('../pages/dashboard/Technologies')));

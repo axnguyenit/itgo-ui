@@ -69,6 +69,13 @@ export default function CourseMoreMenu({ onDelete, courseId, courseName }) {
 					'& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
 				}}
 			>
+				<MenuItem
+					component={RouterLink}
+					to={`${PATH_DASHBOARD.instructors.root}/courses/${courseId}/students`}
+				>
+					<Iconify icon={'openmoji:man-student-light-skin-tone'} sx={{ ...ICON }} />
+					Students
+				</MenuItem>
 				<MenuItem component={RouterLink} to={`${PATH_DASHBOARD.courses.root}/${courseId}/edit`}>
 					<Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
 					Edit
