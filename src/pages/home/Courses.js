@@ -29,7 +29,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const LIMIT_COURSE = 12;
+const LIMIT_COURSE = 8;
 
 const TAGS_OPTION = [
 	'All',

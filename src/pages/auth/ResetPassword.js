@@ -9,6 +9,7 @@ import LogoOnlyLayout from '../../layouts/LogoOnlyLayout';
 import { PATH_AUTH } from '../../routes/paths';
 // components
 import Page from '../../components/Page';
+import LoadingScreen from '../../components/LoadingScreen';
 // sections
 import { ResetPasswordForm } from '../../sections/auth';
 // assets
@@ -44,6 +45,8 @@ export default function ForgotPassword() {
 
 		checkRequestResetPassword();
 	}, [id, token]);
+
+	if (!isValid) return <LoadingScreen />;
 
 	return (
 		<Page title="Reset Password" sx={{ height: 1 }}>
