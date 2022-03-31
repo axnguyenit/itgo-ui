@@ -22,10 +22,10 @@ const RootStyle = styled('div')(({ theme }) => ({
 export default function BecomeInstructor() {
 	const { user } = useAuth();
 	return (
-		<Page title="Become A Instructor">
+		<Page title="Become An Instructor">
 			<RootStyle>
 				<CourseHero
-					label="Become A Instructor"
+					label="Become An Instructor"
 					src={`${window.location.origin}/assets/images/my-learning.jpg`}
 				/>
 				<Container maxWidth="lg" sx={{ mt: 12, mb: 10 }}>

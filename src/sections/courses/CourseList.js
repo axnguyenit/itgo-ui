@@ -27,7 +27,7 @@ export default function CourseList({ courses, loading }) {
 				},
 			}}
 		>
-			{(loading ? [...Array(12)] : courses).map((course, index) =>
+			{(loading ? [...Array(8)] : courses).map((course, index) =>
 				course ? (
 					<CourseCard key={course._id} course={course} />
 				) : (

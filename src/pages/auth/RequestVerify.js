@@ -33,8 +33,6 @@ export default function RequestVerify() {
 	const status = searchParams.get('status');
 	const _email = searchParams.get('email');
 
-	console.log(status, _email);
-
 	useEffect(() => {
 		if (status === 'sent') {
 			setSent(true);

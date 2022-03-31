@@ -27,23 +27,26 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Verify() {
-	const [isValid, setIsValid] = useState(false);
 	const { id, token } = useParams();
+	const [isValid, setIsValid] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const verifyEmail = async () => {
+			setIsLoading(true);
 			try {
 				await userApi.verifyEmail(id, token);
 				setIsValid(true);
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		verifyEmail();
 	}, [id, token]);
 
-	if (!isValid) return <LoadingScreen />;
+	if (isLoading) return <LoadingScreen />;
 
 	return (
 		<Page title="Verify Email" sx={{ height: 1 }}>

@@ -60,6 +60,7 @@ export default function Courses() {
 	const [page, setPage] = useState(1);
 	const [pagination, setPagination] = useState(1);
 	const [category, setCategory] = useState('All');
+	const [isLoading, setIsLoading] = useState(true);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	useEffect(() => {
@@ -75,6 +76,7 @@ export default function Courses() {
 		}
 
 		const getAllCourses = async () => {
+			setIsLoading(true);
 			const params = {
 				_page: Number(_page) || 1,
 				_limit: LIMIT_COURSE,
@@ -88,6 +90,7 @@ export default function Courses() {
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		getAllCourses();
@@ -136,8 +139,7 @@ export default function Courses() {
 						</FormControl>
 					</Stack>
 
-					<CourseList courses={courses} />
-					{/*  loading={!courses.length} */}
+					<CourseList courses={courses} loading={isLoading} />
 
 					{!courses.length && <EmptyContent title="No matching courses" />}
 					{pagination._totalRows > LIMIT_COURSE && (

@@ -79,21 +79,24 @@ const ContainerContent = styled(Container)(({ theme }) => ({
 }));
 
 function Learning() {
-	const { id } = useParams(); // id --> eventId
-	const apiKey = process.env.REACT_APP_ZOOM_JWT_API_KEY;
-	const leaveUrl = `${window.location.origin}/learning/${id}`;
+	const [isLoading, setIsLoading] = useState(true);
 	const registrantToken = '';
+	const { id } = useParams(); // id --> eventId
 	const navigate = useNavigate();
 	const [meetingInfo, setMeetingInfo] = useState(null);
+	const apiKey = process.env.REACT_APP_ZOOM_JWT_API_KEY;
+	const leaveUrl = `${window.location.origin}/learning/${id}`;
 
 	useEffect(() => {
 		const checkValidUserInClass = async () => {
+			setIsLoading(true);
 			try {
 				const response = await eventApi.checkValidUser(id);
 				setMeetingInfo(response.data);
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		checkValidUserInClass();
@@ -141,7 +144,7 @@ function Learning() {
 		}
 	};
 
-	if (!meetingInfo) return <LoadingScreen />;
+	if (isLoading) return <LoadingScreen />;
 
 	return (
 		<Page title="Learning">

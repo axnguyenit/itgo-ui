@@ -29,24 +29,27 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPassword() {
+	const { id, token } = useParams();
 	const [sent, setSent] = useState(false);
 	const [isValid, setIsValid] = useState(false);
-	const { id, token } = useParams();
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const checkRequestResetPassword = async () => {
+			setIsLoading(true);
 			try {
 				await userApi.checkRequestResetPassword(id, token);
 				setIsValid(true);
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		checkRequestResetPassword();
 	}, [id, token]);
 
-	if (!isValid) return <LoadingScreen />;
+	if (isLoading) return <LoadingScreen />;
 
 	return (
 		<Page title="Reset Password" sx={{ height: 1 }}>

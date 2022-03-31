@@ -37,13 +37,14 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 const LIMIT_COURSE = 8;
 
 export default function InstructorProfile() {
-	const [currentTab, setCurrentTab] = useState('courses');
-	const [courses, setCourses] = useState([]);
-	const [user, setUser] = useState([]);
-	const [page, setPage] = useState(1);
-	const [pagination, setPagination] = useState(1);
-	const navigate = useNavigate();
 	const { id } = useParams();
+	const navigate = useNavigate();
+	const [page, setPage] = useState(1);
+	const [user, setUser] = useState([]);
+	const [courses, setCourses] = useState([]);
+	const [pagination, setPagination] = useState(1);
+	const [isLoading, setIsLoading] = useState(true);
+	const [currentTab, setCurrentTab] = useState('courses');
 
 	const handleChangeTab = (newValue) => {
 		setCurrentTab(newValue);
@@ -51,6 +52,7 @@ export default function InstructorProfile() {
 
 	useEffect(() => {
 		const getData = async () => {
+			setIsLoading(true);
 			const params = {
 				_page: page,
 				_limit: LIMIT_COURSE,
@@ -67,6 +69,7 @@ export default function InstructorProfile() {
 				console.error(error);
 				navigate(PATH_PAGE.page404);
 			}
+			setIsLoading(false);
 		};
 
 		getData();
@@ -77,7 +80,7 @@ export default function InstructorProfile() {
 		{
 			value: 'courses',
 			icon: <Iconify icon={'el:book'} width={20} height={20} />,
-			component: <CourseList courses={courses} loading={!courses.length} />,
+			component: <CourseList courses={courses} loading={isLoading} />,
 		},
 		{
 			value: 'about',

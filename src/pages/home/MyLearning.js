@@ -18,11 +18,13 @@ const LIMIT_COURSE = 8;
 
 function MyLearning(props) {
 	const [page, setPage] = useState(1);
+	const [isLoading, setIsLoading] = useState(true);
 	const [enrolledCourseList, setEnrolledCourseList] = useState([]);
 	const [pagination, setPagination] = useState(1);
 
 	useEffect(() => {
 		const getEnrolledCourses = async () => {
+			setIsLoading(true);
 			try {
 				const params = { _page: page, _limit: LIMIT_COURSE };
 				const response = await orderApi.getByUser(params);
@@ -31,6 +33,7 @@ function MyLearning(props) {
 			} catch (error) {
 				console.error(error);
 			}
+			setIsLoading(false);
 		};
 
 		getEnrolledCourses();
@@ -44,7 +47,7 @@ function MyLearning(props) {
 					src={`${window.location.origin}/assets/images/my-learning.jpg`}
 				/>
 				<Container sx={{ mt: 15, mb: 10 }}>
-					<CourseList orders={enrolledCourseList} loading={!enrolledCourseList.length} />
+					<CourseList orders={enrolledCourseList} loading={isLoading} />
 
 					{!enrolledCourseList.length && (
 						<Stack>

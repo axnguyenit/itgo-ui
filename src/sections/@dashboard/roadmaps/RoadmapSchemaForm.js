@@ -132,7 +132,7 @@ export default function RoadmapSchemaForm({ formData, isEdit }) {
 	return (
 		<Card sx={{ p: 3 }}>
 			<Form
-				liveValidate
+				// liveValidate
 				schema={schema}
 				uiSchema={uiSchema}
 				formData={currentFormData}
